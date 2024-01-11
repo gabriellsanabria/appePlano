@@ -1,0 +1,20 @@
+User-agent: *
+Disallow: /admin/   # Impede que os crawlers acessem a área de administração do site
+Disallow: /private/ # Impede o acesso a diretórios ou páginas privadas
+Disallow: /restricted/ # Impede o acesso a diretórios ou páginas restritas
+
+# Bloqueie bots de rastreamento específicos
+User-agent: BadBot
+Disallow: /
+
+# Diretórios que devem ser rastreados
+User-agent: Googlebot
+Allow: /public/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Páginas específicas que devem ser rastreadas ou não
+User-agent: Googlebot
+Disallow: /noindex-page/  # Impede o rastreamento desta página
+Allow: /index-page/      # Permite o rastreamento desta página

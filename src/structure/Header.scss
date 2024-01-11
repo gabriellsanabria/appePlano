@@ -1,0 +1,68 @@
+/* Header.scss */
+@import '../assets/styles/variables';
+
+.header.fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999999;
+  width: 93%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adicione uma sombra sutil para um efeito visual */
+  animation: slideDown 0.3s ease; /* Adicione uma animação para deslizar para baixo */
+  @media (max-width: 768px) {
+    display: none;
+  }  
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $branco;
+  background-color: $branco;
+  padding: 20px 70px;
+  position: relative; /* A posição deve ser relativa */
+  top: 0; /* A posição inicial é no topo */
+  transition: top 0.3s ease; /* Adicione uma transição suave */
+  box-shadow: 1px 1px 10px #e6e6e6;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 3% 0;
+  }  
+  .header-logo {
+    display: flex;
+    width: 12%;
+    @media (max-width: 768px) {
+      width: 100%;
+      margin: 0 0 0 5%;
+    }  
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.header-button{
+  @media (max-width: 768px) {
+    margin: 0 5% 0 0;
+  }   
+  .bt{
+    @media (max-width: 768px) {
+      padding: 10px 20px;
+    }   
+  }
+  button{
+    
+  }
+}
+
+/* Adicione a animação de deslize para baixo */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

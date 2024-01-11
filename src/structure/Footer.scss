@@ -1,0 +1,97 @@
+/* Footer.scss */
+@import '../assets/styles/variables';
+/* Footer.scss */
+
+.footer {
+  background-color: $azul1;
+  color: $branco;
+  padding: 20px 7%;
+
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }   
+
+    .column {
+      flex-basis: calc(15% - 20px);
+      margin: 0 0px;    
+      display: flex;
+      flex-direction: column;
+      @media (max-width: 768px) {
+          width: 100%;
+      }   
+
+      .logoFooter{
+        display: flex;
+        padding: 40% 0;
+        width: 60%;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        @media (max-width: 768px) {
+          padding: 40% 0;
+          width: 100%;
+          img{
+            width: 30%;
+          }
+        }   
+      }
+
+      .footerLink{
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        h3 {
+          color: $branco;
+        }
+  
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+  
+          li {
+            margin: 0;
+            padding: 5px 0;
+  
+            a {
+              color: $branco;
+              text-decoration: none;
+              font-weight: 300;
+              font-size: 0.8em;
+  
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+      
+      .aws-logo {
+        display: flex;
+        width: 50%;
+        padding: 50% 0;
+        @media (max-width: 768px) {
+            width: 100%;
+            padding: 20% 0;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+        }   
+
+        img {
+          width: 100%;
+          @media (max-width: 768px) {
+              width: 30%;
+          }   
+        }
+      }
+    }
+
+  }
+}

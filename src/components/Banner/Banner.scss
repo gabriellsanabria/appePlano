@@ -1,0 +1,107 @@
+/* Banner.scss */
+@import '../../assets/styles/variables';
+
+.banner {
+  .slick-dots {
+    bottom: 20px;
+  }
+  .slick-next{
+    left: 0!important;
+  }
+
+  .slick-dots li {
+    margin: 0;
+  }
+
+  .slick-dots li button:before {
+    font-size: 10px;
+    color: $azul1;
+  }
+
+  .banner-content {
+    display: flex;
+    align-items: center;
+    padding: 100px 100px;
+    cursor: grab;
+    @media (max-width: 768px) {
+      padding: 0%;
+      flex-direction: column;;
+    }
+
+    .banner-image-dir {
+      flex-basis: 40%;
+      padding: 0px;
+      margin: 0;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+
+    .text-content-dir {
+      flex-basis: 50%;
+      margin: 0 0 0 10%;
+      @media (max-width: 768px) {
+        margin: 10%;
+      }
+
+      h1 {
+        font-size:2.625rem;
+        letter-spacing: -3px;
+        margin: 0;
+        font-weight: 500;
+        @media (max-width: 768px) {
+          font-size: 1.8em;
+        }
+      }
+      .dstq{
+        font-weight: 800;
+        color: $laranja1;
+      }
+      p {
+        font-size: 18px;
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+    }
+    .banner-image-esq {
+      flex-basis: 40%;
+      padding: 0px;
+      margin: 0;
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+    .text-content-esq {
+      flex-basis: 50%;
+      margin: 0 10% 0 0;
+
+      @media (max-width: 768px) {
+        margin: 10%;
+      }
+      h1 {
+        font-size:2.625rem;
+        letter-spacing: -3px;
+        margin: 0;
+        font-weight: 500;
+        @media (max-width: 768px) {
+          font-size: 1.8em;
+        }
+      }
+      .dstq{
+        font-weight: 800;
+        color: $laranja1;
+      }
+      p {
+        font-size: 18px;
+        @media (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

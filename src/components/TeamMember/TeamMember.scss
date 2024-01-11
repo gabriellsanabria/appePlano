@@ -1,0 +1,66 @@
+// TeamMember.scss
+
+.team-members {
+  width: 80%; // Ajuste conforme necessário
+  margin: 0 auto; // Centraliza o componente
+
+  .slick-slider {
+    margin: 0 auto;
+  }
+
+  .member-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border-radius: 8px;
+
+    .member-image {
+      width: 150px; // Ajuste conforme necessário
+      height: 150px; // Ajuste conforme necessário
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      overflow: hidden;
+      position: relative;
+      background-repeat: no-repeat; // Adicione esta linha
+
+// Adicione isso ao seu estilo SCSS
+.red-circle {
+  width: 150px; // ou o tamanho desejado
+  height: 150px; // ou o tamanho desejado
+  border-radius: 50%;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .daniel{
+    height: 130%;
+  }
+}
+
+    }
+
+    .text-content {
+      text-align: center;
+
+      h1 {
+        margin-top: 10px;
+        font-size: 1.2em;
+      }
+
+      p {
+        font-size: 0.9em;
+        color: #888;
+      }
+    }
+  }
+
+  span {
+    display: block;
+    height: 20px; // Adicione espaçamento conforme necessário
+  }
+}

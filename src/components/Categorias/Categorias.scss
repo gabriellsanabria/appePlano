@@ -1,0 +1,57 @@
+@import '../../assets/styles/variables';
+
+.section-categorias{
+    background-color: $grey1;
+    display: flex;
+    width: 100%;
+    .box-wrapper{
+        display:flex;
+        width: 90%;
+        margin: 5% auto;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }     
+        
+        .box-categorias{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            margin: 0 10px 0 30px;
+            padding: 0%;
+            justify-content: center;
+            align-content: center;
+            @media (max-width: 768px) {
+                width: 100%;
+                margin: 0;
+            }     
+            h1{
+                margin: 0 0 20px 0;
+                @media (max-width: 768px) {
+                    font-size: 3em;
+                    text-align: center;
+                }     
+            }
+            p{
+                margin: 0 0 10px 0;
+            }
+
+            .coluna-categorias{
+                display: flex;
+                margin: 20px 0;
+                @media (max-width: 768px) {
+                    flex-direction: column;
+                }     
+                ul{
+                    padding: 0;
+                    margin: 0px 60px 0 0;
+                    li{
+                        list-style: none;
+                        a{
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,119 @@
+
+@import '../assets/styles/variables';
+
+.academy{
+    display: flex;      
+    flex-direction: column;
+    width: 100%;
+    margin: 0 auto;
+
+    // header-page está na Global.scss
+
+    .header-page{
+        .header-page-image {
+            margin: 0 60px 0 0!important;
+            @media (max-width: 768px) {
+                margin: 0;
+            }   
+        }
+    }
+    .destaques-solucao{
+        display: flex;
+        align-items: center;
+        padding: 0 10%;
+        flex-direction: column;
+        .boxDestaques-solucao {
+            display: flex;
+            align-items: center;
+            padding: 3% 0px;
+    
+            .boxDestaques-img-solucao {
+                flex-basis: 55%;
+                padding: 0px;
+                margin: 0 0px;
+                
+                h1 {
+                    font-size: 40px!important;
+                    letter-spacing: -3px;
+                    margin: 0;
+                    font-weight: 900;
+                }
+    
+                img {
+                max-width: 100%;
+                height: auto;
+                }
+            }
+    
+            .boxDestaques-txt-solucao {
+                flex-basis: 45%;
+
+                h1 {
+                    font-size: 40px!important;
+                    letter-spacing: -3px;
+                    margin: 0;
+                    font-weight: 900;
+                }
+                .dstq{
+                font-weight: 800;
+                color: $laranja1;
+                }
+                p {
+                font-size: 16px;
+                }
+            }
+        }
+    }
+
+    .destaques-func-solucao{
+        display: flex;
+        align-items: center;
+        padding: 0 10%;
+        flex-direction: column;
+        .boxDestaques-func-solucao {
+            display: flex;
+            align-items: center;
+            padding: 3% 0px;
+            width: 100%;
+    
+            .boxDestaques-func-img-solucao {
+                flex-basis: 55%;
+                padding: 0px;
+                margin: 0 0px;
+                
+                h1 {
+                    font-size: 40px!important;
+                    letter-spacing: -3px;
+                    margin: 0;
+                    font-weight: 900;
+                }
+    
+                img {
+                max-width: 100%;
+                height: auto;
+                }
+            }
+    
+            .boxDestaques-func-txt-solucao {
+                flex-basis: 45%;
+
+                h1 {
+                    font-size: 40px!important;
+                    letter-spacing: -3px;
+                    margin: 0;
+                    font-weight: 900;
+                }
+                .dstq{
+                font-weight: 800;
+                color: $laranja1;
+                }
+                p {
+                font-size: 16px;
+                }
+                ul{
+                    list-style-type:circle
+                }
+            }
+        }
+    }
+}

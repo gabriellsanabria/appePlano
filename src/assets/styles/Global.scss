@@ -1,0 +1,185 @@
+@import './variables';
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+body {
+    font-family: $font-family;
+    font-size: $font-p;
+    background-color: $branco;
+    color: $preto;
+}
+
+/* Estilos globais para tags HTML com seletores de classe */
+
+/* Parágrafos */
+p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  /* Links */
+  a {
+    color: #007bff; /* Cor azul padrão para links */
+    text-decoration: none;
+  }
+  
+  /* Cabeçalhos */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; /* Usando a fonte Montserrat */
+    font-weight: 600; /* Peso da fonte */
+    color: #333; /* Cor padrão para cabeçalhos */
+  }
+  h1{
+    font-size: $font-h1;
+  }
+
+  .chamadaDestaque{
+    display: flex;
+    margin: 50px auto;
+    padding: 3% 0;
+    text-align: center;
+    width: 75%;
+    flex-direction: column;
+    h1{
+      font-size: 2.5em;
+      color: $azul1;
+      margin: 0 0 10px 0;
+      @media (max-width: 768px) {
+        font-size: 1.8rem;
+      }     
+    }
+    h2{      
+      font-size: 1.9em;
+      color: $azul1;
+      margin: 0 0 10px 0;
+    }
+    p{
+      margin:10px 0;
+    }
+  }
+  
+  /* Listas não ordenadas */
+  ul {
+    list-style: disc;
+  }
+  
+  /* Listas ordenadas */
+  ol {
+    list-style: decimal;
+  }
+  
+  /* Itens de lista */
+  li {
+    margin-bottom: 10px;
+  }
+  
+  /* Estilos para imagens */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Estilos para tabelas */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+.dstq{
+  font-weight: 800;
+  color: $laranja1;
+}
+  /* Botões */
+  .bt {
+    display: inline-block;
+    font-family: $font-family;
+    padding: 10px 30px;
+    font-weight: 500;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    
+    &:hover {
+        opacity: 0.8;
+    }
+  }
+  .azul{
+    background-color: $azul1;
+    color: $branco;
+  }
+  .fonte-azul{
+    color: $azul1;
+  }
+  
+  .fonte-laranja{
+    color: $laranja1;
+  }
+  
+  
+  .header-page {
+    display: flex;
+    padding: 3% 0;    
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    .header-page-content {
+        display: flex;
+        width: 80%;
+        align-items: center;
+        align-content: center;
+        @media (max-width: 768px) {
+            flex-direction: column;
+        }   
+        
+    
+        .header-page-image {
+        display: flex;
+        width: 40%;
+        padding: 0px;
+        margin: 0;
+        @media (max-width: 768px) {
+            width: 100%;
+        }   
+        
+    
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+    
+        .header-page-text-content {
+        padding: 0%;
+        width: 50%;
+        @media (max-width: 768px) {
+            width: 100%;
+        }   
+    
+        h1 {
+            font-size: 3.5em;
+            letter-spacing: -3px;
+            margin: 0;
+            font-weight: 800;
+        }
+        p {
+            font-size: 18px;
+        }
+        }
+    }
+    }
+    .boxVytb{
+      display: flex;
+      width: 100%;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      margin: 0;
+      .vYtb{
+
+      }
+    }
