@@ -1,0 +1,45 @@
+/* PageLoader.scss */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255); /* Fundo semi-transparente para sobrepor a página */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+  
+    .loader-content {
+      /* Estilize o conteúdo do loader, como um spinner ou animação */
+      padding: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      
+      img {
+        width: 30%;
+        animation: pulse 1.5s infinite; /* Adiciona a animação pulse */
+      }
+      
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    }
+  }

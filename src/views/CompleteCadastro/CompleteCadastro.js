@@ -1,0 +1,214 @@
+// src/components/Login/CadastroStep1.js
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import HeaderCadastro from '../../structure/HeaderCadastro/HeaderCadastro';
+import { getFirestore, doc, getDoc, updateDoc, setDoc, collection, addDoc } from 'firebase/firestore';
+import useAuth from '../../hooks/useAuth';
+
+import './CompleteCadastro.scss';
+
+
+const CompleteCadastro = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const [step, setStep] = useState(1);
+  const [userData, setUserData] = useState({
+    nome: '',
+    whatsapp: '',
+    organizacao: '',
+    cargo: '',
+    setor: 'TI', // Setor padrão, ajuste conforme necessário
+    isFranquia: 'nao', // Valor padrão para "Não", ajuste conforme necessário
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const setoresSugeridos = ['Selecione seu setor', 'TI', 'Vendas', 'Marketing', 'Recursos Humanos', 'Produção', 'Financeiro', 'Outro'];
+  const cargosSugeridos = ['Selecione seu cargo', 'Diretor(a)', 'Gerente', 'Coordenador', 'Analista', 'Assistente', 'Freelancer', 'Outro'];
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (user) {
+        const firestore = getFirestore();
+        const userDocRef = doc(firestore, 'users', user.uid);
+
+        try {
+          const userDocSnapshot = await getDoc(userDocRef);
+
+          if (userDocSnapshot.exists()) {
+            const userDataFromFirestore = userDocSnapshot.data();
+            setUserData(userDataFromFirestore);
+          } else {
+            console.log('Documento do usuário não encontrado no Firestore');
+          }
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
+
+  const handleEditAccount = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+  
+    // Verifica se o usuário está autenticado
+    if (user && user.uid) {
+      try {
+        const updatedUserData = {
+          nome: userData.nome,
+          UID: user.uid,
+        };
+  
+        // Adiciona o nome da empresa e a URL base ao objeto de dados atualizado
+        if (step === 2) {
+          // Não adiciona company e urlBase aqui
+        }
+  
+        const firestore = getFirestore();
+        const userDocRef = doc(firestore, 'users', user.uid);
+  
+        // Atualiza dados do usuário na coleção 'users'
+        await updateDoc(userDocRef, updatedUserData);
+  
+        if (step === 2) {
+          // Restante do código...
+        }
+  
+        // Restante do código...
+      } catch (error) {
+        console.error('Erro ao editar dados do usuário e da organização:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setErrorMessage('Usuário não autenticado.');
+      setIsLoading(false);
+    }
+  };
+  
+
+  const handleChange = (e) => {
+    setErrorMessage('');
+    const { name, value, type } = e.target;
+
+    // Converte o valor do campo de rádio para um booleano
+    const fieldValue = type === 'checkbox' ? e.target.checked : value;
+
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: fieldValue,
+      // Gera automaticamente a URL base a partir do nome da empresa
+      urlBase: name === 'company' ? value.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') : prevData.urlBase,
+    }));
+  };
+
+
+
+  return (
+    <div>
+      <HeaderCadastro />
+      <div className="content-container">   
+        <div className="minhaconta-page">
+      <form onSubmit={handleEditAccount}>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {step === 1 && (
+          <>
+          <h2>Complete o seu cadastro</h2>
+          <p>Antes de criar seus dashs, forneça algumas informações</p>
+            <div>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                placeholder="Digite o seu nome completo"
+                value={userData.nome}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                id="whatsapp"
+                name="whatsapp"
+                placeholder="Digite seu número de WhatsApp (apenas números)"
+                value={userData.whatsapp}
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <h2>Informações da Conta</h2>
+            <p>Conte um pouco mais sobre a sua empresa</p>
+            <div>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                placeholder="Nome da empresa"
+                value={userData.company}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='radio'>
+              <label>
+                É uma franquia?
+                <input
+                  type="radio"
+                  id="isFranquiaSim"
+                  name="isFranquia"
+                  value="sim"
+                  checked={userData.isFranquia === 'sim'}
+                  onChange={handleChange}
+                />
+                <label htmlFor="isFranquiaSim">Sim</label>
+                <input
+                  type="radio"
+                  id="isFranquiaNao"
+                  name="isFranquia"
+                  value="nao"
+                  checked={userData.isFranquia === 'nao'}
+                  onChange={handleChange}
+                />
+                <label htmlFor="isFranquiaNao">Não</label>
+              </label>
+            </div>
+            <div>
+              <select id="cargo" name="cargo" value={userData.cargo} onChange={handleChange}>
+                {cargosSugeridos.map((cargo) => (
+                  <option key={cargo} value={cargo}>
+                    {cargo}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label>
+                <select id="setor" name="setor" value={userData.setor} onChange={handleChange}>
+                  {setoresSugeridos.map((setor) => (
+                    <option key={setor} value={setor}>
+                      {setor}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            
+          </>
+        )}
+        <hr />
+         <button type="submit" disabled={isLoading}>
+          {step === 1 ? 'Avançar' : 'Concluir'}
+        </button>
+      </form>
+    </div>
+        
+      </div>
+    </div>
+  );
+};
+
+export default CompleteCadastro;

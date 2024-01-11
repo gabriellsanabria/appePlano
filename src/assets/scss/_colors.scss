@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Futura:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600&display=swap');
+
+
+$font-family: 'Poppins', sans-serif;
+
+/* Cores */
+$primary-color: #0f2736;
+$secondary-color: #204f6d;
+$font-color: #383737;
+
+
+$cinza: #818181;
+$cinza-medio: #a0a0a0;
+$cinza-claro: #dbdbdb;
+
+
+$grey1: #f1f4f9;
+$grey2: #f6f6f6;
+
+/* Tamanhos de fonte */
+$font-p: 16px;
+$font-h1: 3em;
+
+/* Espaçamentos */
+$espacamento-padrao: 10px;
+$espacamento-botao: 20px;
+
+/* Margens e Preenchimentos */
+$margem-padrao: 10px;
+$preenchimento-padrao: 10px;
+
+/* Bordas */
+$largura-borda: 1px;
+$cor-borda: #ccc;

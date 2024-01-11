@@ -1,0 +1,52 @@
+// NotFound.scss
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  
+    .error-image {
+      width: 200px; // Ajuste conforme necessário
+      height: auto;
+      margin-bottom: 20px;
+    }
+  
+    .error-message {
+      font-size: 24px;
+      text-align: center;
+    }
+  
+    p {
+      margin-bottom: 20px;
+      max-width: 600px;
+      text-align: center;
+    }
+  
+    ul {
+      list-style-type: none;
+      padding: 0;
+  
+      li {
+        margin-bottom: 10px;
+        a {
+          color: #3498db; // Cor do link
+          text-decoration: underline;
+  
+          &:hover {
+            color: #1d72b8; // Cor do link ao passar o mouse
+          }
+        }
+      }
+    }
+  
+    a {
+      color: #3498db; // Cor do link
+      text-decoration: underline;
+  
+      &:hover {
+        color: #1d72b8; // Cor do link ao passar o mouse
+      }
+    }
+  }
+  

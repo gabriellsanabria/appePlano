@@ -1,0 +1,109 @@
+@import '../../assets/scss/colors';
+
+#MinhaConta{
+  display: flex;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  
+  hr{
+    width: 100%;
+  }
+  .minhaconta-page{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+
+    h2{
+      width: 80%;
+    }
+
+    .form-columns {
+      display: flex;
+      width: 80%;
+      flex-wrap: wrap;
+      gap: 10px; /* Espaço vertical entre os elementos */
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 30px; /* Espaço horizontal entre as colunas */
+    }
+    
+    .delAccount{
+      width: 100%;
+      font-size: 12px;      
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      align-content: flex-end;
+      flex-direction: column;
+      margin: 5% 0 0 0;
+      text-align: right;
+      a{    
+        text-decoration: none;
+        color: $cinza;
+      }
+    }
+    .form-controle {
+      display: flex;
+      width: 100%;
+      
+      .form-column{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+      }
+      .label{
+        width: 30%;
+        font-weight: 700;
+      }
+      .input{
+        width: 70%;
+        input{
+          padding: 20px;
+        }
+      }
+      button {
+        margin: 10px 10px 10px 0;
+        cursor: pointer;
+        padding: 8px;
+        height: auto;
+        min-height: 55px;
+        border: none;
+        border-radius: 5px;
+        width: 100%;       
+
+        &:hover {
+          opacity: 0.7;
+        }
+    
+        &:disabled {
+          cursor: not-allowed;
+          opacity: 0.9; /* Set the opacity when the button is disabled */
+        }
+        &.red{
+          background-color: #f03e3e;
+        }
+        &.primary{
+          background-color: $primary-color;
+        }
+        &.secondary{
+          background-color: $secondary-color;
+        }
+        &.cinza{
+          background-color: $cinza;
+        }
+        &.cinza-claro{
+          background-color: $cinza-claro;
+          color: #f03e3e!important;
+        }
+      }
+    }
+    
+  }
+}

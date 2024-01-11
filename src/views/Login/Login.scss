@@ -1,0 +1,87 @@
+/* src/components/Login/LoginPage.scss */
+@import '../../assets/scss/colors';
+.login-page {
+    display: flex;
+    height: 100vh;
+  
+  .image-container {
+    flex: 1;
+    overflow: hidden;
+    background: $primary-color;
+    @media (max-width: 768px) {
+      display: none;
+    }   
+  
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  .form-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff; /* Cor de fundo branca */
+  }
+  
+  .form-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    @media (max-width: 768px) {
+      width: 100%;
+    }   
+    .logo-login{
+        display: flex;
+        width: 100%;
+        margin: 0 0 0px 0;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        img{
+            width: 40%;
+        }
+    }
+    h1{
+      font-size: 1.8rem;
+      margin: 0 0 0px 0;
+      padding: 0;
+      font-weight: 800;
+    }
+    p{
+      margin: 7px 0;
+      padding: 0;
+      font-size: 0.9rem;
+    }
+    .google-bt-control{
+      width: 100%;
+      display: flex;
+      .google-bt-control-center{
+        width: 70%;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        margin: 10px auto;
+      }
+    }
+    form {
+      margin:10px 0px;
+    }
+  }
+  .thelink{
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: $cinza;
+    &:hover{
+      color: $primary-color;
+    }
+  }
+  
+}

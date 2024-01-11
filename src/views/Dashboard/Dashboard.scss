@@ -1,0 +1,256 @@
+// Dashboard.scss
+@import '../../assets/scss/colors';
+
+#dashboard{
+  .dashboard-page {
+    background-color: #fafafa;
+    display: flex;
+    width: 100%;
+  }
+  
+  .modal{
+    width: 40%!important;
+    .footer-modal{
+      flex-direction: column;
+      a{
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+      button {
+        margin: 10px;
+        cursor: pointer;
+        padding: 8px;
+        height: auto!important;
+        min-height: 55px;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        width: 50%!important;
+    
+        &:hover {
+          opacity: 0.7;
+        }
+        &.red{
+          background-color: #f03e3e;
+        }
+      }
+    }
+  }
+  .grid-item {
+    background-color: #eee; /* Cor de fundo padrão para os itens do grid */
+    border: 1px solid #ddd; /* Borda padrão para os itens do grid */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .widget1 {
+    background-color: #87CEEB; /* Cor de fundo para os itens do tipo widget1 */
+  }
+  
+  .widget2 {
+    background-color: #98FB98; /* Cor de fundo para os itens do tipo widget2 */
+  }
+  
+  .loader-dash{
+    width: 60%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    position: absolute;
+    top: 130px;
+    left: 30%;
+    z-index: 0;  
+  }
+  
+  .hd-DashboardPage{
+    display: flex;
+    margin: 0 0 20px 0;
+    align-content: center;
+    align-items: center;
+    h1{
+      width: 70%;
+    }
+    .busca{
+      width: 30%;
+      input{
+        padding: 15px;
+      }
+    }
+  }
+  
+  .section-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+  
+    .dashboard-box {
+      position:relative;
+      display: flex;
+      flex-direction: column;
+      width: 23%;
+      border: 1px solid #ccc;
+      height: 180px;
+      z-index: 9;
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: height 0.3s, border 0.1s; /* Adiciona uma transição suave na mudança de altura e borda */
+      box-shadow: 0 32px 32px -12px rgba(46, 44, 46, 0.325);
+  
+      &:hover {
+        .dashboard-info {
+          bottom: 0px; /* Altura máxima ao passar o mouse */
+        }
+        border: 3px solid $primary-color; /* Altera a cor da borda no hover */
+      }
+  
+      img {
+        width: 100%;
+        height: 130px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+    }
+  
+  
+    .card-menu {
+      position: absolute;
+      top: 10px;
+      right: 8px;
+      cursor: pointer;
+      z-index: 0;
+      color: #333; // Altere a cor conforme necessário
+      padding: 3px 5px;
+      border-radius: 8px;
+      background-color: $cinza-claro;
+      &:hover {
+        background-color: $cinza;
+        color: white;
+      }
+    }
+    .popover {
+      position: absolute;
+      background-color: #fff; /* Cor de fundo do popover */
+      box-shadow: 0 12px 12px 5px rgba(0, 0, 0, 0.1); /* Sombra do popover */
+      padding: 20px 0px;
+      right: 0px;
+      top: 45px;
+      border-radius: 8px;
+      z-index: 9999000; /* Ajuste a ordem de empilhamento conforme necessário */
+      &:before {
+        content: '';
+        position: absolute;
+        top: -18%;
+        right: 5%;
+        margin-left: -10px;
+        border-width: 10px;
+        border-style: solid;
+        border-color: transparent transparent white transparent;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    
+        li {
+          cursor: pointer;
+          padding: 8px 30px;
+          transition: background-color 0.3s ease;
+          font-size: 14px;
+          text-align: right;
+    
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+      }
+    }
+    .dashboard-info {
+      position: absolute;
+      bottom: -50px;
+      left: 0;
+      right: 0;
+      height: 100px; /* Altura inicial */
+      display: flex;
+      flex-direction: column;
+      margin-top: auto; /* Empurra para a parte inferior */
+      background-color: #e9e7e7;
+      padding: 10px;
+      overflow: hidden; /* Oculta o conteúdo além da altura especificada */
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+  
+      transition: bottom 0.2s; /* Adiciona uma transição suave na mudança de altura */
+  
+      .dashboard-name {
+        font-weight: bold;
+        color: white;
+        margin-top: 22px;
+        font-weight: 700;
+        color: black;
+      }
+      .ver-dash {
+        background-color: black;
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+        border-radius: 8px;
+        color: white;
+        font-size: 12px;
+        text-decoration: none;
+        font-weight: 400;
+        margin: 20px 0;
+      }
+      .dashboard-menu {
+        display: flex;
+        justify-content: flex-end;
+        span {
+          cursor: pointer;
+          font-size: 18px;
+        }
+      }
+    }
+  
+    // Estilos para o botão "Criar Novo Dashboard"
+    .create-new-dashboard {
+      background-color: #ccc; // Cor de fundo específica para o botão "Criar Novo Dashboard"
+  
+      .plusAddDash{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        height: 75%;
+        svg{
+          font-size: 80px;
+          color: #555;
+        }
+      }
+      .dashboard-info {
+        background-color: #eee; // Cor de fundo específica para a área de informações do botão
+  
+        .dashboard-name {
+          color: black; // Cor do texto específica para o botão
+        }
+  
+        .ver-dash {
+          background-color: #333; // Cor de fundo específica para o botão "Criar Novo Dashboard"
+  
+          &:hover {
+            background-color: #555; // Altere a cor de fundo no hover conforme necessário
+          }
+        }
+      }
+    }
+  }
+  
+  
+}

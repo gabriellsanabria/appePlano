@@ -1,0 +1,73 @@
+.react-grid-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    box-shadow: 0 32px 32px -12px rgba(46, 44, 46, 0.325);
+  }
+
+  .palco {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0px;
+    
+    width: 90%;
+    margin: 0 auto;
+    // border: 1px solid #ccc;
+    // background-color: #f8f8f8;
+
+    .titulo-grafico{
+        width: 100%;
+        display: flex;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+  
+    & > div {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+  
+    .recharts-wrapper {
+        margin: 5px auto 0 auto;
+        // overflow: hidden;
+        max-width: 100%; // Adicione esta linha
+        svg {
+          display: block;
+          margin: 0 auto;
+        }
+      }
+      
+  }
+
+.close-button {
+    position: absolute;
+    top: 0px;
+    right: 20px;
+    z-index: 1;
+    cursor: pointer;
+    font-weight: bold; // Estilo opcional
+    font-size: 14px; // Estilo opcional
+    color: #333; // Estilo opcional
+    &:hover {
+        color: #ff0000; // Cor quando o mouse passa por cima (opcional)
+      }
+}
+
+.more-button {
+    position: fixed;
+    top: 15px;
+    right: 18px;
+    z-index: 99999999;
+    cursor: pointer;
+    font-weight: bold; // Estilo opcional
+    font-size: 18px; // Estilo opcional
+    color: #333; // Estilo opcional
+    &:hover {
+        color: #ff0000; // Cor quando o mouse passa por cima (opcional)
+      }
+}

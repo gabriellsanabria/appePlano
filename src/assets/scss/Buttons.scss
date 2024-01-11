@@ -1,0 +1,71 @@
+@import './colors';
+
+.primary-button{
+    display: inline-flex;
+    font-family: $font-family;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding-left: 0.875em;
+    padding-right: 0.875em;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 700;
+    user-select: none;
+    white-space: nowrap;
+    box-shadow: none;
+    &.cta{            
+        min-height: 60px;
+        font-size: 1.5rem;
+        border-radius: 12px;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 32px 32px -12px rgba(46, 44, 46, 0.325);
+    }
+    &.primary-color{
+        background-color: $primary-color;
+        color: white;
+    }
+    &.secondary-color{
+        background-color: $secondary-color;
+        color: white;
+    }
+    &.grey-color{
+        background-color: $grey1;
+    }
+    &:hover{
+        color: #FFF;
+        background-color: #FF5C1B;
+        transition: background-color 0.2s ease-out;
+    }
+}
+
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding-left: 0.875em;
+    padding-right: 0.875em;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 700;
+    user-select: none;
+    white-space: nowrap;
+    border: 2px solid #F2EFEF;
+    background-color: #FFF;
+    color: #63554F;
+    &.cta{
+        min-height: 60px;
+        box-shadow: 0 32px 32px -12px rgba(46, 44, 46, 0.325);
+        border-radius: 12px;
+    }
+}
