@@ -102,7 +102,7 @@ const SideNav = () => {
         } else {
           const firestore = getFirestore();
           const profileCollectionRef = collection(firestore, 'profile');
-          const profileQuery = query(profileCollectionRef, where('userID', '==', user.uid));
+          const profileQuery = query(profileCollectionRef, where('userId', '==', user.uid));
           
           try {
             setLoadingOrganization(true);
@@ -111,11 +111,11 @@ const SideNav = () => {
           
             if (!profileQuerySnapshot.empty) {
               const userProfile = profileQuerySnapshot.docs[0].data();
-              const organizationID = userProfile.organizationID;
+              const organizationId = userProfile.organizationId;
           
-              if (organizationID) {
+              if (organizationId) {
                 const organizationsCollectionRef = collection(firestore, 'organization');
-                const organizationDocRef = doc(organizationsCollectionRef, organizationID);
+                const organizationDocRef = doc(organizationsCollectionRef, organizationId);
           
                 const organizationDocSnapshot = await getDoc(organizationDocRef);
           
@@ -129,10 +129,10 @@ const SideNav = () => {
                   // Atualizar o estado
                   setOrganizationName(organizationName);
                 } else {
-                  console.log('Nenhuma organização encontrada com o organizationID associado ao usuário');
+                  console.log('Nenhuma organização encontrada com o organizationId associado ao usuário');
                 }
               } else {
-                console.log('organizationID não encontrado no perfil do usuário');
+                console.log('organizationId não encontrado no perfil do usuário');
               }
             } else {
               console.log('Nenhum perfil encontrado para o usuário');
@@ -300,22 +300,7 @@ const SideNav = () => {
               ))}
             </>
           )}
-        </ul>
-      )}
-    </li>
-        {/* <li>
-          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
-            <div className='icone'>
-            <FaChartLine  />
-            </div>
-            {expanded && (
-              <div className='label'>
-                Meus Dashboards
-              </div>
-            )}
-          </Link>
-        </li> */}
-        <li>
+          <li>
           <Link to="" className={location.pathname === '/compartilhados-comigo' ? 'active' : ''}>
             <div className='icone'>
             <FiUsers />
@@ -351,6 +336,22 @@ const SideNav = () => {
             )}
           </Link>
         </li>
+        </ul>
+      )}
+    </li>
+        {/* <li>
+          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
+            <div className='icone'>
+            <FaChartLine  />
+            </div>
+            {expanded && (
+              <div className='label'>
+                Meus Dashboards
+              </div>
+            )}
+          </Link>
+        </li> */}
+        
 
         {/* {expanded && (
           <>

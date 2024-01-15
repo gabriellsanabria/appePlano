@@ -11,8 +11,8 @@ const EditarConta = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({
-    nome: '',
-    email: '',
+    nomeUsuario: '',
+    emailUsuario: '',
     emailAdicional: '',
     // Adicione outros campos conforme necessário
   });
@@ -90,8 +90,8 @@ const EditarConta = () => {
       try {
         // Certifique-se de que userData.emailAdicional seja definido antes de passá-lo
         const updatedData = {
-          nome: userData.nome,
-          email: userData.email,
+          nomeUsuario: userData.nomeUsuario,
+          emailUsuario: userData.emailUsuario,
           emailAdicional: userData.emailAdicional || null, // Use null se não estiver definido
           // Atualize outros campos conforme necessário
         };
@@ -131,7 +131,7 @@ const EditarConta = () => {
                 type="text"
                 id="nome"
                 name="nome"
-                value={userData.nome}
+                value={userData.nomeUsuario}
                 onChange={handleChange}
               />           
             </div>        
@@ -144,7 +144,7 @@ const EditarConta = () => {
             <div className='form-column input'>
               <input
                 type="email"
-                value={userData.email}
+                value={userData.emailUsuario}
                 disabled
               />
             </div>            

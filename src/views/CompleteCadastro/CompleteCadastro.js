@@ -18,7 +18,6 @@ const CompleteCadastro = () => {
     organizacao: '',
     cargo: '',
     setor: 'TI', // Setor padrão, ajuste conforme necessário
-    isFranquia: 'nao', // Valor padrão para "Não", ajuste conforme necessário
   });
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -52,42 +51,84 @@ const CompleteCadastro = () => {
   const handleEditAccount = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-  
-    // Verifica se o usuário está autenticado
-    if (user && user.uid) {
+
+    if (
+      user &&
+      userData.nomeUsuario.trim() !== '' &&
+      !/[^a-zA-Z ]/.test(userData.nomeUsuario) &&
+      isNaN(userData.nomeUsuario) &&
+      userData.whatsapp.trim() !== '' &&
+      /^\d+$/.test(userData.whatsapp)
+    ) {
+      const firestore = getFirestore();
+      const userDocRef = doc(firestore, 'users', user.uid);
+
+      setIsLoading(false);
       try {
         const updatedUserData = {
-          nome: userData.nome,
-          UID: user.uid,
+          nomeUsuario: userData.nomeUsuario,
+          // Adicione aqui os campos que deseja atualizar ou manter na coleção 'users'
         };
-  
-        // Adiciona o nome da empresa e a URL base ao objeto de dados atualizado
-        if (step === 2) {
-          // Não adiciona company e urlBase aqui
-        }
-  
-        const firestore = getFirestore();
-        const userDocRef = doc(firestore, 'users', user.uid);
-  
+      
         // Atualiza dados do usuário na coleção 'users'
         await updateDoc(userDocRef, updatedUserData);
-  
+      
         if (step === 2) {
-          // Restante do código...
+          const organizationCollection = collection(firestore, 'organization');
+          const organizationDocRef = await addDoc(organizationCollection, {
+            userId: user.uid,
+            companyName: userData.company,
+            urlBase: userData.urlBase,
+          });
+          
+          // Obtém o ID do documento recém-criado
+          const organizationId = organizationDocRef.id;
+          
+          // Atualiza o campo organizationId com o ID do documento
+          await updateDoc(organizationDocRef, { organizationId: organizationId });
+          
+      
+          // Adiciona informações à coleção 'profile'
+          const profileCollection = collection(firestore, 'profile');
+          await addDoc(profileCollection, {
+            userId: user.uid,
+            organizationId: organizationDocRef.id,
+            whatsapp: userData.whatsapp,
+            cargo: userData.cargo,
+            setor: userData.setor,
+            userType: 1, // Indica que o usuário é a conta master da empresa
+            status: 1, // Indica que ele está ativo no sistema
+          });
+      
+          // Atualiza o campo 'organizationId' na coleção 'users' com a referência ao documento da 'organization'
+          await updateDoc(userDocRef, { organizationId: organizationDocRef.id });
+      
+          setIsLoading(false);
+          console.log('Dados do usuário e da organização editados com sucesso!');
+          navigate('/dashboard');
         }
-  
-        // Restante do código...
+      
+        // Limpa os campos após a edição bem-sucedida
+        setUserData((prevData) => ({
+          ...prevData,
+          company: '',
+          urlBase: '',
+          cargo: 'Selecione',
+          setor: 'Selecione',
+        }));
+      
+        // Avança para o próximo passo
+        setStep((prevStep) => prevStep + 1);
       } catch (error) {
         console.error('Erro ao editar dados do usuário e da organização:', error);
-      } finally {
-        setIsLoading(false);
       }
+      
     } else {
-      setErrorMessage('Usuário não autenticado.');
+      setErrorMessage('Preencha todos os campos corretamente.');
       setIsLoading(false);
     }
   };
-  
+
 
   const handleChange = (e) => {
     setErrorMessage('');
@@ -119,13 +160,15 @@ const CompleteCadastro = () => {
           <p>Antes de criar seus dashs, forneça algumas informações</p>
             <div>
               <input
-                type="text"
-                id="nome"
-                name="nome"
-                placeholder="Digite o seu nome completo"
-                value={userData.nome}
-                onChange={handleChange}
-              />
+                  type="text"
+                  id="nomeUsuario"
+                  name="nomeUsuario"
+                  value={userData.nomeUsuario}
+                  onChange={(e) => {
+                    // Lógica para atualizar userData.nomeUsuario conforme necessário
+                  }}
+                  disabled={userData.nomeUsuario !== ''}
+                />
             </div>
             <div>
               <input
@@ -153,29 +196,6 @@ const CompleteCadastro = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className='radio'>
-              <label>
-                É uma franquia?
-                <input
-                  type="radio"
-                  id="isFranquiaSim"
-                  name="isFranquia"
-                  value="sim"
-                  checked={userData.isFranquia === 'sim'}
-                  onChange={handleChange}
-                />
-                <label htmlFor="isFranquiaSim">Sim</label>
-                <input
-                  type="radio"
-                  id="isFranquiaNao"
-                  name="isFranquia"
-                  value="nao"
-                  checked={userData.isFranquia === 'nao'}
-                  onChange={handleChange}
-                />
-                <label htmlFor="isFranquiaNao">Não</label>
-              </label>
-            </div>
             <div>
               <select id="cargo" name="cargo" value={userData.cargo} onChange={handleChange}>
                 {cargosSugeridos.map((cargo) => (
@@ -196,7 +216,7 @@ const CompleteCadastro = () => {
                 </select>
               </label>
             </div>
-            
+
           </>
         )}
         <hr />
@@ -205,7 +225,7 @@ const CompleteCadastro = () => {
         </button>
       </form>
     </div>
-        
+
       </div>
     </div>
   );

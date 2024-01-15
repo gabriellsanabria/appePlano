@@ -31,7 +31,7 @@ const Autenticando = () => {
       <div className="loader-content">
         <div>
           <h1>Carregando</h1>
-          <img src='https://s3.sa-east-1.amazonaws.com/oboss.com.br/icone_oboss.webp' alt="Logo" />
+          <img src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp' alt="Logo" />
         </div>
         <p>Aguarde{renderDots()}</p>
       </div>

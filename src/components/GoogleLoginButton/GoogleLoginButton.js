@@ -24,55 +24,43 @@ const GoogleLoginButton = () => {
 
   const signInWithGoogle = async () => {
     if (user) {
-      alert('Usuário já autenticado. Navegando para a dashboard...');
+      // alert('Usuário já autentiscado. Navegando para a dashboard...');
       navigate('/dashboard');
       return;
     }
 
     try {
-      alert('Iniciando processo de login com o Google...');
+      // alert('Iniciando processo de login com o Google...');
       const usuarioGoogle = await loginComProvedorGoogle(new GoogleAuthProvider());
 
       const { user } = usuarioGoogle;
       const { email, displayName } = user;
 
       try {
-        alert('Verificando se o usuário já existe no banco de dados...');
+        // alert('Verificando se o usuário já existe no banco de dados...');
         const usuarioExiste = await verificarSeUsuarioExiste(email);
 
         if (!usuarioExiste) {
-          alert('Usuário não encontrado. Criando conta e atualizando perfil...');
-          setLoading(true);
-
+          // alert('Usuário não encontrado. Criando conta e atualizando perfil...');
+          // alert('aqui deve aparecer loader');
+          <Loader/>
           const { uid, photoURL } = user;
 
           try {
-            alert('Verificando se o e-mail já está em uso...');
-            const emailEmUso = await verificarSeEmailEstaEmUso(email);
-
-            if (!emailEmUso) {
-              alert('E-mail não está em uso. Criando usuário e atualizando perfil...');
-
-              try {
-                alert('Cadastrando no banco de dados...');
-                await criarUsuarioNoBancoDeDados(user);
-                alert('Cadastro no banco de dados realizado com sucesso.');
-              } catch (error) {
-                alert('Erro ao cadastrar no banco de dados:', error);
-              }
-
-              await cadastrarComEmailESenha(email, 'senha-aleatoria');
-              await atualizarInformacoesPerfil(auth.currentUser, { displayName, photoURL });
-            }
+            // alert('Cadastrando no banco de dados...');
+            await criarUsuarioNoBancoDeDados(user);
+            // alert('Cadastro no banco de dados realizado com sucesso.');
+            await cadastrarComEmailESenha(email, 'senha-aleatoria');
+            await atualizarInformacoesPerfil(auth.currentUser, { displayName, photoURL });
+            navigate('/complete-cadastro')
           } catch (error) {
-            alert('Erro ao verificar se o e-mail está em uso:', error);
-          } finally {
-            setLoading(false); // Desativar o spinner após a conclusão do processo
+            alert('Erro ao cadastrar no banco de dados:', error);
           }
-        }
 
-        alert('Login bem-sucedido. Navegando para a dashboard...');
-        navigate('/dashboard');
+        }else{
+          // alert('Login bem-sucedido. Navegando para a dashboard...');
+          navigate('/dashboard');
+        }
       } catch (error) {
         console.error('Erro ao verificar a existência do usuário:', error);
       }
@@ -81,15 +69,6 @@ const GoogleLoginButton = () => {
     }
   };
 
-  const handleRedirect = async () => {
-    try {
-      const usuarioGoogle = await getRedirectResult(auth);
-      const { user } = usuarioGoogle;
-      // Restante do código...
-    } catch (error) {
-      console.error('Erro ao manipular o redirecionamento de login:', error);
-    }
-  };
 
   const handleLogout = async () => {
     console.log('Iniciando processo de logout...');

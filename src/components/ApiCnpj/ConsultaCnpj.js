@@ -1,18 +1,55 @@
 // frontend/src/components/CadastrarEmpresa.js
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getFirestore, collection, addDoc, getDocs, query, where, limit,orderBy } from 'firebase/firestore';
+import { Link,useParams, useNavigate } from 'react-router-dom';
+import { getFirestore, collection, setDoc, getDoc, doc, addDoc, getDocs, query, where, limit,orderBy } from 'firebase/firestore';
 import useAuth from '../../hooks/useAuth';
 import consultarCNPJ from 'consultar-cnpj';
 import './ConsultaCnpj.scss';
 
 const ConsultaCnpj = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [cnpjData, setCnpjData] = useState(null);
   const [cnpjInput, setCnpjInput] = useState('');
   const [cnpjExists, setCnpjExists] = useState(false);
   const [noEmpresasAlert, setNoEmpresasAlert] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { ePlanoId } = useParams();
+  const [organizationId, setOrganizationId] = useState(null); // Adicione o estado para armazenar o organizationId
+
+
+  useEffect(() => {
+    const fetchOrganizationId = async () => {
+      try {
+        const firestore = getFirestore();
+        const usersCollection = collection(firestore, 'users');
+  
+        console.log('user.uid:', user.uid); // Log para verificar user.uid
+  
+        const userDoc = await getDoc(doc(usersCollection, user.uid));
+        
+        console.log('userDoc:', userDoc); // Log para verificar o userDoc
+  
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const organizationId = userData.organizationId;
+  
+          console.log('userData:', userData); // Log para verificar userData
+          console.log('organizationId:', organizationId);
+          
+          setOrganizationId(organizationId);
+        } else {
+          console.warn('Usuário não encontrado na coleção users.');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar o organizationId:', error);
+      }
+    };
+  
+    fetchOrganizationId();
+  }, [user]);
+  
+  
 
   const handleConsultaCNPJ = async () => {
     try {
@@ -58,19 +95,44 @@ const ConsultaCnpj = () => {
             // Atribuir a ordem seguinte
             ordemNovaEmpresa = ordemMaisAltaEmpresa + 1;
           }
-  
+          
           // Adicionar a empresa ao Firestore com status 1 e a ordem calculada
           const docRef = await addDoc(empresasCollection, {
             cnpj: cnpjData.estabelecimento.cnpj,
             dadosCNPJ: cnpjData,
             usuarioId: user.uid,
+            organizationId: organizationId, //Puxar da coleção users do usuário logado
             simples: cnpjData.simples,
             estabelecimento: cnpjData.estabelecimento,
             status: 1, // Status ativo
             ordem: ordemNovaEmpresa, // Ordem calculada
           });
+          
+          // Adicionar ou atualizar o CNPJ na coleção ePlanosControle
+          const ePlanosControleCollection = collection(firestore, 'ePlanosControle');
+          const querySnapshot = await getDocs(
+            query(ePlanosControleCollection, where('ePlanoId', '==', ePlanoId))
+          );
+
+          if (querySnapshot.size > 0) {
+            // Se o documento já existir, atualize apenas o CNPJ, sem apagar outros campos
+            const docId = querySnapshot.docs[0].id;
+            const docData = querySnapshot.docs[0].data();
+            await setDoc(doc(ePlanosControleCollection, docId), {
+              ...docData,
+              cnpjEplano: cnpjData.estabelecimento.cnpj,
+              firstAccessEplano: 0,
+            });
+          } else {
+            // Se o documento não existir, crie um novo com o CNPJ
+            await addDoc(ePlanosControleCollection, {
+              cnpjEplano: cnpjData.estabelecimento.cnpj,
+              ePlanoId: ePlanoId, // Assumindo que você tem o ePlanoId disponível como parâmetro
+            });
+          }
+
           console.log('Empresa cadastrada com sucesso! Document ID:', docRef.id);
-          window.location.reload();
+          navigate(-2);
         }
       } else {
         console.warn('CNPJ inválido:', cnpjData);
@@ -84,7 +146,6 @@ const ConsultaCnpj = () => {
       }, 2000); // 3000 milliseconds = 3 seconds
     }
   };
-
   useEffect(() => {
     const checkEmpresas = async () => {
       const firestore = getFirestore();
@@ -116,6 +177,7 @@ const ConsultaCnpj = () => {
             value={cnpjInput}
             onChange={(e) => setCnpjInput(e.target.value)}
             required
+            placeholder='Insira o CNPJ da empresa'
           />
           {!cnpjData && (
             <div>
@@ -126,7 +188,7 @@ const ConsultaCnpj = () => {
               <hr />
               <div className='nova-consulta'>
                 <Link to='/dashboard'>
-                  Mais tarde
+                  Iniciar sem cnpj por enquanto
                 </Link>
               </div>
             </div>

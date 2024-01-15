@@ -1,0 +1,62 @@
+.blocks {
+    display: flex;
+    transition: height 0.3s ease; // Adicione uma transição suave
+    overflow: hidden; // Para ocultar o conteúdo que pode estender além da altura definida
+    flex-direction: column;
+  
+    .progress-bar {
+      height: 5px;
+      background-color: #007bff; // Cor da barra de progresso
+      top: 0;
+      left: 0;
+      width: 0; // Inicialmente, a barra de progresso não tem largura
+      transition: width 0.3s ease; // Adicione uma transição suave
+    }
+  
+    .steps {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 20px;
+  
+      .block {
+        flex: 1;
+        border: 1px solid #ccc;
+        background-color: white;
+        text-align: center;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        padding: 10px 20px;
+        width: 20%;
+        border-radius: 3px;
+        margin: 0 3px 0 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease; // Adicione uma transição suave
+  
+        &:hover {
+          background-color: #f0f0f0; // Cor de fundo ao passar o mouse
+        }
+  
+        &.active {
+          background-color: #007bff; // Cor de fundo quando ativo
+          color: #fff; // Cor do texto quando ativo
+        }
+
+        .contBox{
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            .ttlBox{
+                font-size: 18px;
+                font-weight: 800;
+            }
+            p{
+                font-size: 14px;
+                color: #838383;
+            }
+        }
+      }
+    }
+  }
+  

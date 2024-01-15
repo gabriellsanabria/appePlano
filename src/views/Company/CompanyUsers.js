@@ -15,7 +15,7 @@ const CompanyUsers = () => {
   const [organizationId, setOrganizationId] = useState(null);
   const [usersList, setUsersList] = useState([]);
   const [totalUsersAllowed, setTotalUsersAllowed] = useState(0);
-  const [adminUserId, setAdminUserId] = useState(null);
+  const [adminuserId, setAdminuserId] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(1); // Estado para controlar o status selecionado
 
   const handleChangeStatus = (e) => {
@@ -82,8 +82,8 @@ const updateCompanyData = (field, value) => {
             console.log('companyName from orgData:', orgData.companyName);
             console.log('Organization ID:', organizationId);
             setTotalUsersAllowed(orgData.totalUsersAllowed || 0);
-            setAdminUserId(orgData.adminUserId || null); // Atualize o estado com o ID do usuário admin
-            console.log('Admin User ID:', adminUserId);
+            setAdminuserId(orgData.adminuserId || null); // Atualize o estado com o ID do usuário admin
+            console.log('Admin User ID:', adminuserId);
           } else {
             console.log('Nenhuma organização encontrada para o usuário no Firestore');
           }
@@ -121,7 +121,7 @@ const updateCompanyData = (field, value) => {
         const profileCollectionRef = collection(firestore, 'profile');
     
         // Verifica se o e-mail já existe na coleção 'users'
-        const existingUserQuery = query(usersCollectionRef, where('email', '==', companyData.email));
+        const existingUserQuery = query(usersCollectionRef, where('emailUsuario', '==', companyData.emailUsuario));
         const existingUserSnapshot = await getDocs(existingUserQuery);
     
         if (!existingUserSnapshot.empty) {
@@ -130,28 +130,28 @@ const updateCompanyData = (field, value) => {
           return;
         }
     
-        // Crie um documento na coleção "users" com nome, email e organizationID
+        // Crie um documento na coleção "users" com nome, email e organizationId
         const userDocRef = await addDoc(usersCollectionRef, {
-          nome: companyData.nome,
-          email: companyData.email,
+          nomeUsuario: companyData.nomeUsuario,
+          emailUsuario: companyData.emailUsuario,
           firstAccess: 1,
-          organizationID: organizationId,
+          organizationId: organizationId,
         });
     
         // Obtenha o ID do documento recém-criado na coleção 'users'
-        const newUserId = userDocRef.id;
+        const newuserId = userDocRef.id;
     
         // Atualize o documento na coleção 'users' com o UID
-        await updateDoc(doc(firestore, 'users', newUserId), {
-          UID: newUserId,
+        await updateDoc(doc(firestore, 'users', newuserId), {
+          userId: newuserId,
         });
     
         // Crie um documento na coleção "profile" com os dados adicionais, incluindo o WhatsApp formatado
         await addDoc(profileCollectionRef, {
-          organizationID: organizationId,
-          status: selectedStatus,
-          userID: newUserId,
-          userTypeID: 2,
+          organizationId: organizationId,
+          status: 3,
+          userId: newuserId,
+          userType: 2,
         });
     
         console.log('Usuário cadastrado com sucesso!');
@@ -166,43 +166,28 @@ const updateCompanyData = (field, value) => {
         console.error('Erro ao cadastrar usuário:', error);
       }
     };
-    
-
-      // Renderização do select na tabela de usuários
-      const renderStatusSelect = (userId, status, userType) => {
-        if (userType === 'Admin') {
-          return <span>-</span>; // Se for Admin, apenas exibe o status
-        }
-      
-        return (
-          <select
-            value={status}
-            onChange={(e) => handleUpdateStatus(userId, e.target.value)}
-          >
-            <option value={1}>Ativo</option>
-            <option value={0}>Inativo</option>
-          </select>
-        );
-      };
 
     const fetchUsersList = async () => {
       try {
         const firestore = getFirestore();
         const profileCollectionRef = collection(firestore, 'profile');
-        const usersQuery = query(profileCollectionRef, where('organizationID', '==', organizationId));
+        const usersQuery = query(profileCollectionRef, where('organizationId', '==', organizationId));
     
         const usersSnapshot = await getDocs(usersQuery);
     
         if (usersSnapshot.docs.length > 0) {
           const userListData = await Promise.all(usersSnapshot.docs.map(async (doc) => {
-            const userData = await getUserDataByUID(doc.data().userID);
+            const userData = await getUserDataByUID(doc.data().userId);
+            const userTypeLabel = getUserTypeLabel(doc.data().userType);
+    
+    
             return {
               id: doc.id,
               ...doc.data(),
-              nome: userData.nome,
-              email: userData.email,
+              nomeUsuario: userData.nomeUsuario,
+              emailUsuario: userData.emailUsuario,
               status: getRoleByStatus(doc.data().status),
-              userType: getUserTypeLabel(doc.data().userTypeID),
+              userType: userTypeLabel,
             };
           }));
 
@@ -222,19 +207,22 @@ const updateCompanyData = (field, value) => {
     };
     
     const getUserTypeLabel = (userType) => {
+      console.log('Valor de userType recebido:', userType); // Adicionando o console.log
+    
       // Ajuste essa lógica conforme necessário
       return userType === 1 ? 'Admin' : (userType === 2 ? 'Colaborador' : 'Tipo de Usuário Não Definido');
     };
     
-    const getUserDataByUID = async (userID) => {
+    
+    const getUserDataByUID = async (userId) => {
       const firestore = getFirestore();
       const usersCollectionRef = collection(firestore, 'users');
-      const userDoc = await getDoc(doc(usersCollectionRef, userID));
+      const userDoc = await getDoc(doc(usersCollectionRef, userId));
     
       if (userDoc.exists()) {
         return userDoc.data();
       } else {
-        console.log('Usuário não encontrado na coleção "users" com o UID:', userID);
+        console.log('Usuário não encontrado na coleção "users" com o UID:', userId);
         return {};
       }
     };
@@ -276,8 +264,8 @@ const updateCompanyData = (field, value) => {
       <tbody>
         {sortedUsersList.map((user) => (
           <tr key={user.id} className={user.fadeIn ? 'fadeIn' : ''} style={{ backgroundColor: user.userType === 'Admin' ? 'lightblue' : 'white' }}>
-            <td>{user.nome}</td>
-            <td>{user.email}</td>
+            <td>{user.nomeUsuario}</td>
+            <td>{user.emailUsuario}</td>
             {/* <td>{renderStatusSelect(user.id, user.status, user.userType)}</td> */}
             <td>{user.status}</td>
             <td>{user.userType}</td>
@@ -380,8 +368,8 @@ const handleUpdateStatus = async (userId, newStatus) => {
                           <div className='form-column input'>
                             <input
                               type='text'
-                              value={companyData.nome}
-                              onChange={(e) => updateCompanyData('nome', e.target.value)}
+                              value={companyData.nomeUsuario}
+                              onChange={(e) => updateCompanyData('nomeUsuario', e.target.value)}
                             />
                           </div>
                         </div>
@@ -392,8 +380,8 @@ const handleUpdateStatus = async (userId, newStatus) => {
                           <div className='form-column input'>
                             <input
                               type='email'
-                              value={companyData.email} 
-                              onChange={(e) => updateCompanyData('email', e.target.value)}
+                              value={companyData.emailUsuario} 
+                              onChange={(e) => updateCompanyData('emailUsuario', e.target.value)}
                             />
                           </div>
                         </div>

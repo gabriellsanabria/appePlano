@@ -76,7 +76,7 @@ const UsersRegistration = () => {
           organizationId: organizationId,
         });
   
-        // Adiciona dados do perfil à coleção 'profile' usando o ID do novo usuário como userID
+        // Adiciona dados do perfil à coleção 'profile' usando o ID do novo usuário como userId
         const profileCollectionRef = collection(firestore, 'profile');
   
         // Imprima o organizationId para verificar se está vindo corretamente
@@ -85,7 +85,7 @@ const UsersRegistration = () => {
         await setDoc(doc(profileCollectionRef, newUserRef.id), {
           cargo: userData.cargo,
           setor: userData.setor,
-          userID: newUserRef.id, // Usando o ID do novo usuário como userID
+          userId: newUserRef.id, // Usando o ID do novo usuário como userId
           whatsapp: userData.whatsapp,
           organizationId: organizationId, // Adiciona o organizationId à coleção 'profile'
         });

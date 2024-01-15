@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../../components/Layout/layout';
 import TutorialModal from '../../components/TutorialModal/TutorialModal';
+import CreateEPlanoModal from '../../components/CreateEPlanoModal/CreateEPlanoModal';
 import Spinner from "../../components/Spinner/Spinner";
 import { getFirestore, collection, addDoc, getDocs, query, where,deleteDoc,doc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid'; // Importando a função v4 do uuid
 import useAuth from '../../hooks/useAuth';
 import { RiMoreFill } from 'react-icons/ri';
 import { FaPlusCircle,FaTimes } from "react-icons/fa";
+
 
 
 
@@ -22,8 +24,8 @@ const Dashboard = () => {
   const [layout, setLayout] = useState([]);
   const [openWidgets, setOpenWidgets] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newDashboardName, setNewDashboardName] = useState('');
-  const [dashboards, setDashboards] = useState([]);
+  const [newEPlanoName, setnewEPlanoName] = useState('');
+  const [eplanos, seteplanos] = useState([]);
   const [isTutorialOpen, setIsTutorialOpen] = useState(true);
 
   const [selectedCard, setSelectedCard] = useState(null);
@@ -36,41 +38,13 @@ const Dashboard = () => {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [confirmationText, setConfirmationText] = useState('');
 
-  const [isLoadingDashboards, setIsLoadingDashboards] = useState(false);
+  const [isLoadingeplanos, setIsLoadingeplanos] = useState(false);
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [organization, setOrganization] = useState({});
 
-
-  const availableWidgets = [
-    { type: 'IfoodWidget', label: 'Pizza Prime - Rede', image: pizzaPrimeRede, urlDash: '/dashs/company/pizza-prime/rede' },
-    { type: 'IfoodWidget', label: 'Pizza Prime - Indaiatuba', image: pizzaPrimeIndaiatuba, urlDash: '/dashs/company/pizza-prime/rede' },
-    { type: 'IfoodWidget', label: 'iFood Vendas no Ano', image: ifoodVendasAno, urlDash: '/dashs/company/pizza-prime/rede' },
-    { type: 'RappiWidget', label: 'Rappi Vendas no Ano', image: rappiImage, urlDash: '/dashs/company/pizza-prime/rede' },
-  ];
-
-  const maxWidgetsPerRow = 5;
-  const widgetWidth = 4;
-  const widgetHeight = 5;
-
-  const addWidget = (widgetType) => {
-    if (openWidgets.length < 10 && !openWidgets.includes(widgetType)) {
-      const row = Math.floor(openWidgets.length / maxWidgetsPerRow);
-      const col = openWidgets.length % maxWidgetsPerRow;
-
-      const newLayoutItem = {
-        i: widgetType + layout.length,
-        x: col * widgetWidth,
-        y: row * widgetHeight,
-        w: widgetWidth,
-        h: widgetHeight,
-      };
-
-      setLayout([...layout, newLayoutItem]);
-      setOpenWidgets([...openWidgets, widgetType]);
-    }
-  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -81,24 +55,20 @@ const Dashboard = () => {
   };
 
   const handleNameChange = (event) => {
-    setNewDashboardName(event.target.value);
+    setnewEPlanoName(event.target.value);
   };
   
-  const createNewDashboard = async () => {
+  const createNewDashboard = async (newEPlanoName) => {
     try {
-      // Verifica se o nome do dashboard está vazio ou contém apenas espaços em branco
-      if (!newDashboardName.trim()) {
-        // Exibe uma mensagem de erro (você pode personalizar conforme necessário)
-        alert('Por favor, insira um nome para o dashboard.');
-        return;
-      }
+      console.log('Novo nome do ePlano:', newEPlanoName);
+
   
       const firestore = getFirestore();
-      const dashboardsCollectionRef = collection(firestore, 'dashboards');
+      const eplanosCollectionRef = collection(firestore, 'eplanos');
   
-      const urlDash = newDashboardName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+      const urlEplano = newEPlanoName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
   
-      const dashboardId = uuidv4().replace(/[^a-zA-Z0-9]/g, '').substring(0, 6);
+      const ePlanoId = uuidv4().replace(/[^a-zA-Z0-9]/g, '').substring(0, 6);
   
       // Obtenha o ID da coleção 'organization'
       const organizationDocQuery = query(collection(firestore, 'organization'), where('userId', '==', userId));
@@ -112,114 +82,153 @@ const Dashboard = () => {
       }
   
       // Crie o novo dashboard com o ID da coleção 'organization'
-      const newDashboardDocRef = await addDoc(dashboardsCollectionRef, {
-        nomeDash: newDashboardName,
+      const newDashboardDocRef = await addDoc(eplanosCollectionRef, {
+        nomeEplano: newEPlanoName,
         userId: userId,
-        urlDash: urlDash,
-        dashboardId: dashboardId,
+        urlEplano: urlEplano,
+        ePlanoId: ePlanoId,
+        statusePlano: 0,
         organizationId: organizationId, // Novo campo organizationId
       });
   
       console.log('New dashboard created with ID:', newDashboardDocRef.id);
   
-      setDashboards((prevDashboards) => [
-        ...prevDashboards,
-        { id: newDashboardDocRef.id, nomeDash: newDashboardName, urlDash: urlDash, dashboardId: dashboardId, organizationId: organizationId },
+      seteplanos((preveplanos) => [
+        ...preveplanos,
+        { id: newDashboardDocRef.id, nomeEplano: newEPlanoName, urlEplano: urlEplano, ePlanoId: ePlanoId, organizationId: organizationId, statusePlano: 0 },
       ]);
   
-      setNewDashboardName('');
+      const ePlanosControleCollectionRef = collection(firestore, 'ePlanosControle');
+
+      // Adicione um documento à coleção ePlanosControle
+      const newEPlanoControleDocRef = await addDoc(ePlanosControleCollectionRef, {
+        ePlanoId: ePlanoId, // Certifique-se de ter o ePlanoId disponível no escopo
+        organizationId: organizationId, // Certifique-se de ter o organizationId disponível no escopo
+        firstAccessEplano: 1, // Defina o valor desejado para firstAccessEplano
+      });
+      
+      console.log('New document added to ePlanosControle with ID:', newEPlanoControleDocRef.id);
+  
+      setnewEPlanoName('');
       closeModal();
     } catch (error) {
       console.error('Error creating new dashboard:', error);
     }
   };
   
+// Função para obter a classe de cor com base no status
+const getSignageColor = (status) => {
+  switch (status) {
+    case 0:
+      return 'naoIniciado'; // ou outra classe correspondente à cor para "Não Iniciado"
+    case 1:
+      return 'emAndamento'; // ou outra classe correspondente à cor para "Em Andamento"
+    case 2:
+      return 'concluido'; // ou outra classe correspondente à cor para "Concluído"
+    default:
+      return ''; // Adicione um valor padrão ou lide com outros casos, se necessário
+  }
+};
+
+// Função para obter o texto do status com base no valor
+const getStatusText = (status) => {
+  switch (status) {
+    case 0:
+      return 'Não Iniciado';
+    case 1:
+      return 'Em Andamento';
+    case 2:
+      return 'Concluído';
+    default:
+      return ''; // Adicione um valor padrão ou lide com outros casos, se necessário
+  }
+};
 
 
   useEffect(() => {
-    const fetchDashboards = async () => {
+    const fetcheplanos = async () => {
       try {
-        setIsLoadingDashboards(true); // Ativa o spinner
+        setIsLoadingeplanos(true); // Ativa o spinner
   
-console.log('Ativou spinner');  
+        console.log('Ativou spinner');  
         const firestore = getFirestore();
   
-        // Consulta para obter os dashboards
-        const dashboardsCollectionRef = collection(firestore, 'dashboards');
-        
-        const querySnapshot = await getDocs(
-          query(dashboardsCollectionRef, where('userId', '==', userId))
-        );
-  
-        const dashboardsArray = querySnapshot.docs
-          .map((doc) => ({ dashboardId: doc.id, ...doc.data() }))
-          .sort((a, b) => a.nomeDash.localeCompare(b.nomeDash));
-  
-        setDashboards(dashboardsArray);
-  
-        // Consulta para obter o urlBase da coleção organization
-        const organizationDocQuery = query(collection(firestore, 'organization'), where('userId', '==', userId));
-        const organizationDocSnapshot = await getDocs(organizationDocQuery);
-  
-        let organizationData = null;
-  
-        if (organizationDocSnapshot.docs.length > 0) {
-          const organizationDoc = organizationDocSnapshot.docs[0];
-          organizationData = organizationDoc.exists() ? organizationDoc.data() : null;
-        }
-  
-        if (organizationData) {
-          setUrlBase(organizationData.urlBase);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setIsLoadingDashboards(false); // Desativa o spinner após o carregamento
-        console.log('Desativa o spinner após o carregamento');  
-      }
-    };
-  
-    fetchDashboards();
-  }, [userId]);
+        // Consulta para obter os eplanos
+        const eplanosCollectionRef = collection(firestore, 'eplanos');
+      
+      const querySnapshot = await getDocs(
+        query(eplanosCollectionRef, where('userId', '==', userId))
+      );
 
+      const eplanosArray = querySnapshot.docs
+        .map((doc) => ({ ePlanoId: doc.id, ...doc.data() }))
+        .sort((a, b) => a.nomeEplano.localeCompare(b.nomeEplano));
+
+      seteplanos(eplanosArray);
+
+      // Consulta para obter o urlBase da coleção organization
+      const organizationDocQuery = query(collection(firestore, 'organization'), where('userId', '==', userId));
+      const organizationDocSnapshot = await getDocs(organizationDocQuery);
+
+      let organizationData = null;
+
+      if (organizationDocSnapshot.docs.length > 0) {
+        const organizationDoc = organizationDocSnapshot.docs[0];
+        organizationData = organizationDoc.exists() ? organizationDoc.data() : null;
+      }
+
+      if (organizationData) {
+        setUrlBase(organizationData.urlBase);
+        setOrganization(organizationData); // Atualiza o estado com os detalhes da organização
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setIsLoadingeplanos(false); // Desativa o spinner após o carregamento
+    }
+  };
+
+  fetcheplanos();
+}, [userId]);
+  const tutorialViewed = '001'
   const handleCloseTutorial = () => {
     setIsTutorialOpen(false);
     // Salva a informação no localStorage para indicar que o tutorial foi visualizado
-    localStorage.setItem('tutorialDashViewed', JSON.stringify(true));
+    localStorage.setItem(tutorialViewed, JSON.stringify(true));
   };
 
   useEffect(() => {
-    // Verifica se a chave 'tutorialDashViewed' existe no localStorage
-    const tutorialDashViewed = localStorage.getItem('tutorialDashViewed');
+    // Verifica se a chave tutorialViewed existe no localStorage
+    const tutorialViewedVar = localStorage.getItem(tutorialViewed);
     // Se o tutorial já foi visualizado, fecha o tutorial
-    if (tutorialDashViewed) {
+    if (tutorialViewedVar) {
       setIsTutorialOpen(false);
     }
   }, []);
   
-  const handleMenuClick = (dashboardId) => {
-    console.log('handleMenuClick triggered with dashboardId:', dashboardId);
+  const handleMenuClick = (ePlanoId) => {
+    console.log('handleMenuClick triggered with ePlanoId:', ePlanoId);
 
     setDashboardPopovers((prev) => ({
       ...prev,
-      [dashboardId]: !prev[dashboardId],
+      [ePlanoId]: !prev[ePlanoId],
     }));
   };
 
 
   // Alteração: Função para fechar o popover do dashboard específico
-  const handleClosePopover = (dashboardId) => {
+  const handleClosePopover = (ePlanoId) => {
     setSelectedCard(null);
     // Atualizar o estado dashboardPopovers apenas para este dashboard
-    setDashboardPopovers((prev) => ({ ...prev, [dashboardId]: false }));
+    setDashboardPopovers((prev) => ({ ...prev, [ePlanoId]: false }));
   };
 
-  const handleShare = (dashboardId) => {
+  const handleShare = (ePlanoId) => {
     // Lógica para compartilhar
-    console.log(`Compartilhar o dashboard com ID: ${dashboardId}`);
+    console.log(`Compartilhar o dashboard com ID: ${ePlanoId}`);
   };
 
-  const removeDashboard = async (dashboardId) => {
+  const removeEplano = async (ePlanoId) => {
     let dashControllerSnapshot;
   
     try {
@@ -228,10 +237,10 @@ console.log('Ativou spinner');
       setIsLoadingDelete(true); // Ativa o spinner durante a exclusão
   
       // Delete from dashcontroller collection first
-      const dashControllerQuery = query(collection(firestore, 'dashcontroller'), where('dashboardId', '==', dashboardId));
+      const dashControllerQuery = query(collection(firestore, 'dashcontroller'), where('ePlanoId', '==', ePlanoId));
       dashControllerSnapshot = await getDocs(dashControllerQuery);
   
-      console.log(`Encontrados ${dashControllerSnapshot.size} documentos na coleção "dashcontroller" associados ao dashboard com ID: ${dashboardId}`);
+      console.log(`Encontrados ${dashControllerSnapshot.size} documentos na coleção "dashcontroller" associados ao dashboard com ID: ${ePlanoId}`);
   
       await Promise.all(dashControllerSnapshot.docs.map(async (doc) => {
         console.log('Tentando excluir documento da coleção "dashcontroller" com ID:', doc.id);
@@ -239,24 +248,24 @@ console.log('Ativou spinner');
         console.log('Documento excluído com sucesso da coleção "dashcontroller".');
       }));
   
-      // Delete from dashboards collection
-      console.log('Tentando excluir dashboard da coleção "dashboards" com ID:', dashboardId);
-      const dashboardsQuery = query(collection(firestore, 'dashboards'), where('dashboardId', '==', dashboardId));
-      const dashboardsSnapshot = await getDocs(dashboardsQuery);
+      // Delete from eplanos collection
+      console.log('Tentando excluir dashboard da coleção "eplanos" com ID:', ePlanoId);
+      const eplanosQuery = query(collection(firestore, 'eplanos'), where('ePlanoId', '==', ePlanoId));
+      const eplanosSnapshot = await getDocs(eplanosQuery);
   
-      if (!dashboardsSnapshot.empty) {
-        const dashboardRef = dashboardsSnapshot.docs[0].ref;
+      if (!eplanosSnapshot.empty) {
+        const dashboardRef = eplanosSnapshot.docs[0].ref;
         await deleteDoc(dashboardRef);
-        console.log('Dashboard excluído com sucesso da coleção "dashboards".', dashboardId);
+        console.log('Dashboard excluído com sucesso da coleção "eplanos".', ePlanoId);
       } else {
-        console.log(`Dashboard com ID ${dashboardId} não encontrado na coleção "dashboards".`);
+        console.log(`Dashboard com ID ${ePlanoId} não encontrado na coleção "eplanos".`);
       }
   
       // Update state or perform any other necessary actions
-      setDashboards((prevDashboards) => prevDashboards.filter((dashboard) => dashboard.dashboardId !== dashboardId));
+      seteplanos((preveplanos) => preveplanos.filter((dashboard) => dashboard.ePlanoId !== ePlanoId));
       setSelectedCard(null);
   
-      console.log(`Dashboard removido com ID: ${dashboardId}`);
+      console.log(`Dashboard removido com ID: ${ePlanoId}`);
     } catch (error) {
       console.error('Erro ao remover dashboard:', error);
     } finally {
@@ -267,14 +276,14 @@ console.log('Ativou spinner');
   
   
 
-  const handleDelete = (dashboardId) => {
+  const handleDelete = (ePlanoId) => {
     // Close the popover
-    setDashboardPopovers((prev) => ({ ...prev, [dashboardId]: false }));
+    setDashboardPopovers((prev) => ({ ...prev, [ePlanoId]: false }));
   
     // Toggle the confirmation dialog and set loading state to true
     setIsConfirmationOpen(true);
     setIsLoadingDelete(false); // Set to false initially
-    setSelectedCard(dashboardId);
+    setSelectedCard(ePlanoId);
   };
 
   const confirmDelete = async () => {
@@ -287,7 +296,7 @@ console.log('Ativou spinner');
         setIsLoadingDelete(true);
   
         // Proceed with deletion
-        await removeDashboard(selectedCard);
+        await removeEplano(selectedCard);
   
         // Close the confirmation dialog
         setIsConfirmationOpen(false);
@@ -310,8 +319,7 @@ console.log('Ativou spinner');
       <div className='dashboard-page' id='dashboard'>
         <div className='dashboard-content'>
 
-          <div className='hd-DashboardPage'>         
-            <h1>Meus ePlanos</h1>
+          <div className='hd-DashboardPage'>     
             <div className='busca'>              
               <input
                   type='text'
@@ -320,11 +328,16 @@ console.log('Ativou spinner');
                   placeholder='Buscar ePlano'
                 />
             </div>
+            <div className='botao'>              
+              <div className='primary-button primary-color' onClick={openModal}>
+                + Criar ePlano
+              </div>
+            </div>
           </div>
             
           <section className='section-content'>
 
-            <div onClick={openModal} className='dashboard-box create-new-dashboard'>
+            {/* <div onClick={openModal} className='dashboard-box create-new-dashboard'>
               <div class='plusAddDash'>
                 <FaPlusCircle />
               </div>
@@ -334,85 +347,75 @@ console.log('Ativou spinner');
                   Criar
                 </Link>
               </div>
-            </div>
-            {(isLoadingDashboards) && (
+            </div> */}
+            {(isLoadingeplanos) && (
                 <div className='loader-dash'>
                   <Spinner />
                 </div>
               )}
 
 
-            {dashboards
-              .filter((dashboard) =>
-                dashboard.nomeDash.toLowerCase().includes(searchTerm.toLowerCase())
+            {eplanos
+              .filter((ePlano) =>
+                ePlano.nomeEplano.toLowerCase().includes(searchTerm.toLowerCase())
               )
-              .map((dashboard) => (
-                <div key={dashboard.id} className='dashboard-box'>
+              .map((ePlano) => (
+                <div key={ePlano.id} className='dashboard-box'>
               <div className="card-menu" onClick={() => {
-                console.log('Chamando handleMenuClick com dashboard.dashboardId:', dashboard.dashboardId);
-                handleMenuClick(dashboard.dashboardId);
+                console.log('Chamando handleMenuClick com dashboard.ePlanoId:', ePlano.ePlanoId);
+                handleMenuClick(ePlano.ePlanoId);
               }}>
               <RiMoreFill /> 
             </div>
             
-            {dashboardPopovers[dashboard.dashboardId] && (
+            {dashboardPopovers[ePlano.ePlanoId] && (
                   <div>
                     <div className="popover">
                       <ul>
-                        <li onClick={() => handleShare(dashboard.dashboardId)}>
+                        <li onClick={() => handleShare(ePlano.ePlanoId)}>
                           Compartilhar ePlano
                         </li>
-                        <li onClick={() => handleDelete(dashboard.dashboardId)}>
+                        <li onClick={() => handleDelete(ePlano.ePlanoId)}>
                           Excluir ePlano
                         </li>
                       </ul>
                     </div>
-                    <div onClick={() => handleClosePopover(dashboard.dashboardId)} className='overlay'></div>
+                    <div onClick={() => handleClosePopover(ePlano.ePlanoId)} className='overlay'></div>
                   </div>
                 )}
-                <Link to={`/meu-eplano/${urlBase}/${dashboard.dashboardId}/${dashboard.urlDash}`}>                
+                <Link to={`/meu-eplano/${urlBase}/${ePlano.ePlanoId}/${ePlano.urlEplano}`}>                
+                  
                   <img src="https://eplano.s3.sa-east-1.amazonaws.com/banner_1.webp" alt="Imagem de fundo" />
-                <div className='dashboard-info'>
-                  <span className='dashboard-name'>{dashboard.nomeDash}</span>
-                  <Link to={`/meu-eplano/${urlBase}/${dashboard.dashboardId}/${dashboard.urlDash}`} className='ver-dash'>
-                    Ver ePlano
-                  </Link>
-                </div>
+                  
+                  <div className='dashboard-info'>
+                    <div className='infos'>                      
+                      <div className='logoEmpresa'>
+                        <img src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp' alt="Logo" />
+                      </div>
+
+                      <div className='dashboard-name'>
+                        <div className='titulo'>
+                          {ePlano.nomeEplano}
+                        </div>
+                        <div className='nomeEmpresa'>
+                          {organization.companyName}
+                        </div>
+                      </div>
+                    </div>
+                    <hr/>
+                    <div className='infos'>
+                      <div className='statusEplano'>
+                        <span className={`signage ${getSignageColor(ePlano.statusePlano)}`}></span>
+                        <div className='signage-text'>{getStatusText(ePlano.statusePlano)}</div>
+                      </div>
+                    </div>
+                    
+                  </div>
                 </Link>
               </div>
             ))}
-            {isModalOpen && (
-              <div>
-                <div className='overlay'></div>
-                  <div className='modal'>
-                    <div className='modal-content'>
-                      <span className='close' onClick={closeModal}>
-                        <FaTimes />
-                      </span>
-                      <h2>Criar novo ePlano</h2>
-                      <input
-                        type='text'
-                        value={newDashboardName}
-                        onChange={handleNameChange}
-                        placeholder='Nome do ePlano'
-                      />
-<div className='footer-modal'>
-  {isLoadingDashboards ? (
-    <Spinner />
-  ) : (
-    <button onClick={() => {
-      setIsLoadingDashboards(true);  // Set loading state for dashboard creation
-      createNewDashboard();
-    }}>Criar ePlano</button>
-  )}
-</div>
-
-
-
-                    </div>
-                  </div>
-              </div>
-            )}
+            <CreateEPlanoModal isOpen={isModalOpen} onClose={closeModal} onCreate={createNewDashboard} />
+            
             
             {isConfirmationOpen && (
               <div>

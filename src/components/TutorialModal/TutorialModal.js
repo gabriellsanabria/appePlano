@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
 import './TutorialModal.scss'; // Importe o arquivo de estilo CSS
+import { FaPlusCircle,FaTimes, FaArrowCircleRight } from "react-icons/fa";
+
+
 
 const TutorialModal = ({ onClose }) => {
   const [step, setStep] = useState(1);
 
   const nextStep = () => {
-    if (step < 4) {
+    if (step < 5) {
       setStep(step + 1);
     } else {
       // Lógica para lidar com o fim do tutorial
       // Pode fechar o modal ou redirecionar para outra página
+      onClose();
     }
   };
 
-  // Função para pular o tutorial (exemplo com console.log)
   const skipTutorial = () => {
     console.log('Pular tutorial');
     onClose();
   };
-  
 
   return (
     <div>
@@ -26,18 +28,25 @@ const TutorialModal = ({ onClose }) => {
       <div
         className={`tutorial-modal ${step === 5 ? 'last-step' : ''} ${step === 1 ? 'step-one' : ''} ${step === 2 ? 'step-two' : ''} ${step === 3 ? 'step-three' : ''} ${step === 4 ? 'step-four' : ''} ${step === 5 ? 'step-five' : ''}`}
       >
-        <h2>{getStepTitle(step)}</h2>
-        <p>{getStepContent(step)}</p>
-        
-        <div className="arrow" onClick={nextStep}>
-          <span>&rarr;</span>
-        </div>
+        {step !== 5 && (
+          <div className="step-indicator">
+            Passo {step} de 4
+          </div>
+        )}
 
-        {step !== 4 && (
+        {step !== 5 && (
           <div className="skip" onClick={skipTutorial}>
             Pular Tutorial
           </div>
         )}
+
+        <div className="arrow" onClick={nextStep}>
+          <FaArrowCircleRight/>
+        </div>
+        <div className='corpo-tutorial'>          
+          <h2>{getStepTitle(step)}</h2>
+          <p>{getStepContent(step)}</p>
+        </div>
       </div>
     </div>
   );
@@ -46,15 +55,15 @@ const TutorialModal = ({ onClose }) => {
 const getStepTitle = (step) => {
   switch (step) {
     case 1:
-      return "Título do Primeiro Passo";
+      return "Tudo o que você precisar está aqui";
     case 2:
-      return "Título do Segundo Passo";
+      return "Informações da sua conta";
     case 3:
-      return "Título do Terceiro Passo";
+      return "Acesso rápido dos ePlanos";
     case 4:
-      return "Título do quarto Passo";
+      return "Integrações";
     case 5:
-      return "Título do Último Passo";
+      return "Comece agora";
     default:
       return "";
   }
@@ -63,15 +72,15 @@ const getStepTitle = (step) => {
 const getStepContent = (step) => {
   switch (step) {
     case 1:
-      return "Conteúdo do Primeiro Passo";
+      return "Aqui fica o menu administrativo. Se precisar configurar a sua conta, contratar mais planos ou falar com o suporte, clique aqui!";
     case 2:
-      return "Conteúdo do Segundo Passo";
+      return "Aqui é possível ver o nome da sua empresa e quantos planos de negócios você possui";
     case 3:
-      return "Conteúdo do Terceiro Passo";
+      return "Tenha acesso aos seus planos com poucos cliques";
     case 4:
-      return "Conteúdo do Quarto Passo";
+      return "Sugira/Solicite uma integração sempre que precisar";
     case 5:
-      return "Conteúdo do Último Passo";
+      return "Clique aqui e vamos começar o seu primeiro ePlano";
     default:
       return "";
   }

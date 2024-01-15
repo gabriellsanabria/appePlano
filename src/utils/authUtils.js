@@ -26,7 +26,7 @@ import {
       const usersCollectionRef = collection(firestore, 'users');
   
       // Consulta para verificar se o email já existe na coleção 'users'
-      const existingUserQuery = query(usersCollectionRef, where('email', '==', email));
+      const existingUserQuery = query(usersCollectionRef, where('emailUsuario', '==', email));
       const existingUserSnapshot = await getDocs(existingUserQuery);
   
       if (!existingUserSnapshot.empty) {
@@ -79,16 +79,24 @@ import {
       console.log('Creating user in the database...');
   
       const { uid, email, displayName } = usuario;
+      const userId = uid;
+      const organizationId = ''; // Coloque a lógica necessária para obter ou definir o organizationId
   
       // Create a reference to the user document using UID as the document ID
-      const userDocRef = doc(firestore, 'users', uid);
+      const userDocRef = doc(firestore, 'users', userId);
   
       // Check if the document already exists
       const userDocSnapshot = await getDoc(userDocRef);
   
       if (!userDocSnapshot.exists()) {
         // If the document doesn't exist, create it with user data
-        await setDoc(userDocRef, { nome: displayName, email /* other fields if needed */ });
+        await setDoc(userDocRef, {
+          nomeUsuario: displayName,
+          emailUsuario: email,
+          userId,
+          organizationId
+          // Adicione outros campos conforme necessário
+        });
       }
   
       console.log('User successfully created in the database.');
@@ -96,6 +104,7 @@ import {
       console.error('Error creating user in the database:', error);
     }
   };
+  
   
   // Add the remaining functions from authUtilsG.js...
   

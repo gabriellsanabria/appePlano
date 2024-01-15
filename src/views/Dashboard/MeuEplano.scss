@@ -1,0 +1,79 @@
+// CustomDash.scss
+@import '../../assets/scss/colors';
+
+.dashboard-page {
+  background-color: #fafafa;
+  display: flex;
+  width: 100%;
+}
+
+.hd-dashboard{
+  width: 100%;
+  display: flex;
+  margin: 15px 0;
+  .botao_add_widget{
+    display: flex;
+    width: 100%;
+    // justify-content: flex-end;
+    justify-content: flex-start;
+  }
+}
+.item-grid {
+  position: relative;
+
+  .card-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 9999999999999999999999999999999999999;
+    color: #333; // Altere a cor conforme necessário
+    padding: 10px;
+    border-radius: 8px;
+    &:hover {
+      background-color: $cinza-claro;
+    }
+  }
+  .popover {
+    position: absolute;
+    background-color:  $primary-color; /* Cor de fundo do popover */
+    box-shadow: 0 12px 12px 5px rgba(0, 0, 0, 0.1); /* Sombra do popover */
+    padding: 20px 0px;
+    right: 5px;
+    top: 40px;
+    border-radius: 8px;
+    z-index: 9999000; /* Ajuste a ordem de empilhamento conforme necessário */
+    &:before {
+      content: '';
+      position: absolute;
+      top: -14%;
+      right: 9%;
+      margin-left: -10px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent $primary-color transparent;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  
+      li {
+        cursor: pointer;
+        padding: 8px 30px;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        color: white;
+        text-align: right;
+  
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-content {
+
+}

@@ -40,30 +40,30 @@ const AppRoutes = () => {
   const location = useLocation();
   const [userHasEmpresa, setUserHasEmpresa] = useState(false);
 
-  useEffect(() => {
-    const checkUserEmpresas = async () => {
-      try {
-        const firestore = getFirestore();
-        const empresasCollection = collection(firestore, 'empresas');
-        const q = query(empresasCollection, where('usuarioId', '==', user.uid));
-        const querySnapshot = await getDocs(q);
-        const empresasDoUsuario = querySnapshot.docs
-          .map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }))
-          .filter((empresa) => empresa.status !== 0);
+  // useEffect(() => {
+  //   const checkUserEmpresas = async () => {
+  //     try {
+  //       const firestore = getFirestore();
+  //       const empresasCollection = collection(firestore, 'empresas');
+  //       const q = query(empresasCollection, where('usuarioId', '==', user.uid));
+  //       const querySnapshot = await getDocs(q);
+  //       const empresasDoUsuario = querySnapshot.docs
+  //         .map((doc) => ({
+  //           ...doc.data(),
+  //           id: doc.id,
+  //         }))
+  //         .filter((empresa) => empresa.status !== 0);
 
-        setUserHasEmpresa(empresasDoUsuario.length > 0);
-      } catch (error) {
-        console.error('Erro ao verificar empresas do usuário:', error);
-      }
-    };
+  //       setUserHasEmpresa(empresasDoUsuario.length > 0);
+  //     } catch (error) {
+  //       console.error('Erro ao verificar empresas do usuário:', error);
+  //     }
+  //   };
 
-    if (user) {
-      checkUserEmpresas();
-    }
-  }, [user]);
+  //   if (user) {
+  //     checkUserEmpresas();
+  //   }
+  // }, [user]);
 
   if (loading) {
     return <Loader />;
@@ -101,21 +101,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/empresa/cadastro"
-          element={
-            user ? (
-              userHasEmpresa ? (
-                <CadastrarEmpresa />
-              ) : (
-                <Navigate to="/empresa/cadastro/nova" />
-              )
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/empresa/cadastro/nova"
+          path="/empresa/cadastro/nova/:ePlanoId/:organizationId"
           element={
             user ? (
               userHasEmpresa ? (
@@ -128,12 +114,13 @@ const AppRoutes = () => {
             )
           }
         />
+        
         <Route
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
         <Route
-          path="/meu-eplano/:urlBase/:dashboardId/:urlDash"
+          path="/meu-eplano/:urlBase/:ePlanoId/:urlEplano"
           element={user ? <MeuEplano /> : <Navigate to="/login" />}
         />
         <Route
@@ -170,7 +157,7 @@ const AppRoutes = () => {
           path="/widgetsBase"
           element={user ? <WidgetsBase /> : <Navigate to="/dashboard" />}
         />
-        <Route
+        {/* <Route
           path="/eplano/criar"
           element={
             user ? (
@@ -183,7 +170,7 @@ const AppRoutes = () => {
               <Navigate to="/login" />
             )
           }
-        />
+        /> */}
       </Routes>
     </Suspense>
   );
