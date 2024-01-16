@@ -1,36 +1,62 @@
 // GuiaEplano.js
 
 import React, { useState, useEffect } from 'react';
+
 import './GuiaEplano.scss';
 import { IoClose, IoChevronDown, IoChevronUp, IoChevronRight } from 'react-icons/io5';
 import { PiNewspaperBold } from 'react-icons/pi';
-import { FaRegBuilding, FaToolbox } from 'react-icons/fa';
+import { FaRegBuilding, FaToolbox, FaTimes } from 'react-icons/fa';
 import { TbReportAnalytics } from 'react-icons/tb';
+import ModalResumoExecutivo from './ModalResumoExecutivo';
+import PassoBloco from './PassoBloco';
+import ModalCadastreEmpresa from './ModalCadastreEmpresa';
+
 
 const GuiaEplano = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [progress, setProgress] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
+  const [isCnpjModalOpen, setIsCnpjModalOpen] = useState(false);
+
+  const [modalInputValue, setModalInputValue] = useState('');
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+
+  const handleModalInputChange = (event) => {
+    setModalInputValue(event.target.value);
+  };
+
   const steps = [
-    'Produtos ou Serviços',
+    'Cadastre uma Empresa',
     'Resumo Executivo',
     'Descrição da Empresa',
-    'Análise de Mercado',
+    'Produtos ou Serviços',
   ];
 
   const descriptions = [
-    'Produtos ou Serviços',
+    'Forneça os dados da empresa que vamos gerar um Plano de Negócio',
     'Seção crucial que fornece uma visão geral do seu empreendimento',
     'Fornece uma visão geral concisa da natureza da sua empresa.',
-    'Análise de Mercado',
+    'Produtos ou Serviços',
   ];
 
   const icones = [
-    <FaToolbox />,
-    <PiNewspaperBold />,
     <FaRegBuilding />,
+    <PiNewspaperBold />,
     <TbReportAnalytics />,
+    <FaToolbox />,
     // Adicione ícones para os novos passos conforme necessário
   ];
 
@@ -38,15 +64,39 @@ const GuiaEplano = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleStartButtonClick = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-      setProgress(currentStep + 1);
-    } else {
-      // Lógica adicional quando todos os passos estiverem concluídos
+  const handleStartButtonClick = (index) => {
+    setSelectedOption(index);
+    switch (index) {
+      case 0:
+        setIsCnpjModalOpen(true);
+        break;
+      case 1:
+        setIsResumoExecutivoModalOpen(true);
+        break;
+      // Adicione mais cases conforme necessário para outros passos
+      default:
+        break;
     }
   };
+  
+  
+  // Estados para os inputs do resumo executivo
+  const [empresaInfo, setEmpresaInfo] = useState({
+    nome: '',
+    missao: '',
+    visao: '',
+    descricao: '',
+    setor: '',
+  });
 
+  // Função para atualizar os estados dos inputs
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEmpresaInfo((prevEmpresaInfo) => ({
+      ...prevEmpresaInfo,
+      [name]: value,
+    }));
+  };
   return (
     <div className='guia-eplano'>
       <div className={`header-guia ${isExpanded ? 'expanded' : 'collapsed'}`} onClick={handleCloseGuia}>
@@ -79,12 +129,31 @@ const GuiaEplano = () => {
                   <p>{descriptions[index]}</p>
                 </div>
                 <div className='footer-box'>
-                  <button onClick={handleStartButtonClick}>Começar</button>
+                  <button onClick={() => handleStartButtonClick(index)}>Começar</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        {selectedOption === 1 && (
+          <ModalResumoExecutivo
+            isOpen={isResumoExecutivoModalOpen}
+            onClose={() => {
+              setIsResumoExecutivoModalOpen(false);
+              setSelectedOption(null);
+            }}
+          />
+        )}
+        {selectedOption === 0 && (
+          <ModalCadastreEmpresa
+            isOpen={isCnpjModalOpen}
+            onClose={() => {
+              setIsCnpjModalOpen(false);
+              setSelectedOption(null);
+            }}
+          />
+        )}
+
       </div>
     </div>
   );
