@@ -1,24 +1,116 @@
-.blocks {
+@import '../../assets/scss/colors';
+
+.guia-eplano {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  background-color: $primary-color;
+  padding: 20px 30px;
+  border-radius: 8px;
+
+  .header-guia {
     display: flex;
-    transition: height 0.3s ease; // Adicione uma transição suave
-    overflow: hidden; // Para ocultar o conteúdo que pode estender além da altura definida
-    flex-direction: column;
-  
+    align-items: center;
+    align-content: center;
+    width: 100%;
+
+    .titulo-guia {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+
+      h1 {
+        display: flex;
+        color: white;
+        margin: 0;
+        padding: 0;
+        font-size: 1.3em;
+      }
+
+      p {
+        color: white;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .close-guia {
+      display: flex;
+      width: 30%;
+      justify-content: flex-end;
+
+      .botao {
+        background-color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        cursor: pointer;
+        right: 30px;
+      }
+    }
+
+    &.collapsed {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .progress-box {
+    display: flex;
+    width: 100%;
+    margin: 20px 0 0 0;
+
     .progress-bar {
       height: 5px;
       background-color: #007bff; // Cor da barra de progresso
       top: 0;
       left: 0;
       width: 0; // Inicialmente, a barra de progresso não tem largura
-      transition: width 0.3s ease; // Adicione uma transição suave
+      animation: pulsando 1.5s infinite; // Adicione o efeito de pulsação
     }
-  
+
+    @keyframes pulsando {
+      0% {
+        box-shadow: 0 0 0 0 rgba(51,217,178,.7);
+      }
+      70% {
+          box-shadow: 0 0 0 10px rgba(51,217,178,0);
+      }
+      100% {
+          box-shadow: 0 0 0 0 rgba(51,217,178,0);
+      }
+    }
+  }
+
+  .blocks {
+    display: flex;
+    transition: height 0.3s ease; // Adicione uma transição suave
+    overflow: hidden; // Para ocultar o conteúdo que pode estender além da altura definida
+    flex-direction: column;
+
+    &.expanded {
+      height: 250px; // Largura e altura quando expandido
+    }
+
+    &.collapsed {
+      height: 10px; // Largura e altura quando recolhido
+    }
+
     .steps {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       margin-top: 20px;
-  
+
       .block {
         flex: 1;
         border: 1px solid #ccc;
@@ -33,30 +125,59 @@
         margin: 0 3px 0 0;
         cursor: pointer;
         transition: background-color 0.3s ease; // Adicione uma transição suave
-  
+
         &:hover {
           background-color: #f0f0f0; // Cor de fundo ao passar o mouse
         }
-  
+
         &.active {
           background-color: #007bff; // Cor de fundo quando ativo
           color: #fff; // Cor do texto quando ativo
         }
 
-        .contBox{
+        .contBox {
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+
+          .ttlBox {
+            font-size: 18px;
+            font-weight: 800;
             display: flex;
-            flex-direction: column;
-            text-align: left;
-            .ttlBox{
-                font-size: 18px;
-                font-weight: 800;
+            .icone-box-guia{
+              display: flex;
+              align-items: center;
+              align-content: center;
+              svg{
+                font-size: 30px;
+              }
             }
-            p{
-                font-size: 14px;
-                color: #838383;
+            .titulo-box-guia{
+              display: flex;
+              width: 80%;
+              margin: 0 0 0 10px;
             }
+          }
+          .body-box{
+            display: flex;
+            min-height: 100px;
+          }
+          .footer-box{
+            width: 100%;
+            display: flex;
+          }
+
+          p {
+            font-size: 14px;
+            color: #838383;
+          }
+        }
+        button{
+          height: auto!important;
+          font-size: 16px!important;
+          padding: 10px;
         }
       }
     }
   }
-  
+}

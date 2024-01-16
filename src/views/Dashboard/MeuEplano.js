@@ -69,6 +69,8 @@ const MeuEplano = () => {
       <div className='dashboard-page'>
         <div className='dashboard-content'>
         <GuiaEplano />
+        
+        <h2>Guia para Construir o seu ePlano</h2>
         <div className='boxkpis'>
                     <BoxKpi title="Receita Total" value="R$10.000" />
                     <BoxKpi title="Lucratividade" value="16%" />
