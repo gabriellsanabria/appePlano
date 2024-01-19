@@ -11,6 +11,7 @@ import { getFirestore, collection, doc, getDoc, query, where, getDocs } from 'fi
 import Modal from 'react-modal'; // Importe o componente Modal
 import { BsBuilding, BsPerson, BsPeople, BsFileText, BsQuestionCircle, BsPower, BsBell } from 'react-icons/bs';
 import { IoMdNotifications } from "react-icons/io";
+import { IoIosHelpCircle } from "react-icons/io";
 
 const Header = () => {
   const location = useLocation();
@@ -148,11 +149,12 @@ const Header = () => {
         <div className="title">{title}</div>
         <div className="icons">
           <div className="notifications-icon">
+            <IoIosHelpCircle />
             <IoMdNotifications />
           </div>
           <div className='userSession'>
             <div className="avatar" onClick={togglePopover}>
-              <div className="user-name">Olá, {userName}</div>
+              {/* <div className="user-name">Olá, {userName}</div> */}
               <div className="user-photo-container">
                 {user && user.photoURL ? (
                   <img className="user-photo" src={user.photoURL} alt="Avatar" />

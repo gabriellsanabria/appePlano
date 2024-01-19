@@ -319,7 +319,12 @@ const getStatusText = (status) => {
       <div className='dashboard-page' id='dashboard'>
         <div className='dashboard-content'>
 
-          <div className='hd-DashboardPage'>     
+          <div className='hd-DashboardPage'>  
+            <div className='botao'>              
+              <div className='primary-button primary-color' onClick={openModal}>
+                Criar ePlano
+              </div>
+            </div>   
             <div className='busca'>              
               <input
                   type='text'
@@ -327,11 +332,6 @@ const getStatusText = (status) => {
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder='Buscar ePlano'
                 />
-            </div>
-            <div className='botao'>              
-              <div className='primary-button primary-color' onClick={openModal}>
-                + Criar ePlano
-              </div>
             </div>
           </div>
             

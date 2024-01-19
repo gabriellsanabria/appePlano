@@ -98,7 +98,7 @@
     flex-direction: column;
 
     &.expanded {
-      height: 250px; // Largura e altura quando expandido
+      height: 300px; // Largura e altura quando expandido
     }
 
     &.collapsed {
@@ -108,11 +108,30 @@
     .steps {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-start; // Alinhamento à esquerda
       margin-top: 20px;
-
+      overflow-x: scroll; // Adicione scroll horizontal
+      width: 100%; // Use 100% da largura disponível
+      
+      &::-webkit-scrollbar {
+        width: 12px; // Largura da barra de rolagem
+        height: 15px;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background-color: $secondary-color; // Cor do botão de rolagem
+        border-radius: 20px; // Borda do botão de rolagem
+      }
+  
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #555; // Cor do botão de rolagem ao passar o mouse
+      }
+  
+      &::-webkit-scrollbar-track {
+        border-radius: 20px;
+        background-color: #f1f1f1; // Cor da trilha da barra de rolagem
+      }
       .block {
-        flex: 1;
         border: 1px solid #ccc;
         background-color: white;
         text-align: center;
@@ -120,9 +139,11 @@
         align-content: center;
         justify-content: center;
         padding: 10px 20px;
-        width: 20%;
+        width: 26%; // Defina uma largura para cada bloco
+        flex-shrink: 0; // Impede que os blocos sejam reduzidos em tamanho
+  
         border-radius: 3px;
-        margin: 0 3px 0 0;
+        margin: 0 3px 20px 0;
         cursor: pointer;
         transition: background-color 0.3s ease; // Adicione uma transição suave
 
@@ -133,6 +154,16 @@
         &.active {
           background-color: #007bff; // Cor de fundo quando ativo
           color: #fff; // Cor do texto quando ativo
+        }
+
+        &.completed {
+          // Estilos para o bloco concluído
+          opacity: 0.8; // Ajuste a opacidade conforme necessário
+          pointer-events: none; // Impede eventos de clique no bloco desabilitado
+        }
+  
+        &:not(:last-child) {
+          margin-right: 10px; // Espaçamento entre os blocos
         }
 
         .contBox {
@@ -156,15 +187,59 @@
               display: flex;
               width: 80%;
               margin: 0 0 0 10px;
+              min-height: 50px;
+              align-items: center ;
+              align-content: center;
             }
           }
           .body-box{
             display: flex;
-            min-height: 100px;
+            min-height: 90px;
+            margin: 10px 0 ;
+            width: 100%;
+            align-content: center;
+            .etapaConcluida{
+              display: flex;
+              flex-direction: column;
+              align-items: center ;
+              align-content: center;
+              justify-content: center;
+              width: 100%;
+              margin: 0px 0;
+              svg{
+                font-size: 80px;
+                color: #4CAF50;
+                margin: 10px 0;
+              }
+            }
           }
           .footer-box{
             width: 100%;
             display: flex;
+            button {
+              // Estilos comuns para o botão
+    
+              &:disabled {
+                // Estilos para o botão desabilitado (Concluído)
+                background-color: #4CAF50; // Cor verde
+                color: #fff; // Cor do texto branca
+                cursor: not-allowed; // Cursor indicando que o botão está desabilitado
+              }
+    
+              // Adicione estilos específicos para o botão "Concluído" (não desabilitado)
+              &.concluido {
+                background-color: #4CAF50; // Cor verde
+                color: #fff; // Cor do texto branca
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+                // Adicione estilos ao ícone (usando um ícone de check da biblioteca de ícones)
+                svg {
+                  margin-right: 5px; // Espaçamento entre o ícone e o texto
+                }
+              }
+            }
           }
 
           p {
@@ -180,19 +255,6 @@
       }
     }
   }
-.modal{
-  max-width: 80%;
-  max-height: 85%;
-  display: flex;
-  align-items: flex-start;
-  align-content: flex-start;
-  justify-content: flex-start;
-  overflow: auto;
-  .modal-content{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-}
+
   
 }

@@ -3,13 +3,14 @@
 
 #dashboard{
   .dashboard-page {
-    background-color: #fafafa;
+    background-color: #fafbff;
     display: flex;
     width: 100%;
   }
   
   .modal{
     width: 40%!important;
+    z-index: 99999999999999999999999999999999999999999999999999999999999999;
     .footer-modal{
       flex-direction: column;
       a{
@@ -83,9 +84,6 @@
     }
     .botao{
       width: 70%;
-      text-align: right;
-      align-items: flex-end;
-      justify-content: flex-end;
     }
   }
   
@@ -101,10 +99,10 @@
       flex-direction: column;
       width: 32%;
       border: 1px solid #ccc;
-      height: 200px;
+      height: 300px;
       z-index: 9;
       cursor: pointer;
-      border-radius: 0px;
+      border-radius: 8px;
       overflow: hidden;
       transition: height 0.3s, border 0.1s; /* Adiciona uma transição suave na mudança de altura e borda */
   

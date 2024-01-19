@@ -192,7 +192,7 @@ const SideNav = () => {
         <div className={`logo ${expanded ? 'large' : 'small'}`}>
           <Link to="/dashboard">
             {collapsedLogo ? (
-              <img src="https://s3.sa-east-1.amazonaws.com/oboss.com.br/icone_oboss.webp" alt="Logo recolhida" />
+              <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano_footer.webp" alt="Logo recolhida" />
               ) : (
                 <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano_footer.webp" alt="Logo da empresa" />
               )}               

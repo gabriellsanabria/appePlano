@@ -7,13 +7,17 @@ import { IoClose, IoChevronDown, IoChevronUp, IoChevronRight } from 'react-icons
 import { PiNewspaperBold } from 'react-icons/pi';
 import { FaRegBuilding, FaToolbox, FaTimes } from 'react-icons/fa';
 import { TbReportAnalytics } from 'react-icons/tb';
+import { IoCheckmarkSharp } from 'react-icons/io5';
+import { FaRegCircleCheck } from "react-icons/fa6";
+import { PiFilePdfFill } from "react-icons/pi";
+import { RiOrganizationChart } from "react-icons/ri";
+
 import ModalResumoExecutivo from './ModalResumoExecutivo';
-import PassoBloco from './PassoBloco';
 import ModalCadastreEmpresa from './ModalCadastreEmpresa';
 
 
 const GuiaEplano = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [progress, setProgress] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -24,6 +28,8 @@ const GuiaEplano = () => {
   const [modalInputValue, setModalInputValue] = useState('');
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [isCadastroEmpresaEnabled, setIsCadastroEmpresaEnabled] = useState(false); // Initialize with an appropriate value
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -40,16 +46,20 @@ const GuiaEplano = () => {
 
   const steps = [
     'Cadastre uma Empresa',
-    'Resumo Executivo',
-    'Descrição da Empresa',
+    'Resumo da Empresa',
     'Produtos ou Serviços',
+    'Mercado',
+    'Organização e Operações',
+    // 'Baixar meu ePlano',
   ];
 
   const descriptions = [
     'Forneça os dados da empresa que vamos gerar um Plano de Negócio',
-    'Seção crucial que fornece uma visão geral do seu empreendimento',
-    'Fornece uma visão geral concisa da natureza da sua empresa.',
-    'Produtos ou Serviços',
+    'Em poucas palavras, forneça uma visão geral do empreendimento',
+    'Detalhes sobre os produtos ou serviços oferecidos, diferenciais competitivos e benefícios para os clientes',
+    'Pesquisa sobre o mercado-alvo, concorrência, tendências e oportunidades',
+    'Estrutura organizacional, informações sobre a equipe de gestão e suas responsabilidades.',
+    // 'Baixe um PDF do seu ePlano Pronto',
   ];
 
   const icones = [
@@ -57,7 +67,8 @@ const GuiaEplano = () => {
     <PiNewspaperBold />,
     <TbReportAnalytics />,
     <FaToolbox />,
-    // Adicione ícones para os novos passos conforme necessário
+    <RiOrganizationChart />,
+    // <PiFilePdfFill />,
   ];
 
   const handleCloseGuia = () => {
@@ -79,24 +90,6 @@ const GuiaEplano = () => {
     }
   };
   
-  
-  // Estados para os inputs do resumo executivo
-  const [empresaInfo, setEmpresaInfo] = useState({
-    nome: '',
-    missao: '',
-    visao: '',
-    descricao: '',
-    setor: '',
-  });
-
-  // Função para atualizar os estados dos inputs
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setEmpresaInfo((prevEmpresaInfo) => ({
-      ...prevEmpresaInfo,
-      [name]: value,
-    }));
-  };
   return (
     <div className='guia-eplano'>
       <div className={`header-guia ${isExpanded ? 'expanded' : 'collapsed'}`} onClick={handleCloseGuia}>
@@ -117,24 +110,44 @@ const GuiaEplano = () => {
       </div>
 
       <div className={`blocks ${isExpanded ? 'expanded' : 'collapsed'}`}>
-        <div className='steps'>
-          {steps.map((step, index) => (
-            <div key={index} className={`block ${index < progress ? 'completed' : ''}`}>
-              <div className='contBox'>
-                <div className='ttlBox'>
-                  <div className='icone-box-guia'>{icones[index]}</div>
-                  <div className='titulo-box-guia'>{step}</div>
-                </div>
-                <div className='body-box'>
-                  <p>{descriptions[index]}</p>
-                </div>
-                <div className='footer-box'>
-                  <button onClick={() => handleStartButtonClick(index)}>Começar</button>
-                </div>
+  <div className='steps'>
+    {steps.map((step, index) => (
+      <div key={index} className={`block ${index < progress ? 'completed' : ''}`}>
+        <div className='contBox'>
+          <div className='ttlBox'>
+            <div className='icone-box-guia'>{icones[index]}</div>
+            <div className='titulo-box-guia'>{step}</div>
+          </div>
+          <div className='body-box'>
+            {index === 0 ? (
+              <div className='etapaConcluida'>
+                {isCadastroEmpresaEnabled ? (
+                  descriptions[index]
+                ) : (
+                  <>
+                    <FaRegCircleCheck />
+                    Etapa concluída
+                  </>
+                )}
               </div>
-            </div>
-          ))}
+            ) : (
+              <p>{descriptions[index]}</p>
+            )}
+          </div>
+
+          <div className='footer-box'>
+            {index === 0 ? (
+             <span></span>
+            ) : (
+              // Botão 'Começar' para outros passos
+              <button onClick={() => handleStartButtonClick(index)}>Começar</button>
+            )}
+          </div>
         </div>
+      </div>
+    ))}
+  </div>
+
         {selectedOption === 1 && (
           <ModalResumoExecutivo
             isOpen={isResumoExecutivoModalOpen}
