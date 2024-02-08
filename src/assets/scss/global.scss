@@ -79,7 +79,7 @@ select {
   height: 100%;
   background: black;
   opacity: 0.4;
-  z-index: 99;  // Certifique-se de que o z-index seja maior que o popover
+  z-index: 0;  // Certifique-se de que o z-index seja maior que o popover
 }
 
 .radio{
