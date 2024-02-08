@@ -190,7 +190,7 @@ const getStatusText = (status) => {
 
   fetcheplanos();
 }, [userId]);
-  const tutorialViewed = '001'
+  const tutorialViewed = '0002'
   const handleCloseTutorial = () => {
     setIsTutorialOpen(false);
     // Salva a informação no localStorage para indicar que o tutorial foi visualizado

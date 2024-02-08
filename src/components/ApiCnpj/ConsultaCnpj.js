@@ -106,6 +106,7 @@ const ConsultaCnpj = () => {
             estabelecimento: cnpjData.estabelecimento,
             status: 1, // Status ativo
             ordem: ordemNovaEmpresa, // Ordem calculada
+            ePlanoId: ePlanoId,
           });
           
           // Adicionar ou atualizar o CNPJ na coleção ePlanosControle

@@ -1,0 +1,51 @@
+.organograma-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .ceo {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .title {
+    font-weight: bold;
+  }
+  
+  .subordinates-container {
+    margin-left: 20px;
+  }
+  
+  .employee {
+    margin-top: 10px;
+  }
+  
+/* Organograma.css */
+.node-content {
+    background-color: #4CAF50; /* Cor de fundo */
+    color: #fff; /* Cor do texto */
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .root-label {
+    background-color: #3498db; /* Cor de fundo para o nó raiz */
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .node-name {
+    font-weight: bold;
+  }
+  
+  .node-position {
+    font-style: italic;
+  }
+  
+  /* Adicione mais estilos conforme necessário */
+  
