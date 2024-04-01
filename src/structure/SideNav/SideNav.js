@@ -36,6 +36,9 @@ const SideNav = () => {
   const userName = sessionStorage.getItem('userName') || '';
   const { user } = useAuth();
 
+  const [logoUrl, setLogoUrl] = useState('https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp');
+
+
 
   const fetchUserDashboards = async () => {
     if (user && user.uid) {
@@ -192,9 +195,9 @@ const SideNav = () => {
         <div className={`logo ${expanded ? 'large' : 'small'}`}>
           <Link to="/dashboard">
             {collapsedLogo ? (
-              <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano_footer.webp" alt="Logo recolhida" />
+              <img src={logoUrl} alt="Logo recolhida" />
               ) : (
-                <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano_footer.webp" alt="Logo da empresa" />
+                <img src={logoUrl} alt="Logo da empresa" />
               )}               
           </Link>
         </div>
@@ -204,43 +207,6 @@ const SideNav = () => {
           </div>
         </div>
       </div>
-      <div className='organization-profile'>
-        <li>
-          <Link to="/company" className={location.pathname === '/organization' ? 'active' : ''}>
-            <div className='icone'>
-            <RiBuilding4Line  />
-            </div>
-              {expanded && (
-              <div className='company'>
-                <div className='data-company'>
-                  {loadingOrganization ? (
-                    <div className='loader'>
-                      <Spinner />
-                    </div>
-                  ) : (
-                    <>
-                      <div className='label'>
-                        {organizationName}
-                      </div>
-                      <div className='infos-company'>    
-                        <div className='qtdusers'>
-                          <Link to='/company/unidades'>
-                            1 Plano de Negócio
-                          </Link>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className='arrow-go'>
-                  <FaArrowRight />
-                </div>
-              </div>
-            )}
-          </Link>
-        </li>
-      </div>
-        <hr />
       <ul>
     <li  className={businessMenuExpanded ? 'with-submenu expanded' : 'with-submenu'}>
       <Link to='/dashboard' className={`${location.pathname === '/dashboard' ? 'active' : ''}`}>
@@ -425,6 +391,43 @@ const SideNav = () => {
             )}
           </Link>
         </li>
+        <hr/>
+        <div className='organization-profile'>
+        <li>
+          <Link to="/company" className={location.pathname === '/organization' ? 'active' : ''}>
+            <div className='icone'>
+            <RiBuilding4Line  />
+            </div>
+              {expanded && (
+              <div className='company'>
+                <div className='data-company'>
+                  {loadingOrganization ? (
+                    <div className='loader'>
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <>
+                      <div className='label'>
+                        {organizationName}
+                      </div>
+                      <div className='infos-company'>    
+                        <div className='qtdusers'>
+                          <Link to='/company/unidades'>
+                            1 Plano de Negócio
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className='arrow-go'>
+                  <FaArrowRight />
+                </div>
+              </div>
+            )}
+          </Link>
+        </li>
+      </div>
       </ul>
     </div>
   );

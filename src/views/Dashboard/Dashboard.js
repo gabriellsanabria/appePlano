@@ -13,7 +13,6 @@ import { FaPlusCircle,FaTimes } from "react-icons/fa";
 
 
 
-
 const ifoodImage = 'https://i.pinimg.com/736x/e6/54/8f/e6548f20067f0fa001e8439668849dab.jpg';
 const pizzaPrimeIndaiatuba = 'https://play-lh.googleusercontent.com/57cZ-ubY3GkzK7O8RmP59G1xNSslECC9DnmMTla_odJmI4CIjwP1OHyXIYiOIAWOLmY';
 const pizzaPrimeRede = 'https://play-lh.googleusercontent.com/57cZ-ubY3GkzK7O8RmP59G1xNSslECC9DnmMTla_odJmI4CIjwP1OHyXIYiOIAWOLmY';
@@ -44,6 +43,9 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const [organization, setOrganization] = useState({});
+
+  
+  const [logoUrl, setLogoUrl] = useState('https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp');
 
 
   const openModal = () => {
@@ -322,7 +324,7 @@ const getStatusText = (status) => {
           <div className='hd-DashboardPage'>  
             <div className='botao'>              
               <div className='primary-button primary-color' onClick={openModal}>
-                Criar ePlano
+                + Criar ePlano
               </div>
             </div>   
             <div className='busca'>              
@@ -390,7 +392,7 @@ const getStatusText = (status) => {
                   <div className='dashboard-info'>
                     <div className='infos'>                      
                       <div className='logoEmpresa'>
-                        <img src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp' alt="Logo" />
+                        <img src={logoUrl} alt="Logo" />
                       </div>
 
                       <div className='dashboard-name'>

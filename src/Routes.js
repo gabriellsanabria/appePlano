@@ -14,6 +14,14 @@ import MeuEplano from './views/Dashboard/MeuEplano';
 import Loader from './views/Loader/Loader';
 import TutorialModal from './components/TutorialModal/TutorialModal';
 
+
+import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
+import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
+import EstruturaNegocio from './views/ePlano/EstruturaNegocio/EstruturaNegocio';
+import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
+import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
+import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
+
 const ForgotPassword = lazy(() => import('./components/ForgotPassword/ForgotPassword'));
 const MinhaConta = lazy(() => import('./views/MinhaConta/MinhaConta'));
 const VerEmpresa = lazy(() => import('./views/MinhasEmpresas/VerEmpresa'));
@@ -123,6 +131,31 @@ const AppRoutes = () => {
           path="/meu-eplano/:urlBase/:ePlanoId/:urlEplano"
           element={user ? <MeuEplano /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/produtos-servicos"
+          element={user ? <ProdutosServicos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estimar-receitas"
+          element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estrutura-negocio"
+          element={user ? <EstruturaNegocio /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estimar-investimentos"
+          element={user ? <EstimarInvestimentos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/fluxo-caixa-projetado"
+          element={user ? <FluxoDeCaixaProjetado /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/analise-viabilidade"
+          element={user ? <AnaliseViabilidadePayback /> : <Navigate to="/login" />}
+        />
+
         <Route
           path="/financeiro"
           element={user ? <PainelFinanceiro /> : <Navigate to="/login" />}

@@ -5,6 +5,8 @@ const Autenticando = () => {
   const [loading, setLoading] = useState(true);
   const [dots, setDots] = useState(0);
 
+ const [logoUrl, setLogoUrl] = useState('https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp');
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -31,7 +33,7 @@ const Autenticando = () => {
       <div className="loader-content">
         <div>
           <h1>Carregando</h1>
-          <img src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp' alt="Logo" />
+          <img src={logoUrl} alt="Logo da empresa" />
         </div>
         <p>Aguarde{renderDots()}</p>
       </div>

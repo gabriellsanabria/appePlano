@@ -1,6 +1,7 @@
 // GuiaEplano.js
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importe useNavigate
 
 import './GuiaEplano.scss';
 import { IoClose, IoChevronDown, IoChevronUp, IoChevronRight } from 'react-icons/io5';
@@ -29,6 +30,7 @@ const GuiaEplano = () => {
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isCadastroEmpresaEnabled, setIsCadastroEmpresaEnabled] = useState(false); // Initialize with an appropriate value
+  const navigate = useNavigate(); // Obtenha a função navigate
 
 
   const openModal = () => {
@@ -48,7 +50,7 @@ const GuiaEplano = () => {
     'Cadastre uma Empresa',
     'Resumo da Empresa',
     'Produtos ou Serviços',
-    'Mercado',
+    'Estimar receitas',
     'Organização e Operações',
     // 'Baixar meu ePlano',
   ];
@@ -57,7 +59,7 @@ const GuiaEplano = () => {
     'Forneça os dados da empresa que vamos gerar um Plano de Negócio',
     'Em poucas palavras, forneça uma visão geral do empreendimento',
     'Detalhes sobre os produtos ou serviços oferecidos, diferenciais competitivos e benefícios para os clientes',
-    'Pesquisa sobre o mercado-alvo, concorrência, tendências e oportunidades',
+    'Estime receitas da sua empresa',
     'Estrutura organizacional, informações sobre a equipe de gestão e suas responsabilidades.',
     // 'Baixe um PDF do seu ePlano Pronto',
   ];
@@ -84,7 +86,12 @@ const GuiaEplano = () => {
       case 1:
         setIsResumoExecutivoModalOpen(true);
         break;
-      // Adicione mais cases conforme necessário para outros passos
+      case 2:
+        navigate('/produtos-servicos');
+        break;
+      case 3:
+        navigate('/estimar-receitas');
+        break;
       default:
         break;
     }

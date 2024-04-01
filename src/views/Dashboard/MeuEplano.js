@@ -1,6 +1,6 @@
 // MeuEplano.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,NavLink } from 'react-router-dom';
 import { getFirestore, collection, getDocs, where, query } from 'firebase/firestore';
 import Layout from '../../components/Layout/layout';
 import GuiaEplano from '../../components/GuiaEplano/GuiaEplano';
@@ -134,11 +134,31 @@ const MeuEplano = () => {
                   </div>
                 </div>
                 <div className="right-column">
+                  <h2>Configure o seu ePlano</h2>
+                  <div className="button-row">
+                    <NavLink to='/produtos-servicos' className="big-button">
+                      Receitas Mensais: Definir os Produtos/Serviços
+                    </NavLink>
+                    <NavLink to='/estimar-receitas' className="big-button">
+                      Estimar Receitas Mensais
+                    </NavLink>
+                    <NavLink to='/estrutura-negocio' className="big-button">
+                      Despesas Mensais: Definir a Estrutura de Operação do Negócio
+                    </NavLink>
+                    <NavLink to='/estimar-investimentos' className="big-button">
+                      Definir os Investimentos para Implementar o Negócio
+                    </NavLink>
+                    
+                    <NavLink to='/fluxo-caixa-projetado' className="big-button">Fluxo de Caixa Projetado</NavLink>
+                  
+                    <NavLink to='/analise-viabilidade' className="big-button">
+                      DASHBOARD: Análise de Viabilidade e Payback
+                    </NavLink>
+                  </div>
                 </div>
               </React.Fragment>
             ))}
           </TwoColumnLayout>
-
 
         </div>
       </div>
