@@ -54,8 +54,8 @@ const ProdutosServicos = () => {
       <div className='dashboard-page'>
         <div className='dashboard-content'>
           <div className='title'>
-            <h1>Produtos e Serviços</h1>
-            <p>Liste e descreva todos os PRODUTOS e a ESTRATÉGIA DE PRODUÇÃO E VENDAS.</p>
+            <h1>Receitas Mensais do Negócio</h1>
+            <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
           </div>
           <div className='add-button'>
             <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>

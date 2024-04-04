@@ -4,15 +4,15 @@ import { FaEdit, FaTrashAlt, FaEye } from 'react-icons/fa'; // Importe os ícone
 
 import Layout from '../../../components/Layout/layout';
 import './EstimarInvestimentos.scss'; // Importe ou crie este arquivo para estilizar a página
-import EstruturaFisicaModal from './EstimarInvestimentosModal'; // Importe o modal de Estrutura Física
+import EstruturaFisicaModal from './EstimarInvestimentosModal'; // Importe o modal de Estrutura Física/Virtual
 import CapitalGiroModal from './CapitalGiroModal'; // Importe o modal de Equipe
 import InsumosModal from './InsumosModal'; // Importe o modal de Insumos
 
 const EstimarInvestimentos = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
-  const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false); // Estado para controlar a abertura do modal de Estrutura Física
-  const [isEquipeModalOpen, setIsEquipeModalOpen] = useState(false); // Estado para controlar a abertura do modal de Equipe
+  const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false); // Estado para controlar a abertura do modal de Estrutura Física/Virtual
+  const [isEstimarCapital, setIsEstimarCapitalOpen] = useState(false); // Estado para controlar a abertura do modal de Equipe
   const [isInsumosModalOpen, setIsInsumosModalOpen] = useState(false); // Estado para controlar a abertura do modal de Insumos
 
   const toggleModal = () => {
@@ -22,14 +22,14 @@ const EstimarInvestimentos = () => {
   // Array de dados fictícios para a tabela inicial
   const initialTableData = [
     ['Cálculo', 'Total 10 meses', 'Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6', 'Mês 7', 'Mês 8', 'Mês 9', 'Mês 10'],
-    ['Estrutura Física/ Virtual','R$ 8.500,00', 'R$ 100,00', 'R$ 200,00', 'R$ 300,00', 'R$ 400,00', 'R$ 500,00', 'R$ 600,00', 'R$ 700,00', 'R$ 800,00', 'R$ 900,00', 'R$ 1.000,00'],
+    ['Estrutura Física/Virtual/ Virtual','R$ 8.500,00', 'R$ 100,00', 'R$ 200,00', 'R$ 300,00', 'R$ 400,00', 'R$ 500,00', 'R$ 600,00', 'R$ 700,00', 'R$ 800,00', 'R$ 900,00', 'R$ 1.000,00'],
     ['Insumos (ESTOQUE)','R$ 8.500,00', 'R$ 100,00', 'R$ 200,00', 'R$ 300,00', 'R$ 400,00', 'R$ 500,00', 'R$ 600,00', 'R$ 700,00', 'R$ 800,00', 'R$ 900,00', 'R$ 1.000,00'],
     ['Capital de Giro Próprio','R$ 8.500,00', 'R$ 100,00', 'R$ 200,00', 'R$ 300,00', 'R$ 400,00', 'R$ 500,00', 'R$ 600,00', 'R$ 700,00', 'R$ 800,00', 'R$ 900,00', 'R$ 1.000,00'],
     ['Capital de  Giro de Terceiros','R$ 8.500,00', 'R$ 100,00', 'R$ 200,00', 'R$ 300,00', 'R$ 400,00', 'R$ 500,00', 'R$ 600,00', 'R$ 700,00', 'R$ 800,00', 'R$ 900,00', 'R$ 1.000,00'],
   ];
   
 
-// Array de dados fictícios para a seção de Estrutura Física
+// Array de dados fictícios para a seção de Estrutura Física/Virtual
 const estruturaFisicaData = [
   {
     id: 1,
@@ -44,14 +44,14 @@ const estruturaFisicaData = [
 ];
 
 
-  // Função para abrir o modal de Estrutura Física
+  // Função para abrir o modal de Estrutura Física/Virtual
   const openEstruturaFisicaModal = () => {
     setIsEstruturaFisicaModalOpen(true);
   };
 
   // Função para abrir o modal de Equipe
-  const openEquipeModal = () => {
-    setIsEquipeModalOpen(true);
+  const openEstimarCapital = () => {
+    setIsEstimarCapitalOpen(true);
   };
 
   // Função para abrir o modal de Insumos
@@ -63,10 +63,12 @@ const estruturaFisicaData = [
 const capitalData = [
   {
     id: 1,
+    investimento:  'R$ 1.300,00',
     despesaMes: 'R$ 1.300,00'
   },
   {
     id: 2,
+    investimento:  'R$ 1.300,00',
     despesaMes: 'R$ 1.300,00'
   }
 ];
@@ -92,11 +94,10 @@ const insumosData = [
       <div className='dashboard-page'>
         <div className='dashboard-content'>          
             <div className='title'>
-              <h1>Investimentos: Definir a Estrutura de Operação do Negócio</h1>
+              <h1>Investimentos Necessários para Implementar o Negócio</h1>
             </div>
             <div className='table-container'>
-              <h3>CÁLCULO DOS PAGAMENTOS MENSAIS DOS INVESTIMENTOS</h3>
-            <table>
+            {/* <table>
               <tbody>
                 {initialTableData.map((row, rowIndex) => (
                   <tr key={rowIndex}>
@@ -106,23 +107,23 @@ const insumosData = [
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
           </div>
           <div className='dashboard-col'>     
           
-          <p>Vamos Listar a Estrutura Necessária para Operar o Negócio.</p>       
+          <p>Vamos definir e estimar os Investimentos para Implementar o Negócio</p>       
             <div className='title'>
-              <h3>Estrutura física</h3>
+              <h3>Estrutura Física/Virtual</h3>
             </div>
             <div className='add-button'>
-              <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física</Link>
+              <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física/Virtual</Link>
             </div>
             <div className='table-container'>
               <table>
                 <thead>
                   <tr>
-                    <th>Estrutura Física</th>
-                    <th>Despesa R$/Mês</th>
+                    <th>Estrutura Física/Virtual</th>
+                    <th>Investimento R$/Mês</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -160,7 +161,7 @@ const insumosData = [
                 <thead>
                   <tr>
                     <th>Insumo</th>
-                    <th>Despesa R$/Mês</th>
+                    <th>Investimento R$/Mês</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -191,13 +192,14 @@ const insumosData = [
               <h3>Capital de Giro</h3>
             </div>
             <div className='add-button'>
-              <Link onClick={openEquipeModal}>Adicionar Capital de Giro</Link>
+              <Link onClick={openEstimarCapital}>Adicionar Capital de Giro</Link>
             </div>
             <div className='table-container'>
               <table>
                 <thead>
                   <tr>
-                    <th>Capital de Giro R$/Mês</th>
+                    <th>Investimento (R$)</th>
+                    <th>Capital de Giro</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -205,6 +207,7 @@ const insumosData = [
                   {/* Mapear os dados para renderizar as linhas */}
                   {capitalData.map((capital) => (
                     <tr key={capital.id}>
+                      <td>{capital.investimento}</td>
                       <td>{capital.despesaMes}</td>
                       <td>
                         <button><Link to={`/editar-capital/${capital.id}`}><FaEdit /></Link></button>
@@ -225,10 +228,10 @@ const insumosData = [
           onClose={() => setIsEstruturaFisicaModalOpen(false)}
         />
       )}
-      {isEquipeModalOpen && (
+      {isEstimarCapital && (
         <CapitalGiroModal
-          isOpen={isEquipeModalOpen}
-          onClose={() => setIsEquipeModalOpen(false)}
+          isOpen={isEstimarCapital}
+          onClose={() => setIsEstimarCapitalOpen(false)}
         />
       )}
       {isInsumosModalOpen && (

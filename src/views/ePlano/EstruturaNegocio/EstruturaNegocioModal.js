@@ -27,7 +27,7 @@ const EstrutraNegocioModal = ({ isOpen, onClose, onSave }) => {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>            
-            <h1>Adicione a estrutura física do seu negócio</h1>
+            <h1>Adicione a Estrutura Física/ Virtual do Negócio</h1>
           </div>
           <div className='modal-container'>
               <input

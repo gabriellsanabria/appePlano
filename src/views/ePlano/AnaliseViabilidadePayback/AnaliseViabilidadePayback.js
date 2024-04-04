@@ -212,7 +212,7 @@ const AnaliseViabilidadePayback = () => {
       <div className='dashboard-page'>
         <div className='dashboard-content'>
           <div className='title'>
-            <h1>Análise de Viabilidade</h1>
+            <h1>Indicadores e Viabilidade do seu Negócio</h1>
           </div>
           <div className='flex-container'>
             <div className='box'>
@@ -284,7 +284,7 @@ const AnaliseViabilidadePayback = () => {
           </div>
 
           <div className='title'>
-            <h1>Payback Projetado</h1>
+            <h1>Tempo de Retorno do seu Investimento (Payback)</h1>
           </div>
           <div className='flex-container'>
             <div className='box'>

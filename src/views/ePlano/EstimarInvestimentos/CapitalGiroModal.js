@@ -27,34 +27,14 @@ const CapitalGiroModal = ({ isOpen, onClose, onSave }) => {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>            
-            <h1>Adicione os membros da equipe</h1>
+            <h1>Adicione o capital de giro</h1>
           </div>
           <div className='modal-container'>
               <input
                 type="text"
                 value={produtoServico}
                 onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Membro"
-              />              
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Cargo"
-              />
-              <div className="textarea-container">
-                <textarea
-                rows="6"
-                  value={descricao}
-                  onChange={(e) => setDescricao(e.target.value)}
-                  placeholder="Digite a descrição das funções"
-                />
-              </div>
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o valor estimado dessa despesa mensal"
+                placeholder="Digite o valor do capital de giro"
               />
                 <div>
             </div>

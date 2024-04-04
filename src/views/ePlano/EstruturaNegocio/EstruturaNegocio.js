@@ -62,16 +62,12 @@ const estruturaFisicaData = [
 const equipeData = [
   {
     id: 1,
-    nome: 'João Silva',
     cargo: 'Gerente de Loja',
-    descricao: 'Responsável por coordenar as operações diárias da loja, garantindo um excelente atendimento ao cliente e uma experiência positiva para pets e tutores.',
     despesaMes: 'R$ 1.300,00'
   },
   {
     id: 2,
-    nome: 'Maria Santos',
     cargo: 'Atendente de Pet Shop',
-    descricao: 'Com vasta experiência no cuidado com animais, Maria oferece orientações personalizadas sobre os produtos e serviços mais adequados para cada cliente.',
     despesaMes: 'R$ 1.300,00'
   }
 ];
@@ -97,11 +93,10 @@ const insumosData = [
       <div className='dashboard-page'>
         <div className='dashboard-content'>          
             <div className='title'>
-              <h1>Despesas Mensais: Definir a Estrutura de Operação do Negócio</h1>
+              <h1>Despesas Mensais do Negócio</h1>
             </div>
             <div className='table-container'>
-              <h3>Total de Despesas Mensais - Estimativa Simples</h3>
-            <table>
+            {/* <table>
               <tbody>
                 {initialTableData.map((row, rowIndex) => (
                   <tr key={rowIndex}>
@@ -111,22 +106,22 @@ const insumosData = [
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
           </div>
           <div className='dashboard-col'>     
           
-          <p>Vamos Listar a Estrutura Necessária para Operar o Negócio.</p>       
+          <p>Vamos definir e estimar as Despesas Mensais do seu Negócio</p>       
             <div className='title'>
-              <h3>Estrutura física</h3>
+              <h3>Estrutura física/Virtual</h3>
             </div>
             <div className='add-button'>
-              <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física</Link>
+              <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física/Virtual</Link>
             </div>
             <div className='table-container'>
               <table>
                 <thead>
                   <tr>
-                    <th>Estrutura Física</th>
+                    <th>Estrutura Física/Virtual</th>
                     <th>Despesa R$/Mês</th>
                     <th>Ações</th>
                   </tr>
@@ -163,9 +158,7 @@ const insumosData = [
               <table>
                 <thead>
                   <tr>
-                    <th>Membro</th>
                     <th>Cargo</th>
-                    <th>Descrição</th>
                     <th>Despesa R$/Mês</th>
                     <th>Ações</th>
                   </tr>
@@ -174,9 +167,7 @@ const insumosData = [
                   {/* Mapear os dados para renderizar as linhas */}
                   {equipeData.map((membro) => (
                     <tr key={membro.id}>
-                      <td>{membro.nome}</td>
                       <td>{membro.cargo}</td>
-                      <td>{membro.descricao}</td>
                       <td>{membro.despesaMes}</td>
                       <td>
                         <button><Link to={`/editar-membro/${membro.id}`}><FaEdit /></Link></button>
@@ -185,7 +176,7 @@ const insumosData = [
                     </tr>
                   ))}
                   <tr>
-                    <td colSpan="3"><strong>Total</strong></td>
+                    <td colSpan="1"><strong>Total</strong></td>
                     <td><strong>R$ R$ 5.000,00</strong></td>
                     <td></td>
                   </tr>

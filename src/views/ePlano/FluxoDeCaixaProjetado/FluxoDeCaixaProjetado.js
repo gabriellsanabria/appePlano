@@ -22,10 +22,9 @@ const FluxoDeCaixaProjetado = () => {
         <div className='dashboard-content'>
           <div className='title'>
             <h1>Fluxo de Caixa Projetado</h1>
-            <p>Liste e descreva todos os lançamentos previstos para o fluxo de caixa.</p>
+            <p>A seguir é apresentado o Fluxo de Caixa Projetado, conforme as informações inseridas sobre o seu Negócio</p>
           </div>
           <div className='table-container'>
-            <h4>CÁLCULO DOS PAGAMENTOS MENSAIS DOS INVESTIMENTOS</h4>
             <div className='scrollable-table'>
               <table className='cash-flow-table'>
                 <thead>

@@ -64,8 +64,8 @@ const EstimarReceitasData = [
       <div className='dashboard-page'>
         <div className='dashboard-content'>
           <div className='title'>
-            <h1>Estimar Receitas</h1>
-            <p>Vamos estimar as suas receitas</p>
+            <h1>Estimar as Receitas Mensais do Negócio</h1>
+            <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
           </div>
           <div className='add-button'>
             <Link onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
@@ -76,8 +76,8 @@ const EstimarReceitasData = [
                 <tr>
                   <th>Produto/Serviço (Mix)</th>
                   <th>Valor unitário de Venda (R$)</th>
-                  <th>Projeção Vendas por mês</th>
-                  <th>Total Projetado Mensal</th>
+                  <th>Quantidade Vendida por Mês</th>
+                  <th>Total Mensal</th>
                   <th>Ações</th>
                 </tr>
               </thead>

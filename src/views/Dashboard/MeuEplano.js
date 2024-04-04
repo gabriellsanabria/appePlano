@@ -134,7 +134,7 @@ const MeuEplano = () => {
                   </div>
                 </div>
                 <div className="right-column">
-                  <h2>Configure o seu ePlano</h2>
+                  <h2>Elabore o ePlano Financeiro do seu Negócio</h2>
                   <div className="button-row">
                     <NavLink to='/produtos-servicos' className="big-button">
                       Receitas Mensais: Definir os Produtos/Serviços

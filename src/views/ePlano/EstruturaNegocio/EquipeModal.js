@@ -29,27 +29,13 @@ const EquipeModal = ({ isOpen, onClose, onSave }) => {
           <div className='modal-header'>            
             <h1>Adicione os membros da equipe</h1>
           </div>
-          <div className='modal-container'>
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Membro"
-              />              
+          <div className='modal-container'>      
               <input
                 type="text"
                 value={produtoServico}
                 onChange={(e) => setProdutoServico(e.target.value)}
                 placeholder="Cargo"
               />
-              <div className="textarea-container">
-                <textarea
-                rows="6"
-                  value={descricao}
-                  onChange={(e) => setDescricao(e.target.value)}
-                  placeholder="Digite a descrição das funções"
-                />
-              </div>
               <input
                 type="text"
                 value={produtoServico}
