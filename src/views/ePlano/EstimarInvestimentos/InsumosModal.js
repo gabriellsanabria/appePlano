@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
-import { FaTimes, FaArrowLeftLong, FaArrowRightLong, FaQuestionCircle } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
 import './EstimarInvestimentosModal.scss';
 
 const InsumosModal = ({ isOpen, onClose, onSave }) => {
-  const [produtoServico, setProdutoServico] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [insumo, setInsumo] = useState('');
+  const [investimento, setInvestimento] = useState('');
   const [showHelp, setShowHelp] = useState(false);
 
   const toggleHelp = () => {
     setShowHelp(!showHelp);
   };
 
+  
   const handleSave = () => {
-    // Aqui você pode salvar os dados
-    onSave({ produtoServico, descricao });
+    const data = {
+      insumo: insumo,
+      investimento: investimento
+    };
+    onSave(data, 'insumos');
   };
 
   return (
@@ -30,20 +33,18 @@ const InsumosModal = ({ isOpen, onClose, onSave }) => {
             <h1>Adicione os insumos</h1>
           </div>
           <div className='modal-container'>
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o nome do insumo"
-              />
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o valor estimado dessa despesa mensal"
-              />
-                <div>
-            </div>
+            <input
+              type="text"
+              value={insumo}
+              onChange={(e) => setInsumo(e.target.value)}
+              placeholder="Digite o nome do insumo"
+            />
+            <input
+              type="text"
+              value={investimento}
+              onChange={(e) => setInvestimento(e.target.value)}
+              placeholder="Digite o valor estimado dessa despesa mensal"
+            />
           </div>            
           <div className='footer-modal'>              
             <div className='modal-buttons'>

@@ -1,22 +1,47 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
-import { FaTimes, FaArrowLeftLong, FaArrowRightLong, FaQuestionCircle } from 'react-icons/fa';
-
+import { FaTimes } from 'react-icons/fa';
 import './EstruturaNegocioModal.scss';
+import API_BASE_URL from '../../../apiConfig';
 
 const EquipeModal = ({ isOpen, onClose, onSave }) => {
-  const [produtoServico, setProdutoServico] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [showHelp, setShowHelp] = useState(false);
+  const [cargoEquipe, setCargoEquipe] = useState('');
+  const [custoEquipe, setCustoEquipe] = useState('');
 
-  const toggleHelp = () => {
-    setShowHelp(!showHelp);
+  const saveEquipe = async (equipe) => {
+    const response = await fetch(`${API_BASE_URL}/api/despesas/equipe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ cargo: equipe.nome, custo: equipe.custo }) // Corrigir os nomes dos campos
+    });
+    return response.json();
   };
 
-  const handleSave = () => {
-    // Aqui você pode salvar os dados
-    onSave({ produtoServico, descricao });
+  const handleSave = async () => {
+    if (!cargoEquipe || !custoEquipe) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+    const custoNum = parseFloat(custoEquipe);
+    if (isNaN(custoNum)) {
+      alert("Por favor, insira um valor numérico para o custo.");
+      return;
+    }
+    
+    const equipe = { nome: cargoEquipe, custo: custoNum };
+    
+try {
+      const data = await saveEquipe(equipe);
+      console.log('Salvo com sucesso:', data);
+      onClose();  // Fechar modal após salvar
+      onSave();   // Chamar a função onSave para atualizar os dados locais
+    } catch (error) {
+      console.error('Erro ao salvar equipe:', error);
+      alert('Erro ao salvar. Tente novamente.');
+    }
   };
+
 
   return (
     <div>
@@ -26,26 +51,24 @@ const EquipeModal = ({ isOpen, onClose, onSave }) => {
           <FaTimes />
         </span>
         <div className='modal-content'>
-          <div className='modal-header'>            
-            <h1>Adicione os membros da equipe</h1>
+          <div className='modal-header'>
+            <h1>Adicione membro da Equipe</h1>
           </div>
-          <div className='modal-container'>      
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Cargo"
-              />
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o valor estimado dessa despesa mensal"
-              />
-                <div>
-            </div>
-          </div>            
-          <div className='footer-modal'>              
+          <div className='modal-container'>
+            <input
+              type="text"
+              value={cargoEquipe}
+              onChange={(e) => setCargoEquipe(e.target.value)}
+              placeholder="Digite o cargo"
+            />
+            <input
+              type="text"
+              value={custoEquipe}
+              onChange={(e) => setCustoEquipe(e.target.value)}
+              placeholder="Digite o valor estimado dessa despesa por mês"
+            />
+          </div>
+          <div className='footer-modal'>
             <div className='modal-buttons'>
               <button onClick={onClose}>Cancelar</button>
               <button onClick={handleSave}>Salvar</button>

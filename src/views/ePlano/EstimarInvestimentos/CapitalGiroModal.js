@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
-import { FaTimes, FaArrowLeftLong, FaArrowRightLong, FaQuestionCircle } from 'react-icons/fa';
+import { FaTimes } from 'react-icons/fa';
 
-import './EstimarInvestimentosModal.scss';
+import './EstimarInvestimentosModal.scss'; // Assumindo que o estilo é adequado para esse modal também
 
 const CapitalGiroModal = ({ isOpen, onClose, onSave }) => {
-  const [produtoServico, setProdutoServico] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [showHelp, setShowHelp] = useState(false);
-
-  const toggleHelp = () => {
-    setShowHelp(!showHelp);
-  };
+  const [investimentoTotal, setInvestimentoTotal] = useState('');
 
   const handleSave = () => {
-    // Aqui você pode salvar os dados
-    onSave({ produtoServico, descricao });
+    const data = {
+      investimento_total: investimentoTotal
+    };
+    onSave(data, 'capital-de-giro');
   };
 
   return (
@@ -27,17 +22,15 @@ const CapitalGiroModal = ({ isOpen, onClose, onSave }) => {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>            
-            <h1>Adicione o capital de giro</h1>
+            <h1>Adicione Capital de Giro</h1>
           </div>
           <div className='modal-container'>
-              <input
-                type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o valor do capital de giro"
-              />
-                <div>
-            </div>
+            <input
+              type="text"
+              value={investimentoTotal}
+              onChange={(e) => setInvestimentoTotal(e.target.value)}
+              placeholder="Digite o valor do capital de giro"
+            />
           </div>            
           <div className='footer-modal'>              
             <div className='modal-buttons'>

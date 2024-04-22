@@ -5,8 +5,8 @@ import { FaTimes, FaArrowLeftLong, FaArrowRightLong, FaQuestionCircle } from 're
 import './EstimarInvestimentosModal.scss';
 
 const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
-  const [produtoServico, setProdutoServico] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [nomeEstrutura, setNomeEstrutura] = useState('');
+  const [valorEstimado, setValorEstimado] = useState('');
   const [showHelp, setShowHelp] = useState(false);
 
   const toggleHelp = () => {
@@ -14,9 +14,13 @@ const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
   };
 
   const handleSave = () => {
-    // Aqui você pode salvar os dados
-    onSave({ produtoServico, descricao });
+    const data = {
+      estrutura: nomeEstrutura,
+      investimento: parseFloat(valorEstimado)
+    };
+    onSave(data, 'estrutura');
   };
+  
 
   return (
     <div>
@@ -27,19 +31,19 @@ const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>            
-            <h1>Adicione a estrutura física do seu negócio</h1>
+            <h1>Adicione os investimentos de estrutura física</h1>
           </div>
           <div className='modal-container'>
               <input
                 type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
+                value={nomeEstrutura}
+                onChange={(e) => setNomeEstrutura(e.target.value)}
                 placeholder="Digite o nome da estrutura"
               />
               <input
                 type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
+                value={valorEstimado}
+                onChange={(e) => setValorEstimado(e.target.value)}
                 placeholder="Digite o valor estimado dessa despesa por mês"
               />
               

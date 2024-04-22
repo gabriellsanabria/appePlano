@@ -1,115 +1,141 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FaEdit, FaTrashAlt, FaEye } from 'react-icons/fa'; // Importe os ícones necessários do Font Awesome
+  import React, { useState, useEffect } from 'react';
+  import { Link } from 'react-router-dom';
+  import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+  import Layout from '../../../components/Layout/layout';
+  import ModalResumoExecutivo from './EstimarReceitasModal';
+  import API_BASE_URL from '../../../apiConfig';
 
-import Layout from '../../../components/Layout/layout';
-import './EstimarReceitas.scss'; // Importe ou crie este arquivo para estilizar a página
-import ModalResumoExecutivo from './EstimarReceitasModal'; // Importe o modal ModalResumoExecutivo
+  const EstimarReceitas = () => {
+    const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
+    const [receitasMensais, setReceitasMensais] = useState([]);
 
-const EstimarReceitas = () => {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
+    useEffect(() => {
+      obterReceitasMensaisNegocio();
+    }, []);
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
+    const obterReceitasMensaisNegocio = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const data = await response.json();
+        setReceitasMensais(data);
+      } catch (error) {
+        console.error('Erro ao obter receitas mensais do negócio:', error);
+      }
+    };
 
-  // Função para abrir o modal do resumo executivo
-  const openResumoExecutivoModal = () => {
-    setIsResumoExecutivoModalOpen(true);
-  };
+    const openResumoExecutivoModal = () => {
+      setIsResumoExecutivoModalOpen(true);
+    };
 
-const EstimarReceitasData = [
-  {
-    id: 1,
-    produtoServico: 'Shampoo para Cachorro de 200ml',
-    valorUnitarioVenda: 15.99,
-    projecaoVendasPorDia: 10,
-    diasTrabalhados: 25,
-  },
-  {
-    id: 2,
-    produtoServico: 'Ração Premium para Gatos - 1kg',
-    valorUnitarioVenda: 29.99,
-    projecaoVendasPorDia: 8,
-    diasTrabalhados: 25,
-  },
-  {
-    id: 3,
-    produtoServico: 'Coleira Antipulgas e Carrapatos',
-    valorUnitarioVenda: 22.50,
-    projecaoVendasPorDia: 5,
-    diasTrabalhados: 25,
-  },
-  {
-    id: 4,
-    produtoServico: 'Brinquedo Interativo para Cães - Bola de Tênis',
-    valorUnitarioVenda: 12.75,
-    projecaoVendasPorDia: 15,
-    diasTrabalhados: 25,
-  },
-  {
-    id: 5,
-    produtoServico: 'Areia Sanitária para Gatos - 5kg',
-    valorUnitarioVenda: 18.49,
-    projecaoVendasPorDia: 6,
-    diasTrabalhados: 25,
-  }
-];
+    const handleSave = async (novaReceita) => {
+      try {
+        
+        const response = await fetch(`${API_BASE_URL}/adicionar_receita_mensal_negocio`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(novaReceita),
+        });
+        if (response.ok) {
+          console.log('Receita adicionada com sucesso!');
+          obterReceitasMensaisNegocio();
+          setIsResumoExecutivoModalOpen(false);
+        } else {
+          console.error('Erro ao adicionar receita mensal do negócio:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao adicionar receita mensal do negócio:', error);
+      }
+    };
+
+    
+
+    const handleExcluirReceita = async (id) => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/excluir_receita_mensal_negocio/${id}`, {
+          method: 'DELETE',
+        });
+        if (!response.ok) {
+          throw new Error('Falha ao excluir receita estimada');
+        }
+        obterReceitasMensaisNegocio(); // Atualiza os dados após a exclusão
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      }).format(value);
+    };
 
   
+    const somaQuantidade = () => {
+      return receitasMensais.reduce((acc, curr) => acc + curr.quantidade_vendida_por_mes, 0);
+    };
+  
+    const somaTotalValor = () => {
+      return receitasMensais.reduce((acc, curr) => acc + (curr.valor_unitario * curr.quantidade_vendida_por_mes), 0);
+    };
+     
 
-  return (
-    <Layout>
-      <div className='dashboard-page'>
-        <div className='dashboard-content'>
-          <div className='title'>
-            <h1>Estimar as Receitas Mensais do Negócio</h1>
-            <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
-          </div>
-          <div className='add-button'>
-            <Link onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
-          </div>
-          <div className='table-container'>
-            <table>
-              <thead>
-                <tr>
-                  <th>Produto/Serviço (Mix)</th>
-                  <th>Valor unitário de Venda (R$)</th>
-                  <th>Quantidade Vendida por Mês</th>
-                  <th>Total Mensal</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Mapear os dados para renderizar as linhas */}
-                {EstimarReceitasData.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.produtoServico}</td>
-                    <td>{item.valorUnitarioVenda}</td>
-                    <td>{item.projecaoVendasPorDia}</td>
-                    <td>{(item.valorUnitarioVenda * item.projecaoVendasPorDia * item.diasTrabalhados).toFixed(2)}</td>
-                    <td>
-                      <button><Link to={`/editar-estimativa-receita/${item.id}`}><FaEdit /></Link></button>
-                      <button><Link to={`/excluir-estimativa-receita/${item.id}`}><FaTrashAlt /></Link></button>
-                      {/* <button><Link to={`/ver-produto-servico/${produtoServico.id}`}><FaEye /></Link></button> */}
-                    </td>
+    return (
+      <Layout>
+        <div className='dashboard-page'>
+          <div className='dashboard-content'>
+            <div className='title'>
+              <h1>Estimar as Receitas Mensais do Negócio</h1>
+              <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
+            </div>
+            <div className='add-button'>
+              <Link to="#" onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
+            </div>
+            <div className='table-container'>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Produto/Serviço (Mix)</th>
+                    <th>Valor unitário de Venda (R$)</th>
+                    <th>Quantidade Vendida por Mês</th>
+                    <th>Total Mensal</th>
+                    <th>Ações</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {receitasMensais.map((receita) => (
+                    <tr key={receita.id}>
+                      <td>{receita.produto_servico}</td>
+                      <td>{formatCurrency(receita.valor_unitario)}</td>
+                      <td>{receita.quantidade_vendida_por_mes}</td>
+                      <td>{formatCurrency(receita.valor_unitario * receita.quantidade_vendida_por_mes)}</td>
+                      <td>
+                        <button onClick={() => handleExcluirReceita(receita.id)}><FaTrashAlt /></button>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <td colSpan="2"><strong>Total</strong></td>
+                    <td>{somaQuantidade()}</td>
+                    <td>{formatCurrency(somaTotalValor())}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-
         </div>
-      </div>
-      {isResumoExecutivoModalOpen && (
-        <ModalResumoExecutivo
-          isOpen={isResumoExecutivoModalOpen}
-          onClose={() => setIsResumoExecutivoModalOpen(false)}
-        />
-      )}
-    </Layout>
-  );
-};
+        {isResumoExecutivoModalOpen && (
+          <ModalResumoExecutivo
+            isOpen={isResumoExecutivoModalOpen}
+            onClose={() => setIsResumoExecutivoModalOpen(false)}
+            onSave={handleSave}
+          />
+        )}
+      </Layout>
+    );
+    
+  };
 
-export default EstimarReceitas;
+  export default EstimarReceitas;

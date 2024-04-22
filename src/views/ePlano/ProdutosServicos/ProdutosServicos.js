@@ -1,53 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaTrashAlt, FaEye } from 'react-icons/fa'; // Importe os ícones necessários do Font Awesome
-
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
-import './ProdutosServicos.scss'; // Importe ou crie este arquivo para estilizar a página
-import ModalResumoExecutivo from './ProdutosServicosModal'; // Importe o modal ModalResumoExecutivo
+import ModalResumoExecutivo from './ProdutosServicosModal';
+import API_BASE_URL from '../../../apiConfig';
 
 const ProdutosServicos = () => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [produtosServicosData, setProdutosServicosData] = useState([]);
   const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
+  const [lastProductId, setLastProductId] = useState(null); // Estado para rastrear o último ID de produto/serviço
 
-  const toggleModal = () => {
-    setModalOpen(!modalOpen);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/produtos_servicos`);
+      if (!response.ok) {
+        throw new Error('Falha ao buscar os dados');
+      }
+      const data = await response.json();
+      setProdutosServicosData(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  // Função para abrir o modal do resumo executivo
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const openResumoExecutivoModal = () => {
     setIsResumoExecutivoModalOpen(true);
   };
 
-  // Array de dados fictícios para as linhas da tabela
-  const produtosServicosData = [
-    {
-      id: 1,
-      nome: 'Shampoo para Cachorro de 200ml',
-      descricao: 'O Shampoo para Cachorro de 200ml é um produto especialmente formulado para cuidar da higiene e saúde da pelagem dos cães. Com uma fórmula suave e equilibrada, este shampoo proporciona uma limpeza eficaz sem agredir a pele sensível dos animais.'
-    },
-    {
-      id: 2,
-      nome: 'Ração Premium para Gatos - 1kg',
-      descricao: 'A Ração Premium para Gatos é uma opção nutritiva e saborosa para os felinos mais exigentes. Formulada com ingredientes selecionados e balanceados, proporciona uma alimentação completa e saudável para o seu gato.'
-    },
-    {
-      id: 3,
-      nome: 'Coleira Antipulgas e Carrapatos',
-      descricao: 'A Coleira Antipulgas e Carrapatos é um acessório essencial para manter o seu animal de estimação protegido contra infestações de pulgas e carrapatos. Com ação prolongada, proporciona até 8 meses de proteção contínua.'
-    },
-    {
-      id: 4,
-      nome: 'Brinquedo Interativo para Cães - Bola de Tênis',
-      descricao: 'O Brinquedo Interativo para Cães - Bola de Tênis é perfeito para estimular a atividade física e mental do seu cão. Feito de material resistente e durável, é ideal para jogos de busca e interação entre o tutor e o animal.'
-    },
-    {
-      id: 5,
-      nome: 'Areia Sanitária para Gatos - 5kg',
-      descricao: 'A Areia Sanitária para Gatos é uma opção eficaz e higiênica para manter a bandeja de areia do seu gato limpa e odorizada. Com grãos finos e alta capacidade de absorção, proporciona conforto e praticidade para o seu pet.'
+  const handleExcluirProdutoServico = async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Falha ao excluir produto/serviço');
+      }
+      fetchData(); // Atualiza os dados após a exclusão
+    } catch (error) {
+      console.error(error);
     }
-  ];
-  
+  };
+
+// // Verifica se um novo produto/serviço foi adicionado e atualiza os dados se necessário
+// useEffect(() => {
+//   const initialCount = produtosServicosData.length;
+//   fetchData(); // Busca os dados novamente
+//   return () => {
+//     const finalCount = produtosServicosData.length;
+//     if (finalCount > initialCount) {
+//       // Se o número de produtos/serviços aumentou, um novo item foi adicionado
+//       setLastProductId(produtosServicosData[finalCount - 1].id);
+//     }
+//   };
+// }, [produtosServicosData]);
 
   return (
     <Layout>
@@ -70,15 +79,12 @@ const ProdutosServicos = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* Mapear os dados para renderizar as linhas */}
                 {produtosServicosData.map((produtoServico) => (
                   <tr key={produtoServico.id}>
-                    <td>{produtoServico.nome}</td>
+                    <td>{produtoServico.produto_servico}</td>
                     <td>{produtoServico.descricao}</td>
                     <td>
-                      <button><Link to={`/editar-produto-servico/${produtoServico.id}`}><FaEdit /></Link></button>
-                      <button><Link to={`/excluir-produto-servico/${produtoServico.id}`}><FaTrashAlt /></Link></button>
-                      {/* <button><Link to={`/ver-produto-servico/${produtoServico.id}`}><FaEye /></Link></button> */}
+                      <button onClick={() => handleExcluirProdutoServico(produtoServico.id)}><FaTrashAlt /></button>
                     </td>
                   </tr>
                 ))}

@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaTimes } from 'react-icons/fa';
 
 import './EstimarReceitasModal.scss';
 
 const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
-  const [produtoServico, setProdutoServico] = useState('');
+  const [selectedOption, setSelectedOption] = useState(null);
   const [valorUnitarioVenda, setValorUnitarioVenda] = useState('');
   const [projecaoVendasPorDia, setProjecaoVendasPorDia] = useState('');
-  const [diasTrabalhados, setDiasTrabalhados] = useState('');
+  const [produtosServicos, setProdutosServicos] = useState([]);
 
-  const options = [
-    { value: 'shampoo', label: 'Shampoo para Cachorro de 200ml' },
-    { value: 'racao', label: 'Ração Premium para Gatos - 1kg' },
-    { value: 'coleira', label: 'Coleira Antipulgas e Carrapatos' },
-    { value: 'brinquedo', label: 'Brinquedo Interativo para Cães - Bola de Tênis' },
-    { value: 'areia', label: 'Areia Sanitária para Gatos - 5kg' }
-  ];
+  useEffect(() => {
+    obterProdutosServicos();
+  }, []);
 
-  const handleProdutoServicoChange = (selectedOption) => {
-    setProdutoServico(selectedOption);
+  const obterProdutosServicos = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/produtos_servicos');
+      const data = await response.json();
+      // Extrair as opções necessárias para o Select
+      const options = data.map((produtoServico) => ({
+        value: produtoServico.id,
+        label: produtoServico.produto_servico // ou o campo correto que contém o nome do produto/serviço
+      }));
+      setProdutosServicos(options);
+    } catch (error) {
+      console.error('Erro ao obter produtos/serviços:', error);
+    }
   };
 
   const handleSave = () => {
-    onSave({ produtoServico, valorUnitarioVenda, projecaoVendasPorDia, diasTrabalhados });
+    onSave({
+      produto_servico: selectedOption.label,
+      valor_unitario: valorUnitarioVenda,
+      quantidade_vendida_por_mes: projecaoVendasPorDia
+    });
   };
 
   return (
@@ -38,30 +49,24 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
             <h1>Adicionar Receita</h1>
           </div>
           <div className='modal-container'>
-              <Select
-                value={produtoServico}
-                onChange={handleProdutoServicoChange}
-                options={options}
-                placeholder="Selecione o produto/serviço..."
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    width: '100%' // Define a largura como 100%
-                  })
-                }}
-              />
-              <input
-                type="text"
-                value={valorUnitarioVenda}
-                onChange={(e) => setValorUnitarioVenda(e.target.value)}
-                placeholder="Digite o valor (R$) unitário de venda"
-              />
-              <input
-                type="text"
-                value={projecaoVendasPorDia}
-                onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
-                placeholder="Digite a projeção de vendas por mês"
-              />
+            <Select
+              value={selectedOption}
+              onChange={setSelectedOption}
+              options={produtosServicos} // Usar as opções dos produtos e serviços
+              placeholder="Selecione o produto/serviço..."
+            />
+            <input
+              type="text"
+              value={valorUnitarioVenda}
+              onChange={(e) => setValorUnitarioVenda(e.target.value)}
+              placeholder="Digite o valor (R$) unitário de venda"
+            />
+            <input
+              type="text"
+              value={projecaoVendasPorDia}
+              onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
+              placeholder="Digite a projeção de vendas por mês"
+            />
           </div>            
           <div className='footer-modal'>              
             <div className='modal-buttons'>

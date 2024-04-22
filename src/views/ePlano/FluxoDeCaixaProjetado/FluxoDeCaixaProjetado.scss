@@ -1,150 +1,62 @@
-// ProdutosServicos.scss
+@import '../../../assets/scss/colors';
 
 .dashboard-page {
   .dashboard-content {
+    width:0%!important;
     .title {
-      margin-bottom: 0px;
-      h1{
+      margin-bottom: 0;
+      h1, p {
         margin: 0;
-      }
-      p{
-        font-weight: normal;
-      }
-    }
-.more-buttons{
-  display: flex;
-}
-    .add-button {
-      margin: 20px 0;
-
-      a {
-        display: inline-block;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        text-align: center;
-
-        &:hover {
-          background-color: #0056b3;
-        }
+        font-weight: normal; // Aplica apenas para o parágrafo
       }
     }
 
     .table-container {
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0 0 30px 0;
-
-        th, td {
-          padding: 10px;
-          border: 1px solid #ccc;
-        }
-
-        th {
-          background-color: #f2f2f2;
-          font-weight: bold;
-        }
-
-        td {
-          font-size: 12px;
-          button {
-            margin: 5px;
-            padding: 2px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 30%;
-            height: 20px;
-
-            &:hover {
-              background-color: #0056b3;
-            }
-
-            a {
-              color: #fff;
-              text-decoration: none;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-
-              svg {
-                margin-right: 0px;
-                font-size: 12px;
-              }
-            }
-          }
-        }
+      max-height: 500px; /* Ajuste conforme necessário */
+      overflow-y: auto;
+      margin: 10px 0;
+      
+      .table {
+        display: grid;
+        grid-template-columns: auto auto repeat(25, auto); /* Ajuste conforme necessário */
+        gap: 5px;
       }
-    }
-  }
-}
-
-
-
-
-.scrollable-table {
-  overflow-x: auto;
-}
-
-.cash-flow-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-.cash-flow-table th,
-.cash-flow-table td {
-  padding: 8px;
-  text-align: center;
-}
-
-.cash-flow-table th:first-child,
-.cash-flow-table td:first-child {
-  position: sticky;
-  left: 0;
-  background-color: #f2f2f2;
-  z-index: 1;
-}
-.dashboard-page {
-  .dashboard-content {
-    .flex-container {
-      display: flex;
-      margin-bottom: 20px;
-
-      .box {
-        flex: 1;
+      .header{
+        
+      }
+    
+      .row {
+        display: contents;
+      }
+      .groupLine{
+        margin: 0 0 20px 0;
+      }
+      .cellCol{
+        min-width: 200px;
+        padding: 8px;
+        text-align: center;
+        font-size: 11px;
         border: 1px solid #ccc;
-        padding: 20px;
-        margin-right: 10px;
       }
-
-      .box:last-child {
-        margin-right: 0;
+      .cell {
+        min-width: 130px;
+        padding: 8px;
+        text-align: center;
+        font-size: 11px;
+        border: 1px solid #ccc;
+      }
+      .primary-color{
+        background-color: $primary-color;
+        color: white;
+      }
+      .items-color{
+        background-color: $cinza-claro;
+      }
+      .total-color{
+        background-color: #ccc;
+        font-weight: bold;
       }
     }
-  }
-}
-.box {
-  text-align: center;
-}
-
-.box-content {
-  margin-top: 0px;
-  h3{
-    margin: 0;
-  }
-  p{
-    font-size: 10px;
-    margin: 0;
-  }
-  .valor{
-    font-size: 22px;
-    margin: 10px 0  0  0;
+    
   }
 }

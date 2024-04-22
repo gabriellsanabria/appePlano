@@ -8,7 +8,6 @@ import CaixaInicial from './Components/CaixaInicial';
 import FluxoCaixa from './Components/FluxoCaixa';
 import LucroLiquidoMensal from './Components/LucroLiquidoMensal';
 import LucroLiquidoAcumulado from './Components/LucroLiquidoAcumulado';
-import Impostos from './Components/Impostos';
 import Caixa from './Components/Caixa';
 import './FluxoDeCaixaProjetado.scss';
 
@@ -34,7 +33,6 @@ const FluxoDeCaixaProjetado = () => {
             <DespesasEstimadas meses={meses} />
             <CaixaInicial meses={meses}/>
             <FluxoCaixa meses={meses} />
-            <Impostos meses={meses} />
             <LucroLiquidoMensal meses={meses} />
             <LucroLiquidoAcumulado meses={meses} />
             <Caixa meses={meses} />
