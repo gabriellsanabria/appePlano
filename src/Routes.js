@@ -14,6 +14,14 @@ import MeuEplano from './views/Dashboard/MeuEplano';
 import Loader from './views/Loader/Loader';
 import TutorialModal from './components/TutorialModal/TutorialModal';
 
+
+import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
+import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
+import EstruturaNegocio from './views/ePlano/EstruturaNegocio/EstruturaNegocio';
+import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
+import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
+import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
+
 const ForgotPassword = lazy(() => import('./components/ForgotPassword/ForgotPassword'));
 const MinhaConta = lazy(() => import('./views/MinhaConta/MinhaConta'));
 const VerEmpresa = lazy(() => import('./views/MinhasEmpresas/VerEmpresa'));
@@ -40,30 +48,30 @@ const AppRoutes = () => {
   const location = useLocation();
   const [userHasEmpresa, setUserHasEmpresa] = useState(false);
 
-  useEffect(() => {
-    const checkUserEmpresas = async () => {
-      try {
-        const firestore = getFirestore();
-        const empresasCollection = collection(firestore, 'empresas');
-        const q = query(empresasCollection, where('usuarioId', '==', user.uid));
-        const querySnapshot = await getDocs(q);
-        const empresasDoUsuario = querySnapshot.docs
-          .map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }))
-          .filter((empresa) => empresa.status !== 0);
+  // useEffect(() => {
+  //   const checkUserEmpresas = async () => {
+  //     try {
+  //       const firestore = getFirestore();
+  //       const empresasCollection = collection(firestore, 'empresas');
+  //       const q = query(empresasCollection, where('usuarioId', '==', user.uid));
+  //       const querySnapshot = await getDocs(q);
+  //       const empresasDoUsuario = querySnapshot.docs
+  //         .map((doc) => ({
+  //           ...doc.data(),
+  //           id: doc.id,
+  //         }))
+  //         .filter((empresa) => empresa.status !== 0);
 
-        setUserHasEmpresa(empresasDoUsuario.length > 0);
-      } catch (error) {
-        console.error('Erro ao verificar empresas do usuário:', error);
-      }
-    };
+  //       setUserHasEmpresa(empresasDoUsuario.length > 0);
+  //     } catch (error) {
+  //       console.error('Erro ao verificar empresas do usuário:', error);
+  //     }
+  //   };
 
-    if (user) {
-      checkUserEmpresas();
-    }
-  }, [user]);
+  //   if (user) {
+  //     checkUserEmpresas();
+  //   }
+  // }, [user]);
 
   if (loading) {
     return <Loader />;
@@ -101,21 +109,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/empresa/cadastro"
-          element={
-            user ? (
-              userHasEmpresa ? (
-                <CadastrarEmpresa />
-              ) : (
-                <Navigate to="/empresa/cadastro/nova" />
-              )
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/empresa/cadastro/nova"
+          path="/empresa/cadastro/nova/:ePlanoId/:organizationId"
           element={
             user ? (
               userHasEmpresa ? (
@@ -128,14 +122,40 @@ const AppRoutes = () => {
             )
           }
         />
+        
         <Route
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
         <Route
-          path="/meu-eplano/:urlBase/:dashboardId/:urlDash"
+          path="/meu-eplano/:urlBase/:ePlanoId/:urlEplano"
           element={user ? <MeuEplano /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/produtos-servicos"
+          element={user ? <ProdutosServicos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estimar-receitas"
+          element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estrutura-negocio"
+          element={user ? <EstruturaNegocio /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/estimar-investimentos"
+          element={user ? <EstimarInvestimentos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/fluxo-caixa-projetado"
+          element={user ? <FluxoDeCaixaProjetado /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/analise-viabilidade"
+          element={user ? <AnaliseViabilidadePayback /> : <Navigate to="/login" />}
+        />
+
         <Route
           path="/financeiro"
           element={user ? <PainelFinanceiro /> : <Navigate to="/login" />}
@@ -170,7 +190,7 @@ const AppRoutes = () => {
           path="/widgetsBase"
           element={user ? <WidgetsBase /> : <Navigate to="/dashboard" />}
         />
-        <Route
+        {/* <Route
           path="/eplano/criar"
           element={
             user ? (
@@ -183,7 +203,7 @@ const AppRoutes = () => {
               <Navigate to="/login" />
             )
           }
-        />
+        /> */}
       </Routes>
     </Suspense>
   );

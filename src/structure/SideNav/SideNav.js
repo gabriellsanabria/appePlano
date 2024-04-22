@@ -36,6 +36,9 @@ const SideNav = () => {
   const userName = sessionStorage.getItem('userName') || '';
   const { user } = useAuth();
 
+  const [logoUrl, setLogoUrl] = useState('https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp');
+
+
 
   const fetchUserDashboards = async () => {
     if (user && user.uid) {
@@ -102,7 +105,7 @@ const SideNav = () => {
         } else {
           const firestore = getFirestore();
           const profileCollectionRef = collection(firestore, 'profile');
-          const profileQuery = query(profileCollectionRef, where('userID', '==', user.uid));
+          const profileQuery = query(profileCollectionRef, where('userId', '==', user.uid));
           
           try {
             setLoadingOrganization(true);
@@ -111,11 +114,11 @@ const SideNav = () => {
           
             if (!profileQuerySnapshot.empty) {
               const userProfile = profileQuerySnapshot.docs[0].data();
-              const organizationID = userProfile.organizationID;
+              const organizationId = userProfile.organizationId;
           
-              if (organizationID) {
+              if (organizationId) {
                 const organizationsCollectionRef = collection(firestore, 'organization');
-                const organizationDocRef = doc(organizationsCollectionRef, organizationID);
+                const organizationDocRef = doc(organizationsCollectionRef, organizationId);
           
                 const organizationDocSnapshot = await getDoc(organizationDocRef);
           
@@ -129,10 +132,10 @@ const SideNav = () => {
                   // Atualizar o estado
                   setOrganizationName(organizationName);
                 } else {
-                  console.log('Nenhuma organização encontrada com o organizationID associado ao usuário');
+                  console.log('Nenhuma organização encontrada com o organizationId associado ao usuário');
                 }
               } else {
-                console.log('organizationID não encontrado no perfil do usuário');
+                console.log('organizationId não encontrado no perfil do usuário');
               }
             } else {
               console.log('Nenhum perfil encontrado para o usuário');
@@ -192,9 +195,9 @@ const SideNav = () => {
         <div className={`logo ${expanded ? 'large' : 'small'}`}>
           <Link to="/dashboard">
             {collapsedLogo ? (
-              <img src="https://s3.sa-east-1.amazonaws.com/oboss.com.br/icone_oboss.webp" alt="Logo recolhida" />
+              <img src={logoUrl} alt="Logo recolhida" />
               ) : (
-                <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano_footer.webp" alt="Logo da empresa" />
+                <img src={logoUrl} alt="Logo da empresa" />
               )}               
           </Link>
         </div>
@@ -204,43 +207,6 @@ const SideNav = () => {
           </div>
         </div>
       </div>
-      <div className='organization-profile'>
-        <li>
-          <Link to="/company" className={location.pathname === '/organization' ? 'active' : ''}>
-            <div className='icone'>
-            <RiBuilding4Line  />
-            </div>
-              {expanded && (
-              <div className='company'>
-                <div className='data-company'>
-                  {loadingOrganization ? (
-                    <div className='loader'>
-                      <Spinner />
-                    </div>
-                  ) : (
-                    <>
-                      <div className='label'>
-                        {organizationName}
-                      </div>
-                      <div className='infos-company'>    
-                        <div className='qtdusers'>
-                          <Link to='/company/unidades'>
-                            1 Plano de Negócio
-                          </Link>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className='arrow-go'>
-                  <FaArrowRight />
-                </div>
-              </div>
-            )}
-          </Link>
-        </li>
-      </div>
-        <hr />
       <ul>
     <li  className={businessMenuExpanded ? 'with-submenu expanded' : 'with-submenu'}>
       <Link to='/dashboard' className={`${location.pathname === '/dashboard' ? 'active' : ''}`}>
@@ -300,22 +266,7 @@ const SideNav = () => {
               ))}
             </>
           )}
-        </ul>
-      )}
-    </li>
-        {/* <li>
-          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
-            <div className='icone'>
-            <FaChartLine  />
-            </div>
-            {expanded && (
-              <div className='label'>
-                Meus Dashboards
-              </div>
-            )}
-          </Link>
-        </li> */}
-        <li>
+          <li>
           <Link to="" className={location.pathname === '/compartilhados-comigo' ? 'active' : ''}>
             <div className='icone'>
             <FiUsers />
@@ -351,6 +302,22 @@ const SideNav = () => {
             )}
           </Link>
         </li>
+        </ul>
+      )}
+    </li>
+        {/* <li>
+          <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active' : ''}>
+            <div className='icone'>
+            <FaChartLine  />
+            </div>
+            {expanded && (
+              <div className='label'>
+                Meus Dashboards
+              </div>
+            )}
+          </Link>
+        </li> */}
+        
 
         {/* {expanded && (
           <>
@@ -424,6 +391,43 @@ const SideNav = () => {
             )}
           </Link>
         </li>
+        <hr/>
+        <div className='organization-profile'>
+        <li>
+          <Link to="/company" className={location.pathname === '/organization' ? 'active' : ''}>
+            <div className='icone'>
+            <RiBuilding4Line  />
+            </div>
+              {expanded && (
+              <div className='company'>
+                <div className='data-company'>
+                  {loadingOrganization ? (
+                    <div className='loader'>
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <>
+                      <div className='label'>
+                        {organizationName}
+                      </div>
+                      <div className='infos-company'>    
+                        <div className='qtdusers'>
+                          <Link to='/company/unidades'>
+                            1 Plano de Negócio
+                          </Link>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+                <div className='arrow-go'>
+                  <FaArrowRight />
+                </div>
+              </div>
+            )}
+          </Link>
+        </li>
+      </div>
       </ul>
     </div>
   );

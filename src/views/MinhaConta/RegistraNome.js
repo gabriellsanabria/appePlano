@@ -85,8 +85,8 @@ const RegistraNome = () => {
           // Adiciona informações à coleção 'profile'
           const profileCollection = collection(firestore, 'profile');
           await addDoc(profileCollection, {
-            userID: user.uid,
-            organizationID: organizationDocRef.id,
+            userId: user.uid,
+            organizationId: organizationDocRef.id,
             whatsapp: userData.whatsapp,
             cargo: userData.cargo,
             setor: userData.setor,

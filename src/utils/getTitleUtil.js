@@ -14,7 +14,7 @@ const getTitle = (pathname) => {
         case '/minha-conta':
             return 'Minha Conta';
       default:
-        return 'Bem-vindo ao Dashboard!';
+        return 'Painel';
     }
   };
   

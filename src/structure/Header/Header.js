@@ -6,10 +6,12 @@ import getTitle from '../../utils/getTitleUtil';
 import useAuth from '../../hooks/useAuth';
 import { logoutUser } from '../../helpers/firebaseUtils';
 import RegistraNome from '../../views/MinhaConta/RegistraNome';
+import Loader from '../../components/Loader/PageLoader';
 import { getFirestore, collection, doc, getDoc, query, where, getDocs } from 'firebase/firestore';
 import Modal from 'react-modal'; // Importe o componente Modal
 import { BsBuilding, BsPerson, BsPeople, BsFileText, BsQuestionCircle, BsPower, BsBell } from 'react-icons/bs';
 import { IoMdNotifications } from "react-icons/io";
+import { IoIosHelpCircle } from "react-icons/io";
 
 const Header = () => {
   const location = useLocation();
@@ -68,11 +70,11 @@ const Header = () => {
         }
   
         const userData = userDocSnapshot.data();
-        const userNameFromData = userData.nome || '';
+        const userNameFromData = userData.nomeUsuario || '';
   
-        if (!userData.nome) {
+        if (!userData.nomeUsuario) {
           navigate('/complete-cadastro');
-          console.log('User name from Firestore:', userData.nome);
+          console.log('User name from Firestore:', userData.nomeUsuario);
           return;
         }
   
@@ -96,13 +98,12 @@ const Header = () => {
   
         // Agora, verifique se há um perfil associado a esse usuário na coleção "profile"
         const profileCollectionRef = collection(firestore, 'profile');
-        const profileQuery = query(profileCollectionRef, where('userID', '==', user.uid));
+        const profileQuery = query(profileCollectionRef, where('userId', '==', user.uid));
   
         const profileDocs = await getDocs(profileQuery);
         console.log('Number of profile documents:', profileDocs.size);
         
         if (profileDocs.size === 0) {
-          console.log('Nenhum perfil encontrado para o usuário.');
           console.log('Nenhum perfil encontrado para o usuário.', 'User ID:', user.uid);
           navigate('/complete-cadastro');
           return;
@@ -148,11 +149,12 @@ const Header = () => {
         <div className="title">{title}</div>
         <div className="icons">
           <div className="notifications-icon">
+            <IoIosHelpCircle />
             <IoMdNotifications />
           </div>
           <div className='userSession'>
             <div className="avatar" onClick={togglePopover}>
-              <div className="user-name">Olá, {userName}</div>
+              {/* <div className="user-name">Olá, {userName}</div> */}
               <div className="user-photo-container">
                 {user && user.photoURL ? (
                   <img className="user-photo" src={user.photoURL} alt="Avatar" />

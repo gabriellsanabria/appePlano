@@ -1,4 +1,3 @@
-// src/components/Login/LoginPage.js
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleSignInWithEmailLink, handleGoogleLogin } from '../../utils/authUtils';
@@ -10,6 +9,8 @@ import './Login.scss';
 const Login = () => {
   const navigate = useNavigate();
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+const [logoUrl, setLogoUrl] = useState('https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano.webp');
 
   // Função chamada quando o link de autenticação é enviado
   const handleMagicLinkSent = (email) => {
@@ -26,7 +27,6 @@ const Login = () => {
     signInWithEmailLink();
   }, [navigate]);
 
-
   return (
     <div className="login-page">
       {isAuthenticating && <Autenticando />}
@@ -38,10 +38,9 @@ const Login = () => {
         {/* Formulário no lado direito */}
         <div className="form-content">
           <div className='logo-login'>
-            
-          <Link className='thelink' to="">
-            <img src="https://eplano.s3.sa-east-1.amazonaws.com/logo_eplano.webp" alt="Logo da empresa" />
-           </Link>
+            <Link className='thelink' to="">
+              <img src={logoUrl} alt="Logo da empresa" />
+            </Link>
           </div>
           <h1>Entrar</h1>
           <p><strong>Gerencie so seu negócio de forma fácil e rápida</strong></p>
@@ -50,14 +49,12 @@ const Login = () => {
           <EmailMagicLinkInput onLogin={handleMagicLinkSent} />
           <p> Enviaremos um link mágico ao seu email para um login sem senha.</p>
 
-          <div class="separator-with-word">
-              <div class="line"></div>
-              <div class="word">ou</div>
-              <div class="line"></div>
+          <div className="separator-with-word">
+            <div className="line"></div>
+            <div className="word">ou</div>
+            <div className="line"></div>
           </div>
 
-          
-          
           <div className='google-bt-control'>
             <div className='google-bt-control-center'>
               <GoogleLoginButton onGoogleLogin={handleGoogleLogin} />

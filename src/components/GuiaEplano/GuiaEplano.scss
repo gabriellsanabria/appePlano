@@ -1,0 +1,260 @@
+@import '../../assets/scss/colors';
+
+.guia-eplano {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  background-color: $primary-color;
+  padding: 20px 30px;
+  border-radius: 8px;
+
+  .header-guia {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+
+    .titulo-guia {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+
+      h1 {
+        display: flex;
+        color: white;
+        margin: 0;
+        padding: 0;
+        font-size: 1.3em;
+      }
+
+      p {
+        color: white;
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .close-guia {
+      display: flex;
+      width: 30%;
+      justify-content: flex-end;
+
+      .botao {
+        background-color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        cursor: pointer;
+        right: 30px;
+      }
+    }
+
+    &.collapsed {
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .progress-box {
+    display: flex;
+    width: 100%;
+    margin: 20px 0 0 0;
+
+    .progress-bar {
+      height: 5px;
+      background-color: #007bff; // Cor da barra de progresso
+      top: 0;
+      left: 0;
+      width: 0; // Inicialmente, a barra de progresso não tem largura
+      animation: pulsando 1.5s infinite; // Adicione o efeito de pulsação
+    }
+
+    @keyframes pulsando {
+      0% {
+        box-shadow: 0 0 0 0 rgba(51,217,178,.7);
+      }
+      70% {
+          box-shadow: 0 0 0 10px rgba(51,217,178,0);
+      }
+      100% {
+          box-shadow: 0 0 0 0 rgba(51,217,178,0);
+      }
+    }
+  }
+
+  .blocks {
+    display: flex;
+    transition: height 0.3s ease; // Adicione uma transição suave
+    overflow: hidden; // Para ocultar o conteúdo que pode estender além da altura definida
+    flex-direction: column;
+
+    &.expanded {
+      height: 300px; // Largura e altura quando expandido
+    }
+
+    &.collapsed {
+      height: 10px; // Largura e altura quando recolhido
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start; // Alinhamento à esquerda
+      margin-top: 20px;
+      overflow-x: scroll; // Adicione scroll horizontal
+      width: 100%; // Use 100% da largura disponível
+      
+      &::-webkit-scrollbar {
+        width: 12px; // Largura da barra de rolagem
+        height: 15px;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background-color: $secondary-color; // Cor do botão de rolagem
+        border-radius: 20px; // Borda do botão de rolagem
+      }
+  
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #555; // Cor do botão de rolagem ao passar o mouse
+      }
+  
+      &::-webkit-scrollbar-track {
+        border-radius: 20px;
+        background-color: #f1f1f1; // Cor da trilha da barra de rolagem
+      }
+      .block {
+        border: 1px solid #ccc;
+        background-color: white;
+        text-align: center;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        padding: 10px 20px;
+        width: 26%; // Defina uma largura para cada bloco
+        flex-shrink: 0; // Impede que os blocos sejam reduzidos em tamanho
+  
+        border-radius: 3px;
+        margin: 0 3px 20px 0;
+        cursor: pointer;
+        transition: background-color 0.3s ease; // Adicione uma transição suave
+
+        &:hover {
+          background-color: #f0f0f0; // Cor de fundo ao passar o mouse
+        }
+
+        &.active {
+          background-color: #007bff; // Cor de fundo quando ativo
+          color: #fff; // Cor do texto quando ativo
+        }
+
+        &.completed {
+          // Estilos para o bloco concluído
+          opacity: 0.8; // Ajuste a opacidade conforme necessário
+          pointer-events: none; // Impede eventos de clique no bloco desabilitado
+        }
+  
+        &:not(:last-child) {
+          margin-right: 10px; // Espaçamento entre os blocos
+        }
+
+        .contBox {
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+
+          .ttlBox {
+            font-size: 18px;
+            font-weight: 800;
+            display: flex;
+            .icone-box-guia{
+              display: flex;
+              align-items: center;
+              align-content: center;
+              svg{
+                font-size: 30px;
+              }
+            }
+            .titulo-box-guia{
+              display: flex;
+              width: 80%;
+              margin: 0 0 0 10px;
+              min-height: 50px;
+              align-items: center ;
+              align-content: center;
+            }
+          }
+          .body-box{
+            display: flex;
+            min-height: 90px;
+            margin: 10px 0 ;
+            width: 100%;
+            align-content: center;
+            .etapaConcluida{
+              display: flex;
+              flex-direction: column;
+              align-items: center ;
+              align-content: center;
+              justify-content: center;
+              width: 100%;
+              margin: 0px 0;
+              svg{
+                font-size: 80px;
+                color: #4CAF50;
+                margin: 10px 0;
+              }
+            }
+          }
+          .footer-box{
+            width: 100%;
+            display: flex;
+            button {
+              // Estilos comuns para o botão
+    
+              &:disabled {
+                // Estilos para o botão desabilitado (Concluído)
+                background-color: #4CAF50; // Cor verde
+                color: #fff; // Cor do texto branca
+                cursor: not-allowed; // Cursor indicando que o botão está desabilitado
+              }
+    
+              // Adicione estilos específicos para o botão "Concluído" (não desabilitado)
+              &.concluido {
+                background-color: #4CAF50; // Cor verde
+                color: #fff; // Cor do texto branca
+                display: flex;
+                align-items: center;
+                justify-content: center;
+    
+                // Adicione estilos ao ícone (usando um ícone de check da biblioteca de ícones)
+                svg {
+                  margin-right: 5px; // Espaçamento entre o ícone e o texto
+                }
+              }
+            }
+          }
+
+          p {
+            font-size: 14px;
+            color: #838383;
+          }
+        }
+        button{
+          height: auto!important;
+          font-size: 16px!important;
+          padding: 10px;
+        }
+      }
+    }
+  }
+
+  
+}
