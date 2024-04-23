@@ -3,7 +3,7 @@
   import { FaEdit, FaTrashAlt } from 'react-icons/fa';
   import Layout from '../../../components/Layout/layout';
   import ModalResumoExecutivo from './EstimarReceitasModal';
-  import API_BASE_URL from '../../../apiConfig';
+  import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
   const EstimarReceitas = () => {
     const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);

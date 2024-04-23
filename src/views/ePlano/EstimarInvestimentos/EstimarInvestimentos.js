@@ -7,7 +7,7 @@ import EstruturaFisicaModal from './EstimarInvestimentosModal'; // Importe o mod
 import CapitalGiroModal from './CapitalGiroModal'; // Importe o modal de Capital de Giro
 import InsumosModal from './InsumosModal'; // Importe o modal de Insumos
 
-import API_BASE_URL from '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const EstimarInvestimentos = () => {
   const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false);

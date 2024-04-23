@@ -6,7 +6,7 @@ import './EstruturaNegocio.scss';  // Asegure-se de que este arquivo contém os 
 import EstruturaFisicaModal from './EstruturaNegocioModal';
 import EquipeModal from './EquipeModal';
 import InsumosModal from './InsumosModal';
-import API_BASE_URL from '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const EstruturaNegocio = () => {
   const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false);

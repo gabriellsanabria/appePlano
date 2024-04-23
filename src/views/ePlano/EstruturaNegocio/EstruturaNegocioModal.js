@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import './EstruturaNegocioModal.scss';
-import API_BASE_URL from '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const EstrutraNegocioModal = ({ isOpen, onClose, onSave }) => {
   const [nomeEstrutura, setNomeEstrutura] = useState('');

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
 import ModalResumoExecutivo from './ProdutosServicosModal';
-import API_BASE_URL from '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const ProdutosServicos = () => {
   const [produtosServicosData, setProdutosServicosData] = useState([]);

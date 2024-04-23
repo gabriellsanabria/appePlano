@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 import './ProdutosServicosModal.scss';
-import API_BASE_URL from '../../../apiConfig'; // Importe a URL base da API
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig'; // Importe a URL base da API
 
 const ProdutosServicosModal = ({ isOpen, onClose }) => {
   const [produtoServico, setProdutoServico] = useState('');
@@ -12,7 +12,7 @@ const ProdutosServicosModal = ({ isOpen, onClose }) => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL}/adicionar_produto_servico`, {
+      const response = await fetch(`${API_BASE_URL_AMPLIFY}/adicionar_produto_servico`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

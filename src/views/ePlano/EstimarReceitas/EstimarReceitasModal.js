@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { FaTimes } from 'react-icons/fa';
+  import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 import './EstimarReceitasModal.scss';
 
@@ -16,7 +17,7 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
 
   const obterProdutosServicos = async () => {
     try {
-      const response = await fetch('http://localhost:5000/produtos_servicos');
+      const response = await fetch(`${API_BASE_URL}/produtos_servicos`);
       const data = await response.json();
       // Extrair as opções necessárias para o Select
       const options = data.map((produtoServico) => ({

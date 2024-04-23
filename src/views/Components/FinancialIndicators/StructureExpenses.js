@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import API_BASE_URL from '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const StructureExpenses = () => {
   const [totalStructureExpenses, setTotalStructureExpenses] = useState('Carregando...');
