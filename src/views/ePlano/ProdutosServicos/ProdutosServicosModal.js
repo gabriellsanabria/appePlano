@@ -12,7 +12,7 @@ const ProdutosServicosModal = ({ isOpen, onClose }) => {
   const handleSave = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_BASE_URL_AMPLIFY}/adicionar_produto_servico`, {
+      const response = await fetch(`${API_BASE_URL}/adicionar_produto_servico`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
