@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const InvestimentsPieChart = () => {
   const [chart, setChart] = useState(null);
@@ -15,9 +16,9 @@ const InvestimentsPieChart = () => {
   const fetchData = async () => {
     try {
       const [insumosResponse, estruturaResponse, capitalGiroResponse] = await Promise.all([
-        fetch('http://127.0.0.1:5000/api/investimentos/insumos'),
-        fetch('http://127.0.0.1:5000/api/investimentos/estrutura'),
-        fetch('http://127.0.0.1:5000/api/investimentos/capital-de-giro') // Alterei o nome da variável para capitalGiroResponse
+        fetch(`${API_BASE_URL}/api/investimentos/insumos`),
+        fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
+        fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`)
       ]);
 
       const [insumosData, estruturaData, capitalGiroData] = await Promise.all([

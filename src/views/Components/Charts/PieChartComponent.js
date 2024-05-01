@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const PieChartComponent = () => {
   const [chart, setChart] = useState(null);
@@ -14,10 +15,10 @@ const PieChartComponent = () => {
 
   const fetchData = async () => {
     try {
-      const [insumosResponse, estruturaResponse, equipeResponse] = await Promise.all([
-        fetch('http://127.0.0.1:5000/api/despesas/insumos'),
-        fetch('http://127.0.0.1:5000/api/despesas/estrutura'),
-        fetch('http://127.0.0.1:5000/api/despesas/equipe')
+      const [insumosResponse, estruturaResponse, equipeResponse] = await Promise.all([        
+        fetch(`${API_BASE_URL}/api/despesas/insumos`),
+        fetch(`${API_BASE_URL}/api/despesas/estrutura`),
+        fetch(`${API_BASE_URL}/api/despesas/equipe`)
       ]);
 
       const [insumosData, estruturaData, equipeData] = await Promise.all([

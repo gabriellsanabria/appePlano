@@ -1,6 +1,6 @@
 // MeuEplano.js
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate,NavLink } from 'react-router-dom';
+import {Link, useParams, useNavigate,NavLink } from 'react-router-dom';
 import { getFirestore, collection, getDocs, where, query } from 'firebase/firestore';
 import Layout from '../../components/Layout/layout';
 import GuiaEplano from '../../components/GuiaEplano/GuiaEplano';
@@ -90,7 +90,7 @@ const MeuEplano = () => {
                 <div className="left-column" id='profile'>
                   <div className='box-profile'>
                     <div className='logo-avatar'>  
-                      <img src='https://e7.pngegg.com/pngimages/939/682/png-clipart-pizza-hut-logo-symbol-food-mall-promotions-food-logo.png'/>
+                      <img src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp'/>
                     </div>
                     <div className='company-name'>
                       <h2>
@@ -123,7 +123,7 @@ const MeuEplano = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='box-detalhes'>
+                  {/* <div className='box-detalhes'>
                     <div className='header-box-detalhes'>
                       <h4>Organização</h4>
                     </div>
@@ -131,7 +131,7 @@ const MeuEplano = () => {
                     <div className='organograma'>
                       <Organograma hierarchy={employeeHierarchy} />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="right-column">
                   <h2>Elabore o ePlano Financeiro do seu Negócio</h2>
@@ -142,7 +142,7 @@ const MeuEplano = () => {
                     <NavLink to='/estimar-receitas' className="big-button">
                       Estimar Receitas Mensais
                     </NavLink>
-                    <NavLink to='/estrutura-negocio' className="big-button">
+                    <NavLink to='/estimar-despesas' className="big-button">
                       Despesas Mensais: Definir a Estrutura de Operação do Negócio
                     </NavLink>
                     <NavLink to='/estimar-investimentos' className="big-button">
@@ -152,9 +152,49 @@ const MeuEplano = () => {
                     <NavLink to='/fluxo-caixa-projetado' className="big-button">Fluxo de Caixa Projetado</NavLink>
                   
                     <NavLink to='/analise-viabilidade' className="big-button">
-                      DASHBOARD: Análise de Viabilidade e Payback
+                    Painel de Indicadores do seu ePlano
                     </NavLink>
                   </div>
+                  <p>Elaborar o ePlano Financeiro do seu Negócio, entre outros, tem alguns objetivos:</p>
+                  <ul>
+                    <li>Aprender mais sobre a sua Ideia ao longo dos meses futuros.
+                      </li>
+                      <li>
+                    Entender se uma ideia de Negócio é Viável Financeiramente.
+                    </li>
+                      <li>
+                    Elaborar um Fluxo de Caixa Projetado.
+                    </li>
+                      <li>
+                    Criar Cenários de Projeção (mais otimista e mais pessimista).
+                    </li>
+                      <li>
+                    Analisar o Risco de Investir na sua Ideia de Negócio.
+                    </li>
+                      <li>
+                    Evitar surpresas ao longo da jornada.
+                    </li>
+
+                  </ul>
+                  <p>O Objetivo Principal é Analisar a Viabilidade Financeira da sua Ideia de Negócio.
+
+Para te ajudar, nós simplificamos este Processo nos 4 Botões acima, são eles:
+</p>
+<ul>
+  <li>Receitas Mensais: onde você vai listar os Produtos/ Serviços que serão comercializados.</li>
+  <li>Estimar Receitas e Impostos: onde você vai inserir Preços e Quantidades para cada Produto/ Serviço listado anteriormente.</li>
+  <li>Despesas Mensais: onde você vai listar e estimar as Despesas Mensais da sua ideia de Negócio.</li>
+  <li>Investimentos: onde você vai listar e estimar os Investimentos necessários para implementar as sua Ideia de Negócio.</li>
+</ul>
+
+<p>Após inserir as informações nos 4 Botões acima, você terá elaborado uma “Fotografia Financeira” – da sua Ideia de Negócio – antes de iniciar qualquer atividade nos outros 2 botões</p>
+  <ul>
+  <li>Fluxo de Caixa Projetado.</li>
+  <li>
+  Painel de Indicadores.
+  </li>
+</ul>
+<p>Vamos iniciar? Comece pela definição dos <Link to='/produtos-servicos'>Produtos e Serviços</Link></p>
                 </div>
               </React.Fragment>
             ))}

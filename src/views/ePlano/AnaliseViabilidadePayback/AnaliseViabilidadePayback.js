@@ -26,6 +26,9 @@ const AnaliseViabilidadePayback = () => {
           <div className='title'>
             <h1>Indicadores e Viabilidade do seu Negócio</h1>
           </div>
+          <div className='texts'>
+            <p>Painel de Indicadores do seu ePlano Financeiro</p>
+          </div>
           <div className='flex-container'>
             <div className='box'>
               <InvestmentsPieChart/>

@@ -14,7 +14,7 @@ const getTitle = (pathname) => {
         case '/minha-conta':
             return 'Minha Conta';
       default:
-        return 'Painel';
+        return 'ePlano Financeiro';
     }
   };
   

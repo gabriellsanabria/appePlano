@@ -63,9 +63,30 @@ const ProdutosServicos = () => {
       <div className='dashboard-page'>
         <div className='dashboard-content'>
           <div className='title'>
-            <h1>Receitas Mensais do Negócio</h1>
-            <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
+            <h1>Produtos e Serviços</h1>
           </div>
+          
+          <div className='texts'>              
+            <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
+                <p>
+                  <b>
+                    INSTRUÇÕES PARA LISTAR E DESCREVER OS PRODUTOS/ SERVIÇOS QUE O SEU NEGÓCIO IRÁ COMERCIALIZAR
+                  </b>
+                </p>
+                <p>1- Clique no Botão “Adicionar Produto/ Serviço”.</p>
+                <ul>
+                  <li>A- Na tela que será aberta, adicionar cada Produto/ Serviço que o seu Negócio irá comercializar.</li>
+                  <li>B- Para cada Produto/ Serviço inserido insira um breve descritivo do mesmo.</li>
+                </ul>
+                <p>
+                  Em seguida, Salve o Produto/ Serviço.
+                  Realize este passo a passo para cada Produto/ Serviço.
+
+                  Observação: Você pode inserir quantos Produtos/ Serviços desejar.
+
+                  Clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
+                </p>
+            </div>
           <div className='add-button'>
             <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>
           </div>

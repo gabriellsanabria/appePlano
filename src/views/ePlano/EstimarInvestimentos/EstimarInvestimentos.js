@@ -153,8 +153,38 @@ const EstimarInvestimentos = () => {
           <div className='title'>
             <h1>Investimentos Necessários para Implementar o Negócio</h1>
           </div>
+          <div className='texts'>
+            <p>Vamos Definir e Estimar os Investimento para Implementar o seu Negócio</p>
+            <p>
+              <b>
+              INSTRUÇÕES PARA DEFINIR E ESTIMAR OS INVESTIMENTOS PARA IMPLEMENTAR O SEU NEGÓCIO              </b>
+            </p>
+            <p>Esta Tela tem o Objetivo de Definir e Estimar todos os Investimentos Necessários para que o seu Negócio seja implementado.</p>
+            <p>Para facilitar, os Investimentos foram separados em:</p>
+            <p>Estrutura Física/ Virtual: neste Botão você deve inserir Investimentos como.</p>
+            <ul>
+              <li>Reformas, em geral (quanto mais detalhado você descrever melhor será a sua organização).</li>
+              <li>Contas que deverão ser pagas durante a Reforma (Energia Elétrica, Telefone, Água/ Esgoto, Gás etc.).</li>
+              <li>Estimativa de Caixa de Reserva Reforma.</li>
+              <li>Consumíveis durante a Reforma (produtos de limpeza, café e água, por exemplo).</li>
+              <li>Seguros durante a Reforma da Estrutura, Taxas etc.</li>
+              <li>Investimento Inicial com Marketing (impulsionamentos, Itens de divulgação etc.).</li>
+              <li>Aquisição de Equipamentos.</li>
+              <li>Aquisição de Mobiliário.</li>
+              <li>Construção do Site.</li>
+              <li>Consultorias e Assessorias, em geral.</li>
+              <li>Etc.</li>
+            </ul>
+
+            <p>Se houver aquisição do Imóvel, por exemplo, adicione o Valor neste item considerando todas as taxas.</p>
+            <p>Clique no Botão “Adicionar Estrutura Física/ Virtual” e insira o nome do Item e qual é o Valor a ser Investido. E Salve.</p>
+            <p>Repita este passo para Todos os Investimentos com Estrutura.</p>
+
+            
+            
+          </div>
           <div className='dashboard-col'>
-            <p>Vamos definir e estimar as Despesas Mensais do seu Negócio</p>
+            <p>Vamos Definir e Estimar os Investimento para Implementar o seu Negócio</p>
             <div className='title'>
               <h3>Estrutura física/Virtual</h3>
             </div>
@@ -166,7 +196,7 @@ const EstimarInvestimentos = () => {
                 <thead>
                   <tr>
                     <th>Estrutura Física/Virtual</th>
-                    <th>Despesa R$/Mês</th>
+                    <th>Investimento R$/Mês</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -192,8 +222,22 @@ const EstimarInvestimentos = () => {
             <div className='title'>
               <h3>Insumos (Estoque)</h3>
             </div>
+            <div className='texts'>
+            <p>
+              Insumos (Estoque): neste Botão você deve inserir Investimentos com o um Primeiro Estoque de Insumos para iniciar a Operação do seu Negócio.
+            </p>
+            <p>
+              Faça uma Estimativa de Insumos para ter em Estoque, com base nas Despesas com Insumos (Tela anterior).
+            </p>
+            <p>
+              Clique no Botão “Adicionar Insumos” e insira o nome do Item e qual é o Valor de Investimento. E Salve.
+            </p>
+            <p>
+            Repita este passo para Todos os Investimentos com Insumos.  
+            </p>
+            </div>
             <div className='add-button'>
-              <Link onClick={openInsumosModal}>Adicionar Insumos</Link>
+              <Link onClick={openInsumosModal}>Adicionar Insumos (Estoque)</Link>
             </div>
             <div className='table-container'>
               <table>
@@ -226,6 +270,23 @@ const EstimarInvestimentos = () => {
             <div className='title'>
               <h3>Capital de Giro</h3>
             </div>
+            <div className='texts'>
+              <p>
+                Capital de Giro: neste Botão você deve inserir uma Breve Estimativa de Capital de Giro.
+              </p>
+              <p>
+                Considere ter um Capital de Reserva para Eventuais Necessidades durante os primeiros meses de operação do Negócio.
+              </p>
+              <p>
+                Sugestão: Tenha um caixa de, pelo menos, 3 a 6 meses de operação.
+              </p>
+              <p>
+                Guarde este Capital em um Investimento que possa ser acessado a qualquer momento.
+              </p>
+              <p>
+                Quando todos os Investimentos estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
+              </p>
+            </div>
             <div className='add-button'>
               <Link onClick={openCapitalGiroModal}>Adicionar Capital de Giro</Link>
             </div>
@@ -233,13 +294,15 @@ const EstimarInvestimentos = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>Investimento R$/Mês</th>
+                    <th>Capital de Giro</th>
+                    <th>Investimento R$</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {capitalGiroData.map((capital) => (
                     <tr key={capital.id}>
+                      <td>Capital de giro Estimado</td>
                       <td>{capital.investimento_total}</td>
                       <td>
                         <button onClick={() => handleDelete(capital.id, 'capital-de-giro')}><FaTrashAlt /></button>

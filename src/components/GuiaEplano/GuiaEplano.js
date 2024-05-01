@@ -48,20 +48,16 @@ const GuiaEplano = () => {
 
   const steps = [
     'Cadastre uma Empresa',
-    'Resumo da Empresa',
-    'Produtos ou Serviços',
-    'Estimar receitas',
-    'Organização e Operações',
-    // 'Baixar meu ePlano',
+    'Receitas',
+    'Despesas',
+    'Investimentos',
   ];
 
   const descriptions = [
     'Forneça os dados da empresa que vamos gerar um Plano de Negócio',
-    'Em poucas palavras, forneça uma visão geral do empreendimento',
-    'Detalhes sobre os produtos ou serviços oferecidos, diferenciais competitivos e benefícios para os clientes',
-    'Estime receitas da sua empresa',
-    'Estrutura organizacional, informações sobre a equipe de gestão e suas responsabilidades.',
-    // 'Baixe um PDF do seu ePlano Pronto',
+    'Vamos estimar as Receitas Mensais do seu Negócio',
+    'Vamos definir e estimar as Despesas Mensais do seu Negócio',
+    'Vamos definir e estimar os investimentos do seu Negócio',
   ];
 
   const icones = [
@@ -84,13 +80,13 @@ const GuiaEplano = () => {
         setIsCnpjModalOpen(true);
         break;
       case 1:
-        setIsResumoExecutivoModalOpen(true);
+        navigate('/estimar-receitas');
         break;
       case 2:
-        navigate('/produtos-servicos');
+        navigate('/estimar-despesas');
         break;
       case 3:
-        navigate('/estimar-receitas');
+        navigate('/estimar-investimentos');
         break;
       default:
         break;
@@ -102,8 +98,8 @@ const GuiaEplano = () => {
       <div className={`header-guia ${isExpanded ? 'expanded' : 'collapsed'}`} onClick={handleCloseGuia}>
         <div className='titulo-guia'>
           <IoClose style={{ marginRight: '10px' }} />
-          <h1>Guia para Construir o seu ePlano</h1>
-          <p>Tenha um plano de negócios em menos de 10 minutos</p>
+          <h1>Guia para Construir o seu ePlano Financeiro</h1>
+          <p>Tenha o ePlano Financeiro do seu Negócio em 3 Etapas</p>
         </div>
         <div className='close-guia' onClick={handleCloseGuia}>
           <div className='botao'>
@@ -119,7 +115,7 @@ const GuiaEplano = () => {
       <div className={`blocks ${isExpanded ? 'expanded' : 'collapsed'}`}>
   <div className='steps'>
     {steps.map((step, index) => (
-      <div key={index} className={`block ${index < progress ? 'completed' : ''}`}>
+      <div key={index} onClick={() => handleStartButtonClick(index)} className={`block ${index < progress ? 'completed' : ''}`}>
         <div className='contBox'>
           <div className='ttlBox'>
             <div className='icone-box-guia'>{icones[index]}</div>

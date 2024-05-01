@@ -1,47 +1,52 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
-import './EstruturaNegocioModal.scss';
+import './EstimarDepesasModal.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
-const EstrutraNegocioModal = ({ isOpen, onClose, onSave }) => {
-  const [nomeEstrutura, setNomeEstrutura] = useState('');
-  const [custoEstrutura, setCustoEstrutura] = useState('');
+const InsumosModal = ({ isOpen, onClose, onSave }) => {
+  const [insumoInsumos, setInsumoInsumos] = useState('');
+  const [custoInsumo, setCustoInsumo] = useState('');
 
-  const saveEstrutura = async (estrutura) => {
-    const response = await fetch(`${API_BASE_URL}/api/despesas/estrutura`, {
+  const saveInsumos = async (insumos) => {
+    const response = await fetch(`${API_BASE_URL}/api/despesas/insumos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(estrutura)
+      body: JSON.stringify({ insumo: insumos.insumo, custo: insumos.custo }) // Ajustado conforme o esperado pelo backend
     });
     return response.json();
   };
 
   const handleSave = async () => {
-    if (!nomeEstrutura || !custoEstrutura) {
+    if (!insumoInsumos || !custoInsumo) {
       alert("Por favor, preencha todos os campos.");
       return;
     }
-    const custoNum = parseFloat(custoEstrutura);
+    const custoNum = parseFloat(custoInsumo);
     if (isNaN(custoNum)) {
       alert("Por favor, insira um valor numérico para o custo.");
       return;
     }
     
-    const estrutura = { nome: nomeEstrutura, custo: custoNum };
+    const insumos = { insumo: insumoInsumos, custo: custoNum };
     
-try {
-      const data = await saveEstrutura(estrutura);
+    try {
+      const data = await saveInsumos(insumos);
       console.log('Salvo com sucesso:', data);
-      onClose();  // Fechar modal após salvar
-      onSave();   // Chamar a função onSave para atualizar os dados locais
+      if (data.error) {
+        alert("Erro ao salvar: " + data.error);
+      } else {
+        onClose();  // Fechar modal após salvar
+        if (typeof onSave === 'function') {
+          onSave();   // Chamar a função onSave para atualizar os dados locais
+        }
+      }
     } catch (error) {
-      console.error('Erro ao salvar estrutura:', error);
+      console.error('Erro ao salvar insumos:', error);
       alert('Erro ao salvar. Tente novamente.');
     }
   };
-
 
   return (
     <div>
@@ -52,19 +57,19 @@ try {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>
-            <h1>Adicione a Estrutura Física/Virtual do Negócio</h1>
+            <h1>Adicione os insumos</h1>
           </div>
           <div className='modal-container'>
             <input
               type="text"
-              value={nomeEstrutura}
-              onChange={(e) => setNomeEstrutura(e.target.value)}
-              placeholder="Digite o nome da estrutura"
+              value={insumoInsumos}
+              onChange={(e) => setInsumoInsumos(e.target.value)}
+              placeholder="Digite o insumo"
             />
             <input
               type="text"
-              value={custoEstrutura}
-              onChange={(e) => setCustoEstrutura(e.target.value)}
+              value={custoInsumo}
+              onChange={(e) => setCustoInsumo(e.target.value)}
               placeholder="Digite o valor estimado dessa despesa por mês"
             />
           </div>
@@ -80,4 +85,4 @@ try {
   );
 };
 
-export default EstrutraNegocioModal;
+export default InsumosModal;

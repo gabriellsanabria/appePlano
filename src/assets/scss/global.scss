@@ -197,7 +197,9 @@ button {
 @import '../../assets/scss/colors';
 .dashboard-page {
     display: flex;
-  
+    p, ul{
+      font-size: 12px;
+    }
     .dashboard-content {
       flex: 1;
       padding: 0px;

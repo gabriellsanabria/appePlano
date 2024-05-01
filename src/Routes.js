@@ -17,7 +17,7 @@ import TutorialModal from './components/TutorialModal/TutorialModal';
 
 import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
 import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
-import EstruturaNegocio from './views/ePlano/EstruturaNegocio/EstruturaNegocio';
+import EstimarDepesas from './views/ePlano/EstimarDepesas/EstimarDepesas';
 import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
 import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
 import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
@@ -140,8 +140,8 @@ const AppRoutes = () => {
           element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
         />
         <Route
-          path="/estrutura-negocio"
-          element={user ? <EstruturaNegocio /> : <Navigate to="/login" />}
+          path="/estimar-despesas"
+          element={user ? <EstimarDepesas /> : <Navigate to="/login" />}
         />
         <Route
           path="/estimar-investimentos"

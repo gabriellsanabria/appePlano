@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
-import './EstruturaNegocio.scss';  // Asegure-se de que este arquivo contém os estilos necessários
-import EstruturaFisicaModal from './EstruturaNegocioModal';
+import './EstimarDepesas.scss';  // Asegure-se de que este arquivo contém os estilos necessários
+import EstruturaFisicaModal from './EstimarDepesasModal';
 import EquipeModal from './EquipeModal';
 import InsumosModal from './InsumosModal';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
-const EstruturaNegocio = () => {
+const EstimarDepesas = () => {
   const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false);
   const [isEquipeModalOpen, setIsEquipeModalOpen] = useState(false);
   const [isInsumosModalOpen, setIsInsumosModalOpen] = useState(false);
@@ -96,7 +96,7 @@ const EstruturaNegocio = () => {
       <div className='dashboard-page'>
         <div className='dashboard-content'>          
             <div className='title'>
-              <h1>Despesas Mensais do Negócio</h1>
+              <h1>Estimar Despesas Mensais do Negócio</h1>
             </div>
             <div className='table-container'>
             {/* <table>
@@ -253,4 +253,4 @@ const EstruturaNegocio = () => {
   );
 };
 
-export default EstruturaNegocio;
+export default EstimarDepesas;

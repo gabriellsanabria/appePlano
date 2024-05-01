@@ -175,7 +175,7 @@ const FluxoCaixa = ({ meses }) => {
   );
 
   const fluxoCaixa = [
-    "FLUXO DE CAIXA",
+    // "FLUXO DE CAIXA",
     "Receita Operacional",
   ];
 
