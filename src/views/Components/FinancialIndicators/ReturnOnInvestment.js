@@ -1,7 +1,7 @@
 // Componente para exibir o ROI
 import React from 'react';
 
-const ReturnOnInvestment = ({ percentage = "7,15%" }) => (
+const ReturnOnInvestment = ({ percentage = "-%" }) => (
   <div>
     {percentage}
   </div>

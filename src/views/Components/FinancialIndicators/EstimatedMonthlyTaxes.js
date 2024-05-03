@@ -1,7 +1,7 @@
 // Componente para exibir os Impostos Mensais Estimados
 import React from 'react';
 
-const EstimatedMonthlyTaxes = ({ percentage = "10%" }) => (
+const EstimatedMonthlyTaxes = ({ percentage = "-" }) => (
   <div>
     {percentage}
   </div>
