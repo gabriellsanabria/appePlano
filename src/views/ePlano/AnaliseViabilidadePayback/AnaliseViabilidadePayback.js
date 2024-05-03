@@ -54,15 +54,15 @@ const AnaliseViabilidadePayback = () => {
             </div>
             <div className='box'>
               <div className='box-content'>
-                <h3>Impostos Mensais Estimados</h3>
-                <p>(Média 24 meses)</p>
+                <h3>Impostos</h3>
+                <p>(Estimativa Mensal)</p>
                 <p className='valor'><EstimatedMonthlyTaxes /></p>
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
-                <h3>Pagamento Total Estimado</h3>
-                <p>(Média 24 meses)</p>
+                <h3>Lucro Líquido Acumulado</h3>
+                <p>(Somatório 24 meses)</p>
                 <p className='valor'><TotalEstimatedPayments /></p>
               </div>
             </div>
@@ -79,20 +79,21 @@ const AnaliseViabilidadePayback = () => {
             <div className='box'>
               <div className='box-content'>
                 <h3>Investimento Inicial</h3>
+                <p>(Mês 0)</p>
                 <p className='valor'><InitialInvestment /></p>
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
                 <h3>Payback Esperado</h3>
-                <p>(em meses)</p>
+                <p>(Fluxo projetado esperado)</p>
                 <p className='valor'><ExpectedPayback /></p>
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
                 <h3>ROI</h3>
-                <p>(em 24 meses)</p>
+                <p>(24 meses)</p>
                 <p className='valor'><ReturnOnInvestment /></p>
               </div>
             </div>
