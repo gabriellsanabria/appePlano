@@ -8,6 +8,7 @@ function Parceiros() {
   ];
   const images2 = [
     "https://eplano.s3.sa-east-1.amazonaws.com/logo_plano_piloto.webp",
+    "https://eplano.s3.sa-east-1.amazonaws.com/LOGO_laboratorio_OLAF.jpg",
     "https://eplano.s3.sa-east-1.amazonaws.com/logo_coelho_lunar.webp",
     "https://eplano.s3.sa-east-1.amazonaws.com/logo_ecousina.webp",
   ];
