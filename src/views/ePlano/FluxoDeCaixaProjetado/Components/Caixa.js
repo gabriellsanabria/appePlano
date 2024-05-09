@@ -175,7 +175,7 @@ const Caixa = ({ meses }) => {
         <div key={item} className='row' style={{ fontWeight: highlightItems.includes(item) ? 'bold' : 'normal' }}>
           <div className='cellCol items-color'>{item}</div>
           <div className='cell total-color'>
-            R$ {(item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) : (item === "CAIXA" ? investmentSums.reduce((a, b) => a + b, 0) : 0)).toLocaleString("pt-BR")}
+            R$ {(item === "CAIXA" ? investmentSums[investmentSums.length - 1] : (item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) : 0)).toLocaleString("pt-BR")}  
           </div>
           {renderCells(item, highlightItems.includes(item))}
         </div>

@@ -16,9 +16,15 @@ import ReturnOnInvestment from '../../Components/FinancialIndicators/ReturnOnInv
 import PieChartComponent from '../../Components/Charts/PieChartComponent';
 import InvestmentsPieChart from '../../Components/Charts/InvestmentsPieChart';
 import ProfitAnalysisLineChart from '../../Components/Charts/ProfitAnalysisLineChart';
+import LucroLiquidoAcumuladoTotal from '../../ePlano/FluxoDeCaixaProjetado/Components/LucroLiquidoAcumuladoTotal';
+
 
 
 const AnaliseViabilidadePayback = () => {
+  
+  // Função para gerar a lista de meses
+  const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 0}`);
+  const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
   return (
     <Layout>
       <div className='dashboard-page'>
@@ -49,21 +55,24 @@ const AnaliseViabilidadePayback = () => {
               <div className='box-content'>
                 <h3>Lucro Líquido Mensal (LLM)</h3>
                 <p>(Média 24 meses)</p>
-                <p className='valor'><NetMonthlyProfit /></p>
+                <p className='valor'><NetMonthlyProfit meses={meses}/></p>
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
                 <h3>Impostos</h3>
                 <p>(Estimativa Mensal)</p>
-                <p className='valor'><EstimatedMonthlyTaxes /></p>
+                {/* <p className='valor'><EstimatedMonthlyTaxes /></p> */}
+                <h2>15%</h2>
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
                 <h3>Lucro Líquido Acumulado</h3>
                 <p>(Somatório 24 meses)</p>
-                <p className='valor'><TotalEstimatedPayments /></p>
+                <p className='valor'>
+                  <TotalEstimatedPayments meses={meses} />                  
+                </p>
               </div>
             </div>
           </div>
@@ -73,7 +82,7 @@ const AnaliseViabilidadePayback = () => {
               <div className='box-content'>
                 <h3>Despesa Mensal</h3>
                 <p>(Média 24 meses)</p>
-                <p className='valor'><MonthlyExpenses /></p>
+                <p className='valor'><MonthlyExpenses meses={meses} /></p>
               </div>
             </div>
             <div className='box'>
