@@ -4,7 +4,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../apiConfig';
 const ReceitaBrutaEstimada = () => {
   const [amount, setAmount] = useState('Carregando...');
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 1}`);
-  const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
+  const meses = generateMonths(24);  // Lista de meses ajustada para 24 meses
  
   useEffect(() => {
     const fetchAndProcessData = async () => {
@@ -68,7 +68,7 @@ const ReceitaBrutaEstimada = () => {
 
   const renderTable = (items, highlightItems) => {
     const totalInvestment = investmentSums.reduce((a, b) => a + b, 0);
-    const averagePerMonth = totalInvestment / meses.length;
+    const averagePerMonth = totalInvestment / 24;
   
     return (
       <div className='table'>
