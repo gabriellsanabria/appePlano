@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../../../../apiConfig';
 
-const LucroLiquidoAcumuladoTotal = ({ meses }) => {
+const LucroLiquidoAcumuladoTotal = ({ meses, onResult }) => {
   const [amount, setAmount] = useState('Carregando...');
+  
   const [estruturaInvestimento, setEstruturaInvestimento] = useState(0);
   const [insumosInvestimento, setInsumosInvestimento] = useState(0);
   const [insumosCapitalGiro, setCapitalGiroInvestimento] = useState(0);
+
   const [estruturaDespesas, setEstruturaDespesas] = useState(0);
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
@@ -13,30 +15,30 @@ const LucroLiquidoAcumuladoTotal = ({ meses }) => {
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
-        // Busca os dados da API para a estrutura
-        const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura`);
-        const dataEstrutura = await responseEstrutura.json();
-        const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
-        setEstruturaInvestimento(somaInvestimentoEstrutura);
-
-        // Busca os dados da API para os insumos
-        const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos`);
-        const dataInsumos = await responseInsumos.json();
-        const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
-        setInsumosInvestimento(somaInvestimentoInsumos);
-
-        // Busca os dados da API para Capital de giro
-        const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`);
-        const dataCapitalGiro = await responseCapitalGiro.json();
-        const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
-        setCapitalGiroInvestimento(somaCapitalGiro);
+         // Busca os dados da API para a estrutura
+         const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura`);
+         const dataEstrutura = await responseEstrutura.json();
+         const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
+         setEstruturaInvestimento(somaInvestimentoEstrutura);
+ 
+         // Busca os dados da API para os insumos
+         const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos`);
+         const dataInsumos = await responseInsumos.json();
+         const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
+         setInsumosInvestimento(somaInvestimentoInsumos);
+         
+         // Busca os dados da API para Capital de giro
+         const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`);
+         const dataCapitalGiro = await responseCapitalGiro.json();
+         const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
+         setCapitalGiroInvestimento(somaCapitalGiro);
 
         const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
         const data = await response.json();
-
+        
         // Calculando o total de receita bruta estimada
         const totalRevenue = data.reduce((acc, curr) => {
           const totalIndividual = curr.quantidade_vendida_por_mes * parseFloat(curr.valor_unitario);
@@ -45,24 +47,26 @@ const LucroLiquidoAcumuladoTotal = ({ meses }) => {
 
         // Definindo o valor total de receita bruta estimada formatado
         setAmount(`R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
-
-        // Busca os dados da API para a estrutura
-        const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
-        const dataDespesaEstrutura = await responseEstruturaDespesas.json();
-        const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
-        setEstruturaDespesas(somaDespesasEstrutura);
-
-        // Busca os dados da API para os insumos
-        const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
-        const dataDespesaInsumos = await responseInsumosDespesas.json();
-        const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
-        setInsumosDespesas(somaDespesasInsumos);
-
-        // Busca os dados da API para Equipe
-        const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
-        const dataDespesaEquipe = await responseEquipeDespesas.json();
-        const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
-        setEquipeDespesas(somaDespesasEquipe);
+      
+         // Busca os dados da API para a estrutura
+         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
+         const dataDespesaEstrutura = await responseEstruturaDespesas.json();
+         const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
+         setEstruturaDespesas(somaDespesasEstrutura);
+ 
+         // Busca os dados da API para os insumos
+         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
+         const dataDespesaInsumos = await responseInsumosDespesas.json();
+         const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
+         setInsumosDespesas(somaDespesasInsumos);
+         
+         // Busca os dados da API para Equipe
+         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
+         const dataDespesaEquipe = await responseEquipeDespesas.json();
+         const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
+         setEquipeDespesas(somaDespesasEquipe);
+      
+      
       } catch (error) {
         console.error('Falha ao carregar dados:', error);
         setAmount('Erro ao carregar dados');
@@ -71,6 +75,7 @@ const LucroLiquidoAcumuladoTotal = ({ meses }) => {
 
     fetchAndProcessData();
   }, [setAmount]); // Passando setAmount como dependência para o useEffect
+  
 
   const createDynamicValues = (totalMensalProjetado, numMonths, percentages, fixedValues) => {
     const values = [];
@@ -89,27 +94,27 @@ const LucroLiquidoAcumuladoTotal = ({ meses }) => {
     }
     return values;
   };
-
+  
   const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'));
 
   // Remover 15% do totalMensalProjetado
   const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
-
+  
   const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-
+  
   const caixaInicial = insumosInvestimento + insumosCapitalGiro;
-
+  
   const investimentosEstimados = estruturaInvestimento + insumosInvestimento + insumosCapitalGiro;
   const investimentosTotaisEstimados = -investimentosEstimados;
   // Criando um array de valores fixos para os investimentos
   const fixedInvestments = new Array(meses.length).fill(0);
   fixedInvestments[0] = investimentosTotaisEstimados;
-
+  
   // Calculando a receita operacional usando a função createDynamicValues
   let receitaOperacionalValues = createDynamicValues(totalMensalProjetadoPosDesconto, meses.length, percentages, fixedInvestments);
 
   receitaOperacionalValues[1] += caixaInicial;
-
+    
   // Calculando a porcentagem de despesas relacionadas aos insumos com base nas porcentagens fornecidas
   const despesasInsumosPorcentagem = insumosDespesas * percentages[0]; // Supondo que você queira usar a porcentagem do primeiro mês
   console.log('Porcentagem de despesas relacionadas aos insumos:', despesasInsumosPorcentagem);
@@ -126,20 +131,71 @@ const LucroLiquidoAcumuladoTotal = ({ meses }) => {
     }
   });
 
+  // Exibindo os valores subtraídos
+  console.log("Valores subtraídos:");
+  receitaOperacionalValues.forEach((value, index) => {
+    console.log(`Índice ${index}: ${value}`);
+  });
+
   // Valor total da receita operacional
   const receitaOperacional = receitaOperacionalValues.reduce((acc, value) => acc + value, 0);
-
-  // Definindo valueMap
+  
+  // Aqui você pode usar receitaOperacionalValues para qualquer outra coisa, como armazenamento no objeto valueMap, se necessário.
+  
   const valueMap = {
     "Receita Operacional": receitaOperacionalValues,
   };
-
+  
   const sumInvestments = () => valueMap["Receita Operacional"];
   const investmentSums = sumInvestments();
 
+  const renderCells = (item, highlight) => {
+    let accumulatedTotal = 0;
+    const values = item in valueMap ? valueMap[item] : (item === "LUCRO LÍQUIDO ACUMULADO" ? investmentSums : Array(meses.length).fill(0));
+    return values.map((value, index) => {
+      accumulatedTotal += value; // Acumula o valor atual ao total acumulado
+      return (
+        <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
+          R$ {accumulatedTotal.toLocaleString("pt-BR")}
+        </div>
+      );
+    });
+  };
+  
+
+  const renderTable = (items, highlightItems) => (
+    <div className='table'>
+      {items.map(item => (
+        <div key={item} className='row' style={{ fontWeight: highlightItems.includes(item) ? 'bold' : 'normal' }}>
+          <div className='cellCol items-color'>{item}</div>
+          {/* Condicional para não exibir o total de LUCRO LÍQUIDO ACUMULADO */}
+          {item !== "LUCRO LÍQUIDO ACUMULADO" && (
+            <div className='cell total-color'>
+              R$ {(item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) : 0).toLocaleString("pt-BR")}
+            </div>
+          )}
+          {renderCells(item, highlightItems.includes(item))}
+        </div>
+      ))}
+    </div>
+  );
+
+  const lucroliquidoacumulado = [
+    "LUCRO LÍQUIDO ACUMULADO",
+  ];
+
+  const highlightItems = ["LUCRO LÍQUIDO ACUMULADO"];
+
+  useEffect(() => {
+    // Passar o array de valores acumulados para o callback
+    if (onResult) {
+      onResult(investmentSums);
+    }
+  }, [investmentSums, onResult]);
+
   return (
     <div className='groupLine'>
-      R$ {investmentSums.reduce((a, b) => a + b, 0).toLocaleString("pt-BR")}
+      {renderTable(lucroliquidoacumulado, highlightItems)}
     </div>
   );
 };

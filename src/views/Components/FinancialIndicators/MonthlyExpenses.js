@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../apiConfig';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const MonthlyExpenses = ({ meses }) => {
-
   const [estruturaDespesas, setEstruturaDespesas] = useState(0);
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
@@ -10,24 +9,20 @@ const MonthlyExpenses = ({ meses }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Busca os dados da API para a estrutura
         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
         const dataEstrutura = await responseEstruturaDespesas.json();
         const somaDespesasEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEstruturaDespesas(somaDespesasEstrutura);
 
-        // Busca os dados da API para os insumos
         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
         const dataInsumos = await responseInsumosDespesas.json();
         const somaDespesasInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
         setInsumosDespesas(somaDespesasInsumos);
         
-        // Busca os dados da API para Equipe
         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
         const dataEquipe = await responseEquipeDespesas.json();
         const somaDespesasEquipe = dataEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEquipeDespesas(somaDespesasEquipe);
-
       } catch (error) {
         console.error('Erro ao buscar os dados da API:', error);
       }
@@ -36,32 +31,43 @@ const MonthlyExpenses = ({ meses }) => {
     fetchData();
   }, []);
 
-  // Inicializa os valores apenas no primeiro mês; os outros meses são preenchidos com zero
   const createDynamicValues = (value, numMonths) => {
     return [0, ...Array(numMonths - 1).fill(value)];
   };
-  
-  // Calculando a variação percentual para os insumos
+
   const insumosVariation = [0, 0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-  
-  // Mapa de valores para cada categoria de despesas
+
   const valueMap = {
     "Estrutura Física/ Virtual": createDynamicValues(estruturaDespesas, meses.length),
     "Equipe de Trabalho": createDynamicValues(equipeDespesas, meses.length),
     "Insumos Operacionais": createDynamicValues(insumosDespesas, meses.length).map((value, index) => value * insumosVariation[index]),
   };
-  
-  // Soma dos investimentos para cada mês
+
+  const calculateTotals = () => {
+    const totals = {};
+    let grandTotal = 0;
+    Object.keys(valueMap).forEach(category => {
+      const categoryTotal = valueMap[category].reduce((acc, value) => acc + value, 0);
+      totals[category] = categoryTotal;
+      grandTotal += categoryTotal;
+    });
+    totals['Total Geral'] = grandTotal;
+    return totals;
+  };
+
   const sumInvestments = () => 
     valueMap["Estrutura Física/ Virtual"].map((value, index) => 
       value + valueMap["Equipe de Trabalho"][index] + valueMap["Insumos Operacionais"][index]
     );
 
   const investmentSums = sumInvestments();
+  const totalInvestmentSum = investmentSums.reduce((acc, value) => acc + value, 0);
+  const averageInvestment = totalInvestmentSum / 24;
 
-  // Renderização das células do valor de cada categoria
+  const totals = calculateTotals();
+
   const renderCells = (item, highlight) => {
-    let values = item in valueMap ? valueMap[item] : (item === "DESPESAS ESTIMADAS" ? investmentSums : Array(meses.length).fill(0));
+    let values = item in valueMap ? valueMap[item] : Array(meses.length).fill(0);
     return values.map((value, index) => (
       <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
         R$ {value.toLocaleString("pt-BR")}
@@ -69,23 +75,23 @@ const MonthlyExpenses = ({ meses }) => {
     ));
   };
 
-  // Renderização da tabela completa
-  const renderTable = (total) => (
-    <div className='table'>
-      <div className='row'>
-        <div className='cellCol items-color'></div>
-        <div className='cell total-color'>
-          R$ {total.toLocaleString("pt-BR")}
-        </div>
+  const renderTotalCells = () => {
+    return Object.keys(totals).map((category, index) => (
+      <div key={index} className='cell'>
+        R$ {totals[category].toLocaleString("pt-BR")}
       </div>
+    ));
+  };
+
+  const renderTable = () => (
+    <div>
+      R$ {averageInvestment.toLocaleString("pt-BR")}
     </div>
   );
 
-  const highlightItems = []; // Não há necessidade de destacar nenhum item
-
   return (
     <div className='groupLine'>
-      {renderTable(investmentSums.reduce((acc, value) => acc + value, 0))}
+      {renderTable()}
     </div>
   );
 };
