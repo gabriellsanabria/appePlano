@@ -186,7 +186,7 @@ const EstimarInvestimentos = () => {
           <div className='dashboard-col'>
             <p>Vamos Definir e Estimar os Investimento para Implementar o seu Negócio</p>
             <div className='title'>
-              <h3>Estrutura física/Virtual</h3>
+              <h3>Estrutura Física/Virtual</h3>
             </div>
             <div className='add-button'>
               <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física/Virtual</Link>
@@ -271,6 +271,7 @@ const EstimarInvestimentos = () => {
               <h3>Capital de Giro</h3>
             </div>
             <div className='texts'>
+              <p>O Capital de Giro é uma Capital de Reserva para que você tenha mais Segurança no desenvolvimento do seu Negócio.</p>
               <p>
                 Capital de Giro: neste Botão você deve inserir uma Breve Estimativa de Capital de Giro.
               </p>

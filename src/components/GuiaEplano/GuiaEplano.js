@@ -98,7 +98,7 @@ const GuiaEplano = () => {
       <div className={`header-guia ${isExpanded ? 'expanded' : 'collapsed'}`} onClick={handleCloseGuia}>
         <div className='titulo-guia'>
           <IoClose style={{ marginRight: '10px' }} />
-          <h1>Guia para Construir o seu ePlano Financeiro</h1>
+          <h1>Guia Rápido para Construir o seu ePlano Financeiro</h1>
           <p>Tenha o ePlano Financeiro do seu Negócio em 3 Etapas</p>
         </div>
         <div className='close-guia' onClick={handleCloseGuia}>

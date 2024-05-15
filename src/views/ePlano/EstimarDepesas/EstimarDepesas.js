@@ -98,24 +98,38 @@ const EstimarDepesas = () => {
             <div className='title'>
               <h1>Estimar Despesas Mensais do Negócio</h1>
             </div>
-            <div className='table-container'>
-            {/* <table>
-              <tbody>
-                {initialTableData.map((row, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <td key={cellIndex}>{cell}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table> */}
+            <div className='texts'>
+            <p>Vamos estimar as Despesas Mensais do seu Negócio</p>
+            <p>
+              <b>
+              INSTRUÇÕES PARA DEFINIR E ESTIMAR AS DESPESAS MENSAIS DO SEU NEGÓCIO
+              </b>
+            </p>
+            <p>Esta Tela tem o Objetivo de Definir e Estimar todas as Despesas que o seu Negócio terá mensalmente</p>
+            <p>Para facilitar, as Despesas foram separadas em:</p>
+            
           </div>
-          <div className='dashboard-col'>     
-          
-          <p>Vamos definir e estimar as Despesas Mensais do seu Negócio</p>       
+          <div className='dashboard-col'>    
             <div className='title'>
-              <h3>Estrutura física/Virtual</h3>
+              <h3>Estrutura Física/Virtual</h3>
+            </div> 
+            <div className='texts'>
+          <p>Estrutura Física/ Virtual: neste Botão você deve inserir Despesas como.</p>
+            <ul>
+              <li>Aluguel, Energia Elétrica, Telefone, Água/ Esgoto, Gás etc.</li>
+              <li>Seguro da Estrutura, Taxas etc.</li>
+              <li>Marketing (impulsionamentos, Itens de divulgação etc.).</li>
+              <li>Taxas Estimadas com Cartões etc.</li>
+              <li>Manutenção do Site.</li>
+              <li>Manutenção da Estrutura.</li>
+              <li>Caixa de Reserva Mensal.</li>
+              <li>Planos de Saúde.</li>
+              <li>Consumíveis Mensais (produtos de limpeza, café e água, por exemplo)</li>
+              <li>Etc.</li>
+            </ul>
+            <p>Se algum destes Valores for uma Despesa Anual, divida o Valor pelos 12 meses para inserir o Valor Mensal.</p>
+            <p>Clique no Botão “Adicionar Estrutura Física/ Virtual” e insira o nome do Item e qual é o Valor Mensal. E Salve.</p>
+            <p>Repita este passo para Todas as Despesas com Estrutura.</p>    
             </div>
             <div className='add-button'>
               <Link onClick={openEstruturaFisicaModal}>Adicionar Estrutura Física/Virtual</Link>
@@ -149,12 +163,26 @@ const EstimarDepesas = () => {
 
             </div>
           </div>
-          <div className='dashboard-col'>            
-            <div className='title'>
+          <div className='dashboard-col'>                
+
+          <div className='title'>
               <h3>Equipe</h3>
             </div>
+            <div className='texts'>
+          <p>neste Botão você deve inserir Despesas como:</p>
+            <ul>
+              <li>Salários dos Funcionários: Considere Todos os Encargos.</li>
+              <li>Pagamentos de Consultorias e Assessorias (Marketing e Contabilidade, por exemplo).</li>
+              <li>Etc.</li>
+            </ul>
+            
+            <p>Se algum destes Valores for uma Despesa Anual, divida o Valor pelos 12 meses para inserir o Valor Mensal.</p>
+            <p>Clique no Botão “Adicionar Equipe” e insira o nome do Item e qual é o Valor Mensal. E Salve.</p>
+            <p>Repita este passo para Todas as Despesas com Equipe.</p>
+      
             <div className='add-button'>
               <Link onClick={openEquipeModal}>Adicionar Equipe</Link>
+            </div>
             </div>
             <div className='table-container'>
               <table>
@@ -189,6 +217,20 @@ const EstimarDepesas = () => {
           <div className='dashboard-col'>            
             <div className='title'>
               <h3>Insumos de Produção e Vendas</h3>
+            </div>
+            
+            <div className='texts'>
+              <p>neste Botão você deve inserir Despesas como os Insumos necessários para Operação do Negócio:</p>
+              <p>Este Botão é relacionado com as Receitas.</p>
+              <p>Se você vende um refrigerante, este precisa ser comprado. Aqui neste botão é para inserir os Insumos e Estimar qual é o custo Unitário e as quantidades a serem vendidas mensalmente.</p>
+              <p>Faça a relação com os Itens inseridos nas Receitas. Este item deve conter as Despesas com todos os Insumos que serão comprados Mensalmente.</p>
+
+              <p>Se algum destes Valores for uma Despesa Anual, divida o Valor pelos 12 meses para inserir o Valor Mensal.</p>
+              <p>Clique no Botão “Adicionar Insumos” e insira o nome do Insumo e qual é o Valor Mensal. E Salve.</p>
+              <p>Repita este passo para Todas as Despesas com Insumos.</p>
+
+              <p>Quando todas as Despesas estiverem Estimadas, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.</p>
+
             </div>
             <div className='add-button'>
               <Link onClick={openInsumosModal}>Adicionar Insumos</Link>

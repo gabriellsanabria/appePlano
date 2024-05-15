@@ -92,7 +92,7 @@ const EstimarReceitas = () => {
 
   const handleSaveTax = async (novaTaxa) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/adicionar_taxa_mensal_negocio`, {
+      const response = await fetch(`${API_BASE_URL}/add_imposto`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ const EstimarReceitas = () => {
             <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
             <p>
               <b>
-              NSTRUÇÕES PARA ESTIMAR AS RECEITAS MENSAIS E OS IMPOSTOS DO SEU NEGÓCIO
+              INSTRUÇÕES PARA ESTIMAR AS RECEITAS MENSAIS E OS IMPOSTOS DO SEU NEGÓCIO
               </b>
             </p>
             <p>1- Clique no Botão “Adicionar Receitas”.</p>
