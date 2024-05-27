@@ -11,6 +11,7 @@ const EstimarReceitas = () => {
   const [isTaxModalOpen, setIsTaxModalOpen] = useState(false); // Estado para controlar a abertura do modal de impostos
   const [receitasMensais, setReceitasMensais] = useState([]);
   const [taxes, setTaxes] = useState([]);
+  const [totalTaxes, setTotalTaxes] = useState(0);
 
   useEffect(() => {
     obterReceitasMensaisNegocio();
@@ -27,15 +28,27 @@ const EstimarReceitas = () => {
     }
   };
 
+
+  // Dentro da função useEffect, atualize a chamada para obter os impostos e calcule o total
+  useEffect(() => {
+    obterTaxesMensaisNegocio();
+  }, []);
+
+// Dentro da função obterTaxesMensaisNegocio, atualize o estado dos impostos e calcule o total corretamente
   const obterTaxesMensaisNegocio = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/impostos_mensais_negocio`);
+      const response = await fetch(`${API_BASE_URL}/listar_impostos_mensais`);
       const data = await response.json();
       setTaxes(data);
+      // Calcula o total dos impostos corretamente usando a propriedade correta
+      const total = data.reduce((acc, tax) => acc + parseFloat(tax.valor_imposto_mensal), 0);
+      setTotalTaxes(total);
     } catch (error) {
       console.error('Erro ao obter impostos mensais do negócio:', error);
     }
   };
+
+
 
   const openResumoExecutivoModal = () => {
     setIsResumoExecutivoModalOpen(true);
@@ -220,16 +233,19 @@ Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realiz
               <tbody>
                 {taxes.map((tax) => (
                   <tr key={tax.id}>
-                    <td>{tax.descricao}</td>
-                    <td>{formatCurrency(tax.valor)}</td>
+                    <td>{tax.nome_imposto}</td>
+                    <td>{totalTaxes.toFixed(2)}%</td>
                     <td>
-                      <button onClick={() => handleExcluirTax(tax.id)}><FaTrashAlt /></button>
+                      <button onClick={() => setIsTaxModalOpen(true)}><FaEdit /></button>
                     </td>
                   </tr>
                 ))}
+                {/* Adiciona uma linha para exibir o total dos impostos */}
                 <tr>
-                  <td colSpan="3"><strong>Total</strong></td>
+                  <td colSpan="2"><strong>Total</strong></td>
+                  <td>{totalTaxes.toFixed(2)}%</td>
                 </tr>
+
               </tbody>
             </table>
           </div>

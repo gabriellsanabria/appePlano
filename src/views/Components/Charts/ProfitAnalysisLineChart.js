@@ -214,7 +214,7 @@ const ProfitAnalysisLineChart = () => {
             ) : (
                 <>
                     <canvas ref={chartRef}></canvas>
-                    <div className='table'>
+                    {/* <div className='table'>
                         <div className='row'>
                             <div className='cellCol items-color'>LUCRO LÍQUIDO ACUMULADO</div>
                             {lucroLiquidoData.esperado.map((value, index) => (
@@ -239,7 +239,7 @@ const ProfitAnalysisLineChart = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 </>
             )}
         </div>

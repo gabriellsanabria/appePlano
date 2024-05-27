@@ -13,6 +13,7 @@ import Cadastro from './views/CadastroSteps/CadastroStep1';
 import MeuEplano from './views/Dashboard/MeuEplano';
 import Loader from './views/Loader/Loader';
 import TutorialModal from './components/TutorialModal/TutorialModal';
+import Doc from './components/Doc/Doc';
 
 
 import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
@@ -88,6 +89,8 @@ const AppRoutes = () => {
       <Routes>
       
         <Route path="/" element={<Login />} />
+        <Route path="/doc" element={user ? <Doc /> : <Navigate to="/login" />} />
+        
         <Route path="/tutorial" element={user ? <TutorialModal /> : <Navigate to="/login" />} />
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/cadastro" element={<Cadastro />} />

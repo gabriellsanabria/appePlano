@@ -23,6 +23,8 @@ yarn-error.log*
 .idea/         # IntelliJ IDEA
 .vscode/       # Visual Studio Code
 
+/src/components/Doc/
+
 
 # Cache de desenvolvimento
 web/node_modules/.cache/default-development/
