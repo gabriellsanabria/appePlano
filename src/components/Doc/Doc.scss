@@ -1,0 +1,41 @@
+/* Doc.scss */
+
+.DocContainer {
+    margin: 20px;
+  }
+  
+  .InstructionBox {
+    background-color: #f4f4f4;
+    padding: 1rem;
+    border-radius: 5px;
+    font-family: monospace;
+  }
+  
+  .InstructionCategory {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  kbd {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding:  5px;
+    margin: 0 2px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9em;
+    color: black;
+  }
+  
+  pre {
+    background-color: black;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: monospace;
+    color: yellow;
+  }
+  
+  code {
+    font-family: monospace;
+  }
+  
