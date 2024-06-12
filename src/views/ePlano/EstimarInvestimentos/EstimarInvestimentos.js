@@ -5,8 +5,11 @@ import Layout from '../../../components/Layout/layout';
 import './EstimarInvestimentos.scss'; // Importe ou crie este arquivo para estilizar a página
 import EstruturaFisicaModal from './EstimarInvestimentosModal'; // Importe o modal de Estrutura Física/Virtual
 import CapitalGiroModal from './CapitalGiroModal'; // Importe o modal de Capital de Giro
+
+import TwoColumnLayout from '../../../components/Layout/TwoColumnLayout';
 import InsumosModal from './InsumosModal'; // Importe o modal de Insumos
 
+import ButtonsEplano from '../../Dashboard/ButtonsEplano';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 const EstimarInvestimentos = () => {
@@ -150,37 +153,21 @@ const EstimarInvestimentos = () => {
     <Layout>
       <div className='dashboard-page'>
         <div className='dashboard-content'>
+        <TwoColumnLayout>
+
+        <div className="left-column" id='profile'>
+          <ButtonsEplano />
+        </div>
+        <div className="right-column">
           <div className='title'>
             <h1>Investimentos Necessários para Implementar o Negócio</h1>
           </div>
           <div className='texts'>
-            <p>Vamos Definir e Estimar os Investimento para Implementar o seu Negócio</p>
-            <p>
-              <b>
-              INSTRUÇÕES PARA DEFINIR E ESTIMAR OS INVESTIMENTOS PARA IMPLEMENTAR O SEU NEGÓCIO              </b>
-            </p>
-            <p>Esta Tela tem o Objetivo de Definir e Estimar todos os Investimentos Necessários para que o seu Negócio seja implementado.</p>
-            <p>Para facilitar, os Investimentos foram separados em:</p>
-            <p>Estrutura Física/ Virtual: neste Botão você deve inserir Investimentos como.</p>
-            <ul>
-              <li>Reformas, em geral (quanto mais detalhado você descrever melhor será a sua organização).</li>
-              <li>Contas que deverão ser pagas durante a Reforma (Energia Elétrica, Telefone, Água/ Esgoto, Gás etc.).</li>
-              <li>Estimativa de Caixa de Reserva Reforma.</li>
-              <li>Consumíveis durante a Reforma (produtos de limpeza, café e água, por exemplo).</li>
-              <li>Seguros durante a Reforma da Estrutura, Taxas etc.</li>
-              <li>Investimento Inicial com Marketing (impulsionamentos, Itens de divulgação etc.).</li>
-              <li>Aquisição de Equipamentos.</li>
-              <li>Aquisição de Mobiliário.</li>
-              <li>Construção do Site.</li>
-              <li>Consultorias e Assessorias, em geral.</li>
-              <li>Etc.</li>
-            </ul>
+           <p>
+           Defina e estime os investimentos para iniciar seu negócio. Na tela, organize os investimentos em estrutura física/virtual, incluindo reformas, despesas durante a reforma, marketing inicial, equipamentos, e outros. Adicione o valor para cada item e salve. Repita o processo para todos os investimentos necessários.
 
-            <p>Se houver aquisição do Imóvel, por exemplo, adicione o Valor neste item considerando todas as taxas.</p>
-            <p>Clique no Botão “Adicionar Estrutura Física/ Virtual” e insira o nome do Item e qual é o Valor a ser Investido. E Salve.</p>
-            <p>Repita este passo para Todos os Investimentos com Estrutura.</p>
 
-            
+           </p>
             
           </div>
           <div className='dashboard-col'>
@@ -318,6 +305,9 @@ const EstimarInvestimentos = () => {
               </table>
             </div>
           </div>
+          
+          </div>
+        </TwoColumnLayout>
         </div>
       </div>
       {isEstruturaFisicaModalOpen && (

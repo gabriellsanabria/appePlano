@@ -163,117 +163,35 @@
 .right-column {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 0;
-  h1{
-    margin: 0;
-  }
-  p{
-    margin: 10px 0;
-  }
-}
-#meuEplano{
-  
-.button-row {
-  display: flex;
-  flex-wrap: wrap;  
-  width: 100%;
-  margin: 20px 0;
-  h3{
-    margin: 0;
-    font-size: 1.6em;
-    color: #333333;
-    svg{
-      font-size: 0.7em;
-    }
-  }
-  hr{
-    width: 100%;
-    background-color: #dfdfdf;
-    height: 1px;
-  }
-  .button-section{
-    display: flex;
-    margin: 10px 0;
-    flex: 1;
-    gap: 10px;
-  }
-}
-.exclamation-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: orange; // ou a cor desejada para o ícone
-  font-size: 20px; // ou o tamanho desejado para o ícone
-  &:hover:before {
-    content: attr(title);
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 5px;
-    border-radius: 4px;
-    font-size: 0.8em;
-    white-space: nowrap;
-    z-index: 999;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
 
-.check-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: green; // ou a cor desejada para o ícone
-  font-size: 20px; // ou o tamanho desejado para o ícone
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: red;
 }
 
 .big-button {
   width: calc(33.33% - 10px); /* Defina a largura de cada botão */
   font-size: 16px;
-  background-color: #ececec;
-  position: relative;
+  background-color: #e6e6e6;
   padding: 30px 15px;
   margin: 5px;
   color: #000;
   border: none;
-  border-radius: 3px;
-  box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.1); /* Sombra do popover */
-    
+  border-radius: 8px;
   text-decoration: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   align-content: center;
-  padding: 20px;  
-  .icons{
-    display: flex;
-    gap: 0px;
-    margin: 10px 10px 0 0;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    width: 20%;
-    svg{
-      font-size: 30px;
-    }
-  }
-  .title{
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-    padding: 0 10px 0 0;
-    h2{
-      margin:0 0 5px 0;
-      font-size: 1.2em;
-    }
-  }
+  text-align: center;
 }
 
 .big-button:hover {
-  background-color: $primary-color;
+  background-color: #0056b3;
   color: white;
-}
 }

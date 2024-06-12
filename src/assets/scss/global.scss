@@ -5,7 +5,9 @@
 body {
     font-family: 'Mulish', sans-serif;
   }
-
+p{
+  font-size: 1em!important;
+}
 // Estilos para todos os inputs de texto
 input[type="text"] {
   background: #fff;
@@ -197,9 +199,6 @@ button {
 @import '../../assets/scss/colors';
 .dashboard-page {
     display: flex;
-    p, ul{
-      font-size: 12px;
-    }
     .dashboard-content {
       flex: 1;
       padding: 0px;

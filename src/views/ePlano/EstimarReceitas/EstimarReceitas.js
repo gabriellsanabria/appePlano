@@ -4,7 +4,10 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
 import ModalResumoExecutivo from './EstimarReceitasModal';
 import ModalAdicionarTaxa from './ModalAdicionarTaxa'; // Importe o componente ModalAdicionarTaxa
+import TwoColumnLayout from '../../../components/Layout/TwoColumnLayout';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+
+import ButtonsEplano from '../../Dashboard/ButtonsEplano';
 
 const EstimarReceitas = () => {
   const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
@@ -143,11 +146,16 @@ const EstimarReceitas = () => {
     <Layout>
       <div className='dashboard-page'>
         <div className='dashboard-content'>
+        <TwoColumnLayout>
+        <div className="left-column" id='profile'>
+          <ButtonsEplano />
+        </div>
+        <div className="right-column">
           <div className='title'>
             <h1>Estimar as Receitas Mensais do Negócio</h1>
           </div>
           <div className='texts'>
-            <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
+            {/* <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
             <p>
               <b>
               INSTRUÇÕES PARA ESTIMAR AS RECEITAS MENSAIS E OS IMPOSTOS DO SEU NEGÓCIO
@@ -182,7 +190,19 @@ Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realiz
             </p>
             <p>
             Quando todos os Produtos/ Serviços e o Imposto estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-            </p>
+            </p> */}
+<p>Estime as receitas mensais e os impostos do seu negócio seguindo estes passos:</p>            
+<ul>
+  <li>
+  Adicione cada produto/serviço e estime a receita mensal.
+  </li>
+
+  <li>Adicione a estimativa do imposto mensal.</li>
+
+  <li>Confira e ajuste as informações, se necessário.</li>
+
+  <li>Avance para continuar com o ePlano Financeiro.</li>
+</ul>
           </div>
           <div className='add-button'>
             <Link to="#" onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
@@ -249,6 +269,8 @@ Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realiz
               </tbody>
             </table>
           </div>
+          </div>
+          </TwoColumnLayout>
         </div>
       </div>
       {isResumoExecutivoModalOpen && (

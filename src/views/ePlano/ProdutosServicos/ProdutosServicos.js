@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
 import ModalResumoExecutivo from './ProdutosServicosModal';
+import TwoColumnLayout from '../../../components/Layout/TwoColumnLayout';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import './ProdutosServicos.scss';
+
+import ButtonsEplano from '../../Dashboard/ButtonsEplano';
 
 const ProdutosServicos = () => {
   const [produtosServicosData, setProdutosServicosData] = useState([]);
@@ -62,13 +66,20 @@ const ProdutosServicos = () => {
     <Layout>
       <div className='dashboard-page'>
         <div className='dashboard-content'>
+        <TwoColumnLayout>
+
+        <div className="left-column" id='profile'>
+          <ButtonsEplano />
+        </div>
+        <div className="right-column">
+          
           <div className='title'>
             <h1>Produtos e Serviços</h1>
           </div>
-          
           <div className='texts'>              
             <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
-                <p>
+            Aqui você pode listar e descrever os produtos e serviços que o seu negócio oferece de forma simples e organizada. Siga os passos abaixo para adicionar cada item e fornecer uma breve descrição sobre eles. Estamos aqui para ajudá-lo a construir uma lista completa e detalhada, permitindo uma gestão eficiente do seu catálogo de produtos e serviços. 
+                {/* <p>
                   <b>
                     INSTRUÇÕES PARA LISTAR E DESCREVER OS PRODUTOS/ SERVIÇOS QUE O SEU NEGÓCIO IRÁ COMERCIALIZAR
                   </b>
@@ -85,7 +96,7 @@ const ProdutosServicos = () => {
                   Observação: Você pode inserir quantos Produtos/ Serviços desejar.
 
                   Clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-                </p>
+                </p> */}
             </div>
           <div className='add-button'>
             <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>
@@ -111,9 +122,12 @@ const ProdutosServicos = () => {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
+          </TwoColumnLayout>
         </div>
       </div>
+      
       {isResumoExecutivoModalOpen && (
         <ModalResumoExecutivo
           isOpen={isResumoExecutivoModalOpen}

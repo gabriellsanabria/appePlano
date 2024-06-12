@@ -6,7 +6,10 @@ import './EstimarDepesas.scss';  // Asegure-se de que este arquivo contém os es
 import EstruturaFisicaModal from './EstimarDepesasModal';
 import EquipeModal from './EquipeModal';
 import InsumosModal from './InsumosModal';
+import TwoColumnLayout from '../../../components/Layout/TwoColumnLayout';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+
+import ButtonsEplano from '../../Dashboard/ButtonsEplano';
 
 const EstimarDepesas = () => {
   const [isEstruturaFisicaModalOpen, setIsEstruturaFisicaModalOpen] = useState(false);
@@ -94,36 +97,36 @@ const EstimarDepesas = () => {
   return (
     <Layout>
       <div className='dashboard-page'>
-        <div className='dashboard-content'>          
+        <div className='dashboard-content'>      
+            <TwoColumnLayout>
+
+            <div className="left-column" id='profile'>
+              <ButtonsEplano />
+            </div>    
+            <div className="right-column">
             <div className='title'>
               <h1>Estimar Despesas Mensais do Negócio</h1>
             </div>
             <div className='texts'>
-            <p>Vamos estimar as Despesas Mensais do seu Negócio</p>
-            <p>
-              <b>
-              INSTRUÇÕES PARA DEFINIR E ESTIMAR AS DESPESAS MENSAIS DO SEU NEGÓCIO
-              </b>
-            </p>
-            <p>Esta Tela tem o Objetivo de Definir e Estimar todas as Despesas que o seu Negócio terá mensalmente</p>
-            <p>Para facilitar, as Despesas foram separadas em:</p>
-            
+           <p>Estime as despesas mensais do seu negócio com os seguintes passos:</p>
+           <ul>
+            <li>Na tela de definição e estimativa de despesas, insira todas as despesas mensais relacionadas à estrutura física/virtual, como aluguel, energia, telefone, marketing, taxas, manutenção, entre outras.</li>
+            <li>Divida os valores anuais em mensais, se necessário, e insira-os na respectiva categoria.</li>
+            <li>Clique em "Adicionar Estrutura Física/Virtual", insira o nome do item e o valor mensal, e salve.</li>
+            <li>Repita este processo para todas as despesas relacionadas à estrutura.</li>
+           </ul>
           </div>
           <div className='dashboard-col'>    
             <div className='title'>
-              <h3>Estrutura Física/Virtual</h3>
+              <h2>Estrutura Física/Virtual</h2>
             </div> 
-            <div className='texts'>
+          <div className='texts'>
           <p>Estrutura Física/ Virtual: neste Botão você deve inserir Despesas como.</p>
             <ul>
               <li>Aluguel, Energia Elétrica, Telefone, Água/ Esgoto, Gás etc.</li>
               <li>Seguro da Estrutura, Taxas etc.</li>
               <li>Marketing (impulsionamentos, Itens de divulgação etc.).</li>
               <li>Taxas Estimadas com Cartões etc.</li>
-              <li>Manutenção do Site.</li>
-              <li>Manutenção da Estrutura.</li>
-              <li>Caixa de Reserva Mensal.</li>
-              <li>Planos de Saúde.</li>
               <li>Consumíveis Mensais (produtos de limpeza, café e água, por exemplo)</li>
               <li>Etc.</li>
             </ul>
@@ -166,7 +169,7 @@ const EstimarDepesas = () => {
           <div className='dashboard-col'>                
 
           <div className='title'>
-              <h3>Equipe</h3>
+              <h2>Equipe</h2>
             </div>
             <div className='texts'>
           <p>neste Botão você deve inserir Despesas como:</p>
@@ -216,7 +219,7 @@ const EstimarDepesas = () => {
           </div>
           <div className='dashboard-col'>            
             <div className='title'>
-              <h3>Insumos de Produção e Vendas</h3>
+              <h2>Insumos de Produção e Vendas</h2>
             </div>
             
             <div className='texts'>
@@ -265,6 +268,8 @@ const EstimarDepesas = () => {
 
             </div>
           </div>
+          </div>
+          </TwoColumnLayout>
         </div>
       </div>
       {isEstruturaFisicaModalOpen && (

@@ -1,0 +1,112 @@
+// CustomDash.scss
+@import '../../assets/scss/colors';
+
+.button-row {
+    display: flex;
+    flex-wrap: wrap;  
+    width: 100%;
+    flex-direction: column;
+    
+    h3{
+      margin: 0;
+      font-size: 1.6em;
+      color: #333333;
+      svg{
+        font-size: 0.7em;
+      }
+    }
+    hr{
+      width: 100%;
+      background-color: #dfdfdf;
+      height: 1px;
+    }
+    .button-section{
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+      flex: 1;
+      gap: 10px;
+    }
+  }
+  .exclamation-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: orange; // ou a cor desejada para o ícone
+    font-size: 20px; // ou o tamanho desejado para o ícone
+    &:hover:before {
+      content: attr(title);
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      white-space: nowrap;
+      z-index: 999;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+  
+  .check-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: green; // ou a cor desejada para o ícone
+    font-size: 20px; // ou o tamanho desejado para o ícone
+  }
+  
+  .big-button {
+    width: 100%;
+    font-size: 16px;
+    background-color: #ececec;
+    position: relative;
+    padding: 30px 15px;
+    margin: 5px 0;
+    color: #000;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0 2px 1px 1px rgba(0, 0, 0, 0.1); /* Sombra do popover */
+      
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    padding: 20px;  
+    .icons{
+      display: flex;
+      gap: 0px;
+      margin: 10px 10px 0 0;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      width: 20%;
+      svg{
+        font-size: 30px;
+      }
+    }
+    .title{
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      padding: 0 10px 0 0;
+      h2{
+        margin:0 0 5px 0;
+        font-size: 1em;
+      }
+    }
+    &.active{
+        background-color: $primary-color;
+        color: white;        
+    }
+  }
+  
+  .big-button:hover {
+    background-color: $primary-color;
+    color: white;
+  }
+  
