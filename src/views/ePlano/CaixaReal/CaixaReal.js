@@ -230,8 +230,8 @@ const CaixaReal = () => {
               <table>
                 <thead>
                   <tr>
-                    <th>Insumo</th>
-                    <th>Investimento R$/Mês</th>
+                    <th>Itens</th>
+                    <th>R$/Mês</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -276,14 +276,14 @@ const CaixaReal = () => {
               </p>
             </div>
             <div className='add-button'>
-              <Link onClick={openCapitalGiroModal}>Adicionar Capital de Giro</Link>
+              <Link onClick={openCapitalGiroModal}>Adicionar Recebíveis</Link>
             </div>
             <div className='table-container'>
               <table>
                 <thead>
                   <tr>
-                    <th>Capital de Giro</th>
-                    <th>Investimento R$</th>
+                    <th>Itens</th>
+                    <th>Mês R$</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
@@ -314,14 +314,14 @@ const CaixaReal = () => {
               
             </div>
             <div className='add-button'>
-              <Link onClick={openCapitalGiroModal}>Adicionar Capital de Giro</Link>
+              <Link onClick={openCapitalGiroModal}>Adicionar Contas</Link>
             </div>
             <div className='table-container'>
               <table>
                 <thead>
                   <tr>
-                    <th>Capital de Giro</th>
-                    <th>Investimento R$</th>
+                    <th>Itens</th>
+                    <th>Mês R$</th>
                     <th>Ações</th>
                   </tr>
                 </thead>
