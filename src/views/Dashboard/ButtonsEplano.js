@@ -23,6 +23,12 @@ const MeuEplano = () => {
   const [equipeData, setEquipeData] = useState(null);
   const [insumosData, setInsumosData] = useState(null);
 
+  const [caixaLiquidoData, setCaixaLiquidoData] = useState(null);
+  const [caixaEstoqueData, setCaixaEstoqueData] = useState(null);
+  const [caixaRecebiveisData, setCaixaRecebiveisData] = useState(null);
+  const [caixaContasPagarData, setCaixaContasPagarData] = useState(null);
+
+
   // Função para ser chamada quando os dados forem buscados
   const onDataFetched = ({
     produtosServicosData,
@@ -30,7 +36,12 @@ const MeuEplano = () => {
     impostosMensaisData,
     estruturaData,
     equipeData,
-    insumosData
+    insumosData,
+          
+    caixaLiquidoData,
+    caixaEstoqueData,
+    caixaRecebiveisData,
+    caixaContasPagarData
   }) => {
     setProdutosServicosData(produtosServicosData);
     setReceitasMensaisData(receitasMensaisData);
@@ -38,6 +49,12 @@ const MeuEplano = () => {
     setEstruturaData(estruturaData);
     setEquipeData(equipeData);
     setInsumosData(insumosData);
+    
+    setCaixaLiquidoData(caixaLiquidoData);
+    setCaixaEstoqueData(caixaEstoqueData);
+    setCaixaRecebiveisData(caixaRecebiveisData);
+    setCaixaContasPagarData(caixaContasPagarData);
+
     setLoading(false);
   };
   
@@ -131,10 +148,10 @@ const MeuEplano = () => {
                     <FiLoader className="spinner-icon" />
                   </div>
                   ) : (
-                    isDataFilled(produtosServicosData) ? (
+                    (isDataFilled(caixaLiquidoData) && isDataFilled(caixaEstoqueData) && isDataFilled(caixaRecebiveisData) && isDataFilled(caixaContasPagarData)) ? (
                       <FaCheckCircle className="check-green" />
                     ) : (
-                      <div className='exclamation-icon' title="Preencha os Produtos e Serviços">
+                      <div className='exclamation-icon' title="Preencha os dados de Estrutura, Equipe e Insumos">
                         <FaExclamationCircle className="orange" />
                       </div>
                     )
