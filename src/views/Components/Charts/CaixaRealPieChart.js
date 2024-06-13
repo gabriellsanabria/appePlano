@@ -7,44 +7,49 @@ const CaixaRealPieChart = () => {
   const [chart, setChart] = useState(null);
   const [insumosCost, setInsumosCost] = useState(0);
   const [estruturaCost, setEstruturaCost] = useState(0);
-  const [capitalGiro, setCapitalGiro] = useState(0); // Alterei o nome da variável para capitalGiro
-
+  const [capitalGiro, setCapitalGiro] = useState(0);  
+  const [contasPagar, setcaixaContasPagarTotal] = useState(0);
+  
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
     try {
-      const [insumosResponse, estruturaResponse, capitalGiroResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/investimentos/insumos`),
-        fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
-        fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`)
+      const [caixaLiquidoResponse, caixaEstoque, caixaRecebiveis, caixaContasPagar] = await Promise.all([
+        fetch(`${API_BASE_URL}/api/caixa/liquido`),
+        fetch(`${API_BASE_URL}/api/caixa/estoque`),
+        fetch(`${API_BASE_URL}/api/caixa/recebiveis`),
+        fetch(`${API_BASE_URL}/api/caixa/contas_pagar`)
       ]);
 
-      const [insumosData, estruturaData, capitalGiroData] = await Promise.all([
-        insumosResponse.json(),
-        estruturaResponse.json(),
-        capitalGiroResponse.json() // Alterei o nome da variável para capitalGiroData
+      const [caixaLiquidoData, caixaEstoqueData, caixaRecebiveisData, caixaContasPagarData] = await Promise.all([
+        caixaLiquidoResponse.json(),
+        caixaEstoque.json(),
+        caixaRecebiveis.json(),
+        caixaContasPagar.json() 
       ]);
 
       // Calcula a soma total dos custos para cada categoria
-      const insumosTotalCost = insumosData.reduce((total, item) => total + parseFloat(item.investimento), 0);
-      const estruturaTotalCost = estruturaData.reduce((total, item) => total + parseFloat(item.investimento), 0);
-      const capitalGiroTotal = capitalGiroData.reduce((total, item) => total + parseFloat(item.investimento_total), 0); // Alterei o nome da variável para capitalGiroTotal
-
+      const caixaLiquidoTotalCost = caixaLiquidoData.reduce((total, item) => total + parseFloat(item.valor), 0);
+      const caixaEstoqueTotalCost = caixaEstoqueData.reduce((total, item) => total + parseFloat(item.valor), 0);
+      const caixaRecebiveisTotal = caixaRecebiveisData.reduce((total, item) => total + parseFloat(item.valor), 0); // Alterei o nome da variável para capitalGiroTotal
+      const caixaContasPagarTotal = caixaContasPagarData.reduce((total, item) => total + parseFloat(item.valor), 0); // Alterei o nome da variável para capitalGiroTotal
+      
       // Define os custos totais nos estados correspondentes
-      setInsumosCost(insumosTotalCost);
-      setEstruturaCost(estruturaTotalCost);
-      setCapitalGiro(capitalGiroTotal); // Alterei o nome da variável para capitalGiro
+      setInsumosCost(caixaLiquidoTotalCost);
+      setEstruturaCost(caixaEstoqueTotalCost);
+      setCapitalGiro(caixaRecebiveisTotal);
+      setcaixaContasPagarTotal(caixaContasPagarTotal);
 
       // Renderiza o gráfico com os custos totais
-      renderChart(insumosTotalCost, estruturaTotalCost, capitalGiroTotal); // Alterei o nome da variável para capitalGiroTotal
+      renderChart(caixaLiquidoTotalCost, caixaEstoqueTotalCost, caixaRecebiveisTotal,caixaContasPagarTotal); // Alterei o nome da variável para capitalGiroTotal
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
 
-  const renderChart = (insumosTotalCost, estruturaTotalCost, capitalGiroTotal) => { // Alterei o nome da variável para capitalGiroTotal
+  const renderChart = (caixaLiquidoTotalCost, caixaEstoqueTotalCost, caixaRecebiveisTotal, caixaContasPagarTotal) => { // Alterei o nome da variável para capitalGiroTotal
     const ctx = document.getElementById('CaixaRealPieChart');
 
     if (chart !== null) {
@@ -55,10 +60,10 @@ const CaixaRealPieChart = () => {
       new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: ['Insumos', 'Estrutura', 'Capital de Giro'], // Alterei o nome da categoria para Capital de Giro
+          labels: ['Caixa Líquido', 'Caixa Estoque', 'Caixa Recebíveis', 'Caixa Contas a Pagar'], // Alterei o nome da categoria para Capital de Giro
           datasets: [{
-            data: [insumosTotalCost, estruturaTotalCost, capitalGiroTotal], // Alterei o nome da variável para capitalGiroTotal
-            backgroundColor: ['#0088FE', '#00C49F', '#FFBB28']
+            data: [caixaLiquidoTotalCost, caixaEstoqueTotalCost, caixaRecebiveisTotal, caixaContasPagarTotal], // Alterei o nome da variável para capitalGiroTotal
+            backgroundColor: ['#0088FE', '#00C49F', '#FFBB28', '#F00000']
           }]
         },
         options: {
