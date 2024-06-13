@@ -17,6 +17,7 @@ const MeuEplano = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true); // Estado para controlar o spinner
   const [produtosServicosData, setProdutosServicosData] = useState(null);
+  const [receitasMensaisData, setReceitasMensaisData] = useState(null);  
   const [impostosMensaisData, setImpostosMensaisData] = useState(null);
   const [estruturaData, setEstruturaData] = useState(null);
   const [equipeData, setEquipeData] = useState(null);
@@ -31,6 +32,15 @@ const MeuEplano = () => {
         setLoading(false); // Quando a consulta estiver completa, define loading como false
         // Verificar se os dados de produtos/serviços estão preenchidos
         console.log('Produtos/Serviços:', isDataFilled(response1.data));
+
+        
+        const response11 = await axios.get(`${API_BASE_URL}/receitas_mensais_negocio`);
+        console.log('Resposta de produtos_servicos:', response11.data);
+        setReceitasMensaisData(response11.data);
+        setLoading(false); // Quando a consulta estiver completa, define loading como false
+        // Verificar se os dados de produtos/serviços estão preenchidos
+        console.log('Receitas Mensais do negócio', isDataFilled(response11.data));
+
   
         const response2 = await axios.get(`${API_BASE_URL}/listar_impostos_mensais`);
         console.log('Resposta de listar_impostos_mensais:', response2.data);
@@ -104,23 +114,72 @@ const MeuEplano = () => {
             </NavLink>
             <NavLink to='/estimar-receitas' className={`big-button ${location.pathname === '/estimar-receitas' ? 'active' : ''}`}>
               <div className='icons'>
-                
-              {loading ? <FiLoader className="spinner-icon" /> : (isDataFilled(produtosServicosData) ? <FaCheckCircle className="check-ok-icon" /> : <FaExclamationCircle className="exclamation-icon" />)}
                 <SiCashapp />
               </div>
               <div className='title'>
                 <h2>Estimar Receitas</h2>
               </div>
+              <div className='exclamation-icon'>
+                {loading ? (
+                  <div>
+                    <FiLoader className="spinner-icon" />
+                  </div>
+                  ) : (
+                    isDataFilled(receitasMensaisData) ? (
+                      <FaCheckCircle className="green" />
+                    ) : (
+                      <div title="Preencha os Produtos e Serviços">
+                        <FaExclamationCircle className="orange" />
+                      </div>
+                    )
+                  )}
+                </div>   
             </NavLink>
             <NavLink to='/estimar-despesas' className={`big-button ${location.pathname === '/estimar-despesas' ? 'active' : ''}`}>
               <div className='icons'>
-                {loading ? <FiLoader className="spinner-icon" /> : (isDataFilled(produtosServicosData) ? <FaCheckCircle className="check-ok-icon" /> : <FaExclamationCircle className="exclamation-icon" />)}
-                
                 <PiChartLineDownBold />
               </div>
               <div className='title'>
                 <h2>Estimar Despesas</h2>
               </div>
+              <div className='exclamation-icon'>
+                {loading ? (
+                  <div>
+                    <FiLoader className="spinner-icon" />
+                  </div>
+                  ) : (
+                    (isDataFilled(estruturaData) && isDataFilled(equipeData) && isDataFilled(insumosData)) ? (
+                      <FaCheckCircle className="green" />
+                    ) : (
+                      <div title="Preencha os dados de Estrutura, Equipe e Insumos">
+                        <FaExclamationCircle className="orange" />
+                      </div>
+                    )
+                  )}
+                </div>   
+            </NavLink>
+            <NavLink to='/caixa-real' className={`big-button ${location.pathname === '/caixa-real' ? 'active' : ''}`}>
+              <div className='icons'>
+                <PiPiggyBankBold />
+              </div>
+              <div className='title'>
+                <h2>Estimar Caixa</h2>
+              </div>
+              <div className='exclamation-icon'>
+                {loading ? (
+                  <div>
+                    <FiLoader className="spinner-icon" />
+                  </div>
+                  ) : (
+                    isDataFilled(produtosServicosData) ? (
+                      <FaCheckCircle className="green" />
+                    ) : (
+                      <div title="Preencha os Produtos e Serviços">
+                        <FaExclamationCircle className="orange" />
+                      </div>
+                    )
+                  )}
+                </div>   
             </NavLink>
             <NavLink to='/estimar-impostos' className={`big-button ${location.pathname === '/estimar-impostos' ? 'active' : ''}`}>
               <div className='icons'>
@@ -128,16 +187,7 @@ const MeuEplano = () => {
               </div>
               <div className='title'>
                 <h2>Estimar Impostos</h2>
-              </div>
-            </NavLink>
-            <NavLink to='/caixa-real' className={`big-button ${location.pathname === '/caixa-real' ? 'active' : ''}`}>
-              <div className='icons'>
-                {loading ? <FiLoader className="spinner-icon" /> : (isDataFilled(produtosServicosData) ? <FaCheckCircle className="check-ok-icon" /> : <FaExclamationCircle className="exclamation-icon" />)}
-                <PiPiggyBankBold />
-              </div>
-              <div className='title'>
-                <h2>Estimar Caixa</h2>
-              </div>
+              </div>  
             </NavLink>
             <NavLink to='/fluxo-caixa-projetado' className={`big-button ${location.pathname === '/fluxo-caixa-projetado' ? 'active' : ''}`}>
               <div className='icons'>
