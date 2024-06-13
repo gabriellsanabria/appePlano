@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { FaTimes, FaArrowLeftLong, FaArrowRightLong, FaQuestionCircle } from 'react-icons/fa';
+import { NumericFormat } from 'react-number-format';
 
-import './EstimarInvestimentosModal.scss';
+import './CaixaModal.scss';
 
-const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
-  const [nomeEstrutura, setNomeEstrutura] = useState('');
-  const [valorEstimado, setValorEstimado] = useState('');
+const CaixaContasPagarModal = ({ isOpen, onClose, onSave }) => {
+  const [descricao, setDescricao] = useState('');
+  const [valor, setValor] = useState('');
   const [showHelp, setShowHelp] = useState(false);
 
   const toggleHelp = () => {
@@ -15,12 +16,16 @@ const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
 
   const handleSave = () => {
     const data = {
-      estrutura: nomeEstrutura,
-      investimento: parseFloat(valorEstimado)
+      descricao: descricao,
+      valor: parseFloat(valor)
     };
-    onSave(data, 'estrutura');
+    onSave(data, 'contas_pagar');
   };
   
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setValor(floatValue); // Atualiza o estado com o novo valor
+  };
 
   return (
     <div>
@@ -31,21 +36,27 @@ const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
         </span>
         <div className='modal-content'>
           <div className='modal-header'>            
-            <h1>Adicione os investimentos de estrutura física</h1>
+            <h1>Adicione um item do Caixa Líquido</h1>
           </div>
           <div className='modal-container'>
               <input
                 type="text"
-                value={nomeEstrutura}
-                onChange={(e) => setNomeEstrutura(e.target.value)}
-                placeholder="Digite o nome da estrutura"
+                value={descricao}
+                onChange={(e) => setDescricao(e.target.value)}
+                placeholder="Digite um item"
               />
-              <input
-                type="text"
-                value={valorEstimado}
-                onChange={(e) => setValorEstimado(e.target.value)}
-                placeholder="Digite o valor estimado dessa despesa por mês"
-              />
+            <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={valor}
+                placeholder="Digite o valor R$"
+                onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
+            />
               
                 <div>
             </div>
@@ -62,4 +73,4 @@ const EstimarInvestimentosModal = ({ isOpen, onClose, onSave }) => {
   );
 };
 
-export default EstimarInvestimentosModal;
+export default CaixaContasPagarModal;
