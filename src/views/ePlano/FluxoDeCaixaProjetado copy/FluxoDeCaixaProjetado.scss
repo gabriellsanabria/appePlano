@@ -1,0 +1,62 @@
+@import '../../../assets/scss/colors';
+
+.dashboard-page {
+  .dashboard-content {
+    width:0%!important;
+    .title {
+      margin-bottom: 0;
+      h1, p {
+        margin: 0;
+        font-weight: normal; // Aplica apenas para o parágrafo
+      }
+    }
+
+    .table-container {
+      max-height: 500px; /* Ajuste conforme necessário */
+      overflow-y: auto;
+      margin: 10px 0;
+      
+      .table {
+        display: grid;
+        grid-template-columns: auto auto repeat(25, auto); /* Ajuste conforme necessário */
+        gap: 5px;
+      }
+      .header{
+        
+      }
+    
+      .row {
+        display: contents;
+      }
+      .groupLine{
+        margin: 0 0 20px 0;
+      }
+      .cellCol{
+        min-width: 200px;
+        padding: 8px;
+        text-align: center;
+        font-size: 11px;
+        border: 1px solid #ccc;
+      }
+      .cell {
+        min-width: 130px;
+        padding: 8px;
+        text-align: center;
+        font-size: 11px;
+        border: 1px solid #ccc;
+      }
+      .primary-color{
+        background-color: $primary-color;
+        color: white;
+      }
+      .items-color{
+        background-color: $cinza-claro;
+      }
+      .total-color{
+        background-color: #ccc;
+        font-weight: bold;
+      }
+    }
+    
+  }
+}

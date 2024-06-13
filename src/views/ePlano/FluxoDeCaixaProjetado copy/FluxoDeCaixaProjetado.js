@@ -6,7 +6,6 @@ import InvestimentosEstimados from './Components/InvestimentosEstimados';
 import ReceitaBrutaEstimada from './Components/ReceitaBrutaEstimada';
 import DespesasEstimadas from './Components/DespesasEstimadas';
 import CaixaInicial from './Components/CaixaInicial';
-import CaixaReal from './Components/CaixaReal';
 import FluxoCaixa from './Components/FluxoCaixa';
 import LucroLiquidoMensal from './Components/LucroLiquidoMensal';
 import LucroLiquidoAcumulado from './Components/LucroLiquidoAcumulado';
@@ -51,11 +50,10 @@ const FluxoDeCaixaProjetado = () => {
           </div>
           <div className='table-container'>
             <HeaderTable meses={meses} />
-            {/* <InvestimentosEstimados meses={meses} /> */}
+            <InvestimentosEstimados meses={meses} />
             <ReceitaBrutaEstimada meses={meses} />
             <DespesasEstimadas meses={meses} />
-            {/* <CaixaInicial meses={meses}/> */}
-            <CaixaReal meses={meses}/>
+            <CaixaInicial meses={meses}/>
             <FluxoCaixa meses={meses} />
             <Impostos meses={meses} />
             <LucroLiquidoMensal meses={meses} />
