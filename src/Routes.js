@@ -19,7 +19,9 @@ import Doc from './components/Doc/Doc';
 import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
 import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
 import EstimarDepesas from './views/ePlano/EstimarDepesas/EstimarDepesas';
+import EstimarImpostos from './views/ePlano/EstimarImpostos/EstimarImpostos';
 import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
+import CaixaReal from './views/ePlano/CaixaReal/CaixaReal';
 import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
 import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
 
@@ -143,12 +145,20 @@ const AppRoutes = () => {
           element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
         />
         <Route
+          path="/estimar-impostos"
+          element={user ? <EstimarImpostos /> : <Navigate to="/login" />}
+        />
+        <Route
           path="/estimar-despesas"
           element={user ? <EstimarDepesas /> : <Navigate to="/login" />}
         />
         <Route
           path="/estimar-investimentos"
           element={user ? <EstimarInvestimentos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/caixa-real"
+          element={user ? <CaixaReal /> : <Navigate to="/login" />}
         />
         <Route
           path="/fluxo-caixa-projetado"

@@ -80,7 +80,7 @@ const PieChartComponent = () => {
 
   return (
     <div>
-      <h4>Despesas mensais</h4>
+      <h4>Despesas mensais Mensais</h4>
       <canvas id="pieChart" width="400" height="400"></canvas>
     </div>
   );

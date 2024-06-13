@@ -392,7 +392,7 @@ const SideNav = () => {
           </Link>
         </li>
         <hr/>
-        <div className='organization-profile'>
+        {/* <div className='organization-profile'>
         <li>
           <Link to="/company" className={location.pathname === '/organization' ? 'active' : ''}>
             <div className='icone'>
@@ -427,7 +427,7 @@ const SideNav = () => {
             )}
           </Link>
         </li>
-      </div>
+      </div> */}
       </ul>
     </div>
   );

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
-import ModalResumoExecutivo from './EstimarReceitasModal';
 import ModalAdicionarTaxa from './ModalAdicionarTaxa'; // Importe o componente ModalAdicionarTaxa
 import TwoColumnLayout from '../../../components/Layout/TwoColumnLayout';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
@@ -151,106 +150,45 @@ const EstimarReceitas = () => {
           <ButtonsEplano />
         </div>
         <div className="right-column">
+          
           <div className='title'>
-            <h1>Estimar as Receitas Mensais do Negócio</h1>
-          </div>
-          <div className='texts'>
-            {/* <p>Vamos estimar as Receitas Mensais do seu Negócio</p>
-            <p>
-              <b>
-              INSTRUÇÕES PARA ESTIMAR AS RECEITAS MENSAIS E OS IMPOSTOS DO SEU NEGÓCIO
-              </b>
-            </p>
-            <p>1- Clique no Botão “Adicionar Receitas”.</p>
-            <ul>
-              <li>A- Na tela que será aberta, Selecione cada Produto/ Serviço inserido na Tela Anterior (todos os Produtos/ Serviços cadastrados na Tela Anterior são exibidos ao Clicar no Campo “Selecione o Produto/ Serviço”).</li>
-              <li>B- Para cada Produto/ Serviço Selecionado (um a um), Insira as 2 Informações para calcular a Receita Media Estimada Mensal:</li>
-              <ul>
-                <li>B1- Digite o Valor Unitário ($) de Venda do Produto/ Serviço.</li>
-                <li>B2- Digite a Quantidade Estimada que será Vendida do Produto/ Serviço.</li>
-              </ul>
-              <li>C- Salve estas 2 informações e repita o mesmo passo a passo para cada Produto/ Serviço.</li>
-            </ul>
-            <p>
-            Após Preencher e Salvar as Estimativas de todos os Produtos/ Serviços, confira na Tabela da Tela Principal (Estimar Receitas) se todos foram Preenchidos corretamente.
-Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realize os ajustes necessários.
-
-            </p>
-            <p>2- Clique no Botão “Adicionar Imposto”.</p>
-            <ul>
-              <li>
-                A- Na tela que será aberta, Adicione uma Estimativa de Imposto Mensal.
-              </li>
-              <li>
-                B- Salve esta informação.
-              </li>
-            </ul>
-            <p>Após Preencher e Salvar a Estimativa do Imposto Mensal, confira na Tabela da Tela Principal (Estimar Receitas) se foi Preenchido corretamente.
-            Se a Estimativa estiver errada, volte no Botão “Adicionar Imposto” e realize o ajuste necessário.
-            </p>
-            <p>
-            Quando todos os Produtos/ Serviços e o Imposto estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-            </p> */}
-            <p>Estime as receitas mensais e os impostos do seu negócio seguindo estes passos:</p>            
-            <ul>
-              <li>
-              Adicione cada produto/serviço e estime a receita mensal.
-              </li>
-
-              <li>Adicione a estimativa do imposto mensal.</li>
-
-              <li>Confira e ajuste as informações, se necessário.</li>
-
-              <li>Avance para continuar com o ePlano Financeiro.</li>
-            </ul>
+            <h1>Estimar Impostos Mensais</h1>
           </div>
           <div className='add-button'>
-            <Link to="#" onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
+            <Link to="#" onClick={() => setIsTaxModalOpen(true)}>Adicionar Impostos</Link>
           </div>
           <div className='table-container'>
             <table>
               <thead>
                 <tr>
-                  <th>Produto/Serviço (Mix)</th>
-                  <th>Valor unitário de Venda (R$)</th>
-                  <th>Quantidade de vendas por Mês</th>
-                  <th>Total Pojetado Mensal</th>
+                  <th>Mês</th>
+                  <th>Imposto</th>
                   <th>Ações</th>
                 </tr>
               </thead>
               <tbody>
-                {receitasMensais.map((receita) => (
-                  <tr key={receita.id}>
-                    <td>{receita.produto_servico}</td>
-                    <td>{formatCurrency(receita.valor_unitario)}</td>
-                    <td>{receita.quantidade_vendida_por_mes}</td>
-                    <td>{formatCurrency(receita.valor_unitario * receita.quantidade_vendida_por_mes)}</td>
+                {taxes.map((tax) => (
+                  <tr key={tax.id}>
+                    <td>{tax.nome_imposto}</td>
+                    <td>{totalTaxes.toFixed(2)}%</td>
                     <td>
-                      <button onClick={() => handleExcluirReceita(receita.id)}><FaTrashAlt /></button>
+                      <button onClick={() => setIsTaxModalOpen(true)}><FaEdit /></button>
                     </td>
                   </tr>
                 ))}
+                {/* Adiciona uma linha para exibir o total dos impostos */}
                 <tr>
-                  <td colSpan="2"><strong>Total de Receitas Brutas Mensais (ou por evento)	</strong></td>
-                  <td>{somaQuantidade()}</td>
-                  <td>{formatCurrency(somaTotalValor())}</td>
-                  <td></td>
+                  <td colSpan="2"><strong>Total</strong></td>
+                  <td>{totalTaxes.toFixed(2)}%</td>
                 </tr>
+
               </tbody>
             </table>
           </div>
-          
           </div>
           </TwoColumnLayout>
         </div>
       </div>
-      {isResumoExecutivoModalOpen && (
-        <ModalResumoExecutivo
-          isOpen={isResumoExecutivoModalOpen}
-          onClose={() => setIsResumoExecutivoModalOpen(false)}
-          onSave={handleSave}
-        />
-      )}
       {isTaxModalOpen && (
         <ModalAdicionarTaxa
           isOpen={isTaxModalOpen}

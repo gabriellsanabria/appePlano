@@ -49,81 +49,54 @@ const ProdutosServicos = () => {
     }
   };
 
-// // Verifica se um novo produto/serviço foi adicionado e atualiza os dados se necessário
-// useEffect(() => {
-//   const initialCount = produtosServicosData.length;
-//   fetchData(); // Busca os dados novamente
-//   return () => {
-//     const finalCount = produtosServicosData.length;
-//     if (finalCount > initialCount) {
-//       // Se o número de produtos/serviços aumentou, um novo item foi adicionado
-//       setLastProductId(produtosServicosData[finalCount - 1].id);
-//     }
-//   };
-// }, [produtosServicosData]);
+  // Dentro da função addNewProdutoServico
+  const addNewProdutoServico = (produtoServico, descricao) => {
+    setProdutosServicosData([...produtosServicosData, { produto_servico: produtoServico, descricao: descricao }]);
+  };
+
 
   return (
     <Layout>
       <div className='dashboard-page'>
         <div className='dashboard-content'>
-        <TwoColumnLayout>
-
-        <div className="left-column" id='profile'>
-          <ButtonsEplano />
-        </div>
-        <div className="right-column">
-          
-          <div className='title'>
-            <h1>Produtos e Serviços</h1>
-          </div>
-          <div className='texts'>              
-            <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
-            Aqui você pode listar e descrever os produtos e serviços que o seu negócio oferece de forma simples e organizada. Siga os passos abaixo para adicionar cada item e fornecer uma breve descrição sobre eles. Estamos aqui para ajudá-lo a construir uma lista completa e detalhada, permitindo uma gestão eficiente do seu catálogo de produtos e serviços. 
-                {/* <p>
-                  <b>
-                    INSTRUÇÕES PARA LISTAR E DESCREVER OS PRODUTOS/ SERVIÇOS QUE O SEU NEGÓCIO IRÁ COMERCIALIZAR
-                  </b>
-                </p>
-                <p>1- Clique no Botão “Adicionar Produto/ Serviço”.</p>
-                <ul>
-                  <li>A- Na tela que será aberta, adicionar cada Produto/ Serviço que o seu Negócio irá comercializar.</li>
-                  <li>B- Para cada Produto/ Serviço inserido insira um breve descritivo do mesmo.</li>
-                </ul>
-                <p>
-                  Em seguida, Salve o Produto/ Serviço.
-                  Realize este passo a passo para cada Produto/ Serviço.
-
-                  Observação: Você pode inserir quantos Produtos/ Serviços desejar.
-
-                  Clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-                </p> */}
+          <TwoColumnLayout>
+            <div className="left-column" id='profile'>
+              <ButtonsEplano />
             </div>
-          <div className='add-button'>
-            <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>
-          </div>
-          <div className='table-container'>
-            <table>
-              <thead>
-                <tr>
-                  <th>Produtos/Serviços</th>
-                  <th>Descrição</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {produtosServicosData.map((produtoServico) => (
-                  <tr key={produtoServico.id}>
-                    <td>{produtoServico.produto_servico}</td>
-                    <td>{produtoServico.descricao}</td>
-                    <td>
-                      <button onClick={() => handleExcluirProdutoServico(produtoServico.id)}><FaTrashAlt /></button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="right-column">
+              <div className='title'>
+                <h1>Produtos e Serviços</h1>
+              </div>
+              <div className='texts'>              
+                <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
+                {/* Aqui você pode listar e descrever os produtos e serviços que o seu negócio oferece de forma simples e organizada. Siga os passos abaixo para adicionar cada item e fornecer uma breve descrição sobre eles. Estamos aqui para ajudá-lo a construir uma lista completa e detalhada, permitindo uma gestão eficiente do seu catálogo de produtos e serviços. */}
+              </div>
+              <div className='add-button'>
+                <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>
+              </div>
+              <div className='table-container'>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Produtos/Serviços</th>
+                      <th>Descrição</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {produtosServicosData.map((produtoServico) => (
+                      <tr key={produtoServico.id}>
+                        <td>{produtoServico.produto_servico}</td>
+                        <td>{produtoServico.descricao}</td>
+                        <td>
+                          <button onClick={() => handleExcluirProdutoServico(produtoServico.id)}><FaTrashAlt /></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
           </TwoColumnLayout>
         </div>
       </div>
@@ -132,6 +105,7 @@ const ProdutosServicos = () => {
         <ModalResumoExecutivo
           isOpen={isResumoExecutivoModalOpen}
           onClose={() => setIsResumoExecutivoModalOpen(false)}
+          addNewProdutoServico={addNewProdutoServico} // Passando a função para adicionar novo produto/serviço
         />
       )}
     </Layout>

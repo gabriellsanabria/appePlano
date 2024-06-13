@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
+import { NumericFormat } from 'react-number-format';
 import './EstimarDepesasModal.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
@@ -41,6 +42,10 @@ try {
       alert('Erro ao salvar. Tente novamente.');
     }
   };
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setCustoEstrutura(floatValue); // Atualiza o estado com o novo valor
+  };
 
 
   return (
@@ -61,11 +66,19 @@ try {
               onChange={(e) => setNomeEstrutura(e.target.value)}
               placeholder="Digite o nome da estrutura"
             />
-            <input
-              type="text"
-              value={custoEstrutura}
-              onChange={(e) => setCustoEstrutura(e.target.value)}
-              placeholder="Digite o valor estimado dessa despesa por mês"
+            
+            <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                prefix={'R$'}
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={custoEstrutura}
+                placeholder="Digite o valor estimado dessa despesa por mês"
+                onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
             />
           </div>
           <div className='footer-modal'>

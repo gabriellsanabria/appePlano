@@ -4,7 +4,7 @@ import { FaTimes } from 'react-icons/fa';
 import './ProdutosServicosModal.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig'; // Importe a URL base da API
 
-const ProdutosServicosModal = ({ isOpen, onClose }) => {
+const ProdutosServicosModal = ({ isOpen, onClose, addNewProdutoServico }) => {
   const [produtoServico, setProdutoServico] = useState('');
   const [descricao, setDescricao] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +22,13 @@ const ProdutosServicosModal = ({ isOpen, onClose }) => {
       if (!response.ok) {
         throw new Error('Falha ao adicionar produto/serviço');
       }
-      // Feche o modal após o sucesso da solicitação
+      // Obter o novo produto/serviço adicionado do corpo da resposta
+      const newProdutoServico = await response.json();
+      // Chamando a função addNewProdutoServico
+      addNewProdutoServico(produtoServico, descricao);
+
+      // Fechar o modal após o sucesso da solicitação
+      console.log('aqui',newProdutoServico);
       onClose();
     } catch (error) {
       console.error(error);

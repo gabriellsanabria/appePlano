@@ -11,7 +11,7 @@ import { MdStorefront } from "react-icons/md";
 import { FaChevronCircleRight, FaExclamationCircle, FaTag } from 'react-icons/fa';
 import { PiPiggyBankBold } from "react-icons/pi";
 import { FaRegChartBar } from "react-icons/fa";
-
+import { RiGovernmentFill } from "react-icons/ri";
 import './MeuEplano.scss';
 
 const MeuEplano = () => {
@@ -153,12 +153,25 @@ const MeuEplano = () => {
                         <FaExclamationCircle />
                       </div>
                     </NavLink>
+                    <NavLink to='/estimar-impostos' className="big-button">
+                      <div className='icons'>
+                        <RiGovernmentFill />
+                      </div>
+                      <div className='title'>
+                        <h2>Estimar Impostos</h2>
+                        <p>Estimar os impostos para Implementar o seu Negócio</p>
+                      </div>
+                      <div className='exclamation-icon' title="Tooltip para Estimar Impostos">
+                        <FaExclamationCircle />
+                      </div>
+                    </NavLink>
                   </div>
                 </div>
+                
                 <div className="button-row">
                   <h3><FaChevronCircleRight /> Caixa</h3>
                   <div className="button-section">
-                    <NavLink to='/estimar-investimentos' className="big-button">
+                    <NavLink to='/caixa-real' className="big-button">
                       <div className='icons'>
                         <PiPiggyBankBold />
                       </div>
@@ -172,6 +185,7 @@ const MeuEplano = () => {
                         <FaExclamationCircle />
                       </div>
                     </NavLink>
+                    
                     <NavLink to='/fluxo-caixa-projetado' className="big-button">
                       <div className='icons'>
                         <FaRegChartBar />

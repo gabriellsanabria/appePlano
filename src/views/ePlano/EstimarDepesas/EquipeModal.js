@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import './EstimarDepesas.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import { NumericFormat } from 'react-number-format';
 
 const EquipeModal = ({ isOpen, onClose, onSave }) => {
   const [cargoEquipe, setCargoEquipe] = useState('');
@@ -42,6 +43,10 @@ try {
     }
   };
 
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setCustoEquipe(floatValue); // Atualiza o estado com o novo valor
+  };
 
   return (
     <div>
@@ -61,11 +66,19 @@ try {
               onChange={(e) => setCargoEquipe(e.target.value)}
               placeholder="Digite o cargo"
             />
-            <input
-              type="text"
-              value={custoEquipe}
-              onChange={(e) => setCustoEquipe(e.target.value)}
-              placeholder="Digite o valor estimado dessa despesa por mês"
+            
+            <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                prefix={'R$'}
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={custoEquipe}
+                placeholder="Digite o valor estimado dessa despesa por mês"
+                onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
             />
           </div>
           <div className='footer-modal'>

@@ -14,7 +14,7 @@ import InitialInvestment from '../../Components/FinancialIndicators/InitialInves
 import ExpectedPayback from '../../Components/FinancialIndicators/ExpectedPayback';
 import ReturnOnInvestment from '../../Components/FinancialIndicators/ReturnOnInvestment';
 import PieChartComponent from '../../Components/Charts/PieChartComponent';
-import InvestmentsPieChart from '../../Components/Charts/InvestmentsPieChart';
+import CaixaRealPieChart from '../../Components/Charts/CaixaRealPieChart';
 import ProfitAnalysisLineChart from '../../Components/Charts/ProfitAnalysisLineChart';
 import LucroLiquidoAcumuladoTotal from '../../ePlano/FluxoDeCaixaProjetado/Components/LucroLiquidoAcumuladoTotal';
 
@@ -37,7 +37,7 @@ const AnaliseViabilidadePayback = () => {
           </div>
           <div className='flex-container'>
             <div className='box'>
-              <InvestmentsPieChart/>
+              <CaixaRealPieChart/>
             </div>
             <div className='box'>
               <PieChartComponent/>
@@ -60,13 +60,21 @@ const AnaliseViabilidadePayback = () => {
             </div>
             <div className='box'>
               <div className='box-content'>
-                <h3>Impostos</h3>
-                <p>(Estimativa Mensal)</p>
+                <h3>Caixa Real Hoje</h3>
+                <p>(Mês 1;$ Mensal)</p>
                 {/* <p className='valor'><EstimatedMonthlyTaxes /></p> */}
-                <h2>15%</h2>
+                
               </div>
             </div>
             <div className='box'>
+              <div className='box-content'>
+                <h3>Impostos</h3>
+                <p>(Estimativa Mensal)</p>
+                {/* <p className='valor'><EstimatedMonthlyTaxes /></p> */}
+                
+              </div>
+            </div>
+            {/* <div className='box'>
               <div className='box-content'>
                 <h3>Lucro Líquido Acumulado</h3>
                 <p>(Somatório 24 meses)</p>
@@ -74,7 +82,7 @@ const AnaliseViabilidadePayback = () => {
                   <TotalEstimatedPayments meses={meses} />                  
                 </p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className='flex-container'>
@@ -85,14 +93,43 @@ const AnaliseViabilidadePayback = () => {
                 <p className='valor'><MonthlyExpenses meses={meses} /></p>
               </div>
             </div>
-            <div className='box'>
+            {/* <div className='box'>
               <div className='box-content'>
                 <h3>Investimento Inicial</h3>
                 <p>(Mês 0)</p>
                 <p className='valor'><InitialInvestment /></p>
               </div>
+            </div> */}
+            <div className='box blue'>
+              <div className='box-content'>
+                <h3>Lucro Líquido Acumulado Esperado</h3>
+                <p>(Somatório 24 meses)</p>
+                <p className='valor'>
+                  <TotalEstimatedPayments meses={meses} />                  
+                </p>
+              </div>
             </div>
-            <div className='box'>
+            
+            <div className='box green'>
+              <div className='box-content'>
+                <h3>Lucro Líquido Acumulado Otimista</h3>
+                <p>(Somatório 24 meses)</p>
+                <p className='valor'>
+                  <TotalEstimatedPayments meses={meses} />                  
+                </p>
+              </div>
+            </div>
+            
+            <div className='box red'>
+              <div className='box-content'>
+                <h3>Lucro Líquido Acumulado Pessimista</h3>
+                <p>(Somatório 24 meses)</p>
+                <p className='valor'>
+                  <TotalEstimatedPayments meses={meses} />                  
+                </p>
+              </div>
+            </div>
+            {/* <div className='box'>
               <div className='box-content'>
                 <h3>Payback Esperado</h3>
                 <p>(Fluxo projetado esperado)</p>
@@ -105,7 +142,7 @@ const AnaliseViabilidadePayback = () => {
                 <p>(24 meses)</p>
                 <p className='valor'><ReturnOnInvestment /></p>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className='title'>

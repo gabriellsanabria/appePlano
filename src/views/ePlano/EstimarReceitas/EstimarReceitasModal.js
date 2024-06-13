@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
+import { NumericFormat } from 'react-number-format';
 import { FaTimes } from 'react-icons/fa';
-  import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import { API_BASE_URL } from '../../../apiConfig';
 
 import './EstimarReceitasModal.scss';
 
@@ -30,6 +31,11 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
     }
   };
 
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setValorUnitarioVenda(floatValue); // Atualiza o estado com o novo valor
+  };
+
   const handleSave = () => {
     onSave({
       produto_servico: selectedOption.label,
@@ -56,14 +62,21 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
               options={produtosServicos} // Usar as opções dos produtos e serviços
               placeholder="Selecione o produto/serviço..."
             />
-            <input
-              type="text"
-              value={valorUnitarioVenda}
-              onChange={(e) => setValorUnitarioVenda(e.target.value)}
-              placeholder="Digite o valor (R$) unitário de venda"
+            <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                prefix={'R$'}
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={valorUnitarioVenda}
+                placeholder="Digite o valor (R$) unitário de venda"
+                onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
             />
             <input
-              type="text"
+              type="number"
               value={projecaoVendasPorDia}
               onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
               placeholder="Digite a projeção de vendas por mês"

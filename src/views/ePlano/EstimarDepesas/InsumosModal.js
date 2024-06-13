@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import './EstimarDepesasModal.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import { NumericFormat } from 'react-number-format';
 
 const InsumosModal = ({ isOpen, onClose, onSave }) => {
   const [insumoInsumos, setInsumoInsumos] = useState('');
@@ -48,6 +49,11 @@ const InsumosModal = ({ isOpen, onClose, onSave }) => {
     }
   };
 
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setCustoInsumo(floatValue); // Atualiza o estado com o novo valor
+  };
+
   return (
     <div>
       <div className='overlay' onClick={onClose}></div>
@@ -66,11 +72,18 @@ const InsumosModal = ({ isOpen, onClose, onSave }) => {
               onChange={(e) => setInsumoInsumos(e.target.value)}
               placeholder="Digite o insumo"
             />
-            <input
-              type="text"
-              value={custoInsumo}
-              onChange={(e) => setCustoInsumo(e.target.value)}
-              placeholder="Digite o valor estimado dessa despesa por mês"
+            <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                prefix={'R$'}
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={custoInsumo}
+                placeholder="Digite o valor estimado dessa despesa por mês"
+                onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
             />
           </div>
           <div className='footer-modal'>
