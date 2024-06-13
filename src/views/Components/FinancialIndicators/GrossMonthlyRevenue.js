@@ -49,7 +49,10 @@ const ReceitaBrutaEstimada = () => {
 
   const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'));
 
-  const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  // const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages1 = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages = percentages1.map(() => 1);
+
   const valueMap = {
     "Somatório das Receitas Estimadas": createDynamicValues(totalMensalProjetado, meses.length, percentages),
   };
@@ -79,7 +82,7 @@ const ReceitaBrutaEstimada = () => {
         </div> */}
         <div className='row'>
           <div className='cell total-color'>
-            R$ {averagePerMonth.toLocaleString("pt-BR")}
+            R$ {parseFloat(averagePerMonth).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </div>
         </div>
       </div>

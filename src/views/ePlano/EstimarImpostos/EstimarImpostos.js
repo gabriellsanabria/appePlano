@@ -8,7 +8,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 import ButtonsEplano from '../../Dashboard/ButtonsEplano';
 
-const EstimarReceitas = () => {
+const EstimarImpostos = () => {
   const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
   const [isTaxModalOpen, setIsTaxModalOpen] = useState(false); // Estado para controlar a abertura do modal de impostos
   const [receitasMensais, setReceitasMensais] = useState([]);
@@ -155,7 +155,7 @@ const EstimarReceitas = () => {
             <h1>Estimar Impostos Mensais</h1>
           </div>
           <div className='add-button'>
-            <Link to="#" onClick={() => setIsTaxModalOpen(true)}>Adicionar Impostos</Link>
+            {/* <Link to="#" onClick={() => setIsTaxModalOpen(true)}>Editar Impostos</Link> */}
           </div>
           <div className='table-container'>
             <table>
@@ -200,4 +200,4 @@ const EstimarReceitas = () => {
   );
 };
 
-export default EstimarReceitas;
+export default EstimarImpostos;

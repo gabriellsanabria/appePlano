@@ -101,10 +101,8 @@ const LucroLiquidoMensal = ({ meses }) => {
   // Remover 15% do totalMensalProjetado
   const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
   
-  // const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-  const percentages1 = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-  const percentages = percentages1.map(() => 1);
-
+  const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  
   const caixaInicial = insumosInvestimento + insumosCapitalGiro;
   
   const investimentosEstimados = estruturaInvestimento + insumosInvestimento + insumosCapitalGiro;
@@ -193,7 +191,8 @@ return (
       {renderTable(lucroliquidomensal, highlightItems)}
     </div> */}
     <div>
-      R$ {parseFloat(monthlyAverage).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+      {/* <p>Resultado Mensal Total: R$ {investmentSums.reduce((a, b) => a + b, 0).toLocaleString("pt-BR")}</p> */}
+      {/* <p>Média Mensal (Exceto Primeiro Mês): </p> */}R$ {monthlyAverage.toLocaleString("pt-BR")}
     </div>
   </div>
 );

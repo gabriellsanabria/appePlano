@@ -5,6 +5,7 @@ import './EstimarReceitasModal.scss';
 import { NumericFormat } from 'react-number-format';
 
 const ModalAdicionarImposto = ({ isOpen, onClose, onSave }) => {
+  
   const [valorImpostoMensal, setValorImpostoMensal] = useState('');
   const [nomeImposto, setNomeImposto] = useState('');
   const [existingImposto, setExistingImposto] = useState(null);
@@ -83,8 +84,9 @@ const ModalAdicionarImposto = ({ isOpen, onClose, onSave }) => {
 
   const handleValorUnitarioChange = (values) => {
     const { floatValue } = values;
-    setNomeImposto(floatValue); // Atualiza o estado com o novo valor
+    setValorImpostoMensal(floatValue); // Atualiza o estado do valor do imposto mensal
   };
+  
 
   return (
     <div>
@@ -113,7 +115,7 @@ const ModalAdicionarImposto = ({ isOpen, onClose, onSave }) => {
                 allowNegative={false}
                 isNumericString={false}
                 value={valorImpostoMensal}
-              placeholder="Digite o valor do imposto mensal (%)"
+                placeholder="Digite o valor do imposto mensal (%)"
                 onValueChange={handleValorUnitarioChange} // Utiliza a função de tratamento
             />
           </div>

@@ -101,8 +101,10 @@ const TotalEstimatedPayments = ({ meses }) => {
   // Remover 15% do totalMensalProjetado
   const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
   
-  const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-  
+  // const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages1 = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages = percentages1.map(() => 1);
+
   const caixaInicial = insumosInvestimento + insumosCapitalGiro;
   
   const investimentosEstimados = estruturaInvestimento + insumosInvestimento + insumosCapitalGiro;

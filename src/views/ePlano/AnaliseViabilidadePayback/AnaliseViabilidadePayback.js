@@ -15,6 +15,7 @@ import ExpectedPayback from '../../Components/FinancialIndicators/ExpectedPaybac
 import ReturnOnInvestment from '../../Components/FinancialIndicators/ReturnOnInvestment';
 import PieChartComponent from '../../Components/Charts/PieChartComponent';
 import CaixaRealPieChart from '../../Components/Charts/CaixaRealPieChart';
+import CaixaReal from '../../Components/FinancialIndicators/CaixaReal';
 import ProfitAnalysisLineChart from '../../Components/Charts/ProfitAnalysisLineChart';
 import LucroLiquidoAcumuladoTotal from '../../ePlano/FluxoDeCaixaProjetado/Components/LucroLiquidoAcumuladoTotal';
 
@@ -62,16 +63,14 @@ const AnaliseViabilidadePayback = () => {
               <div className='box-content'>
                 <h3>Caixa Real Hoje</h3>
                 <p>(Mês 1;$ Mensal)</p>
-                {/* <p className='valor'><EstimatedMonthlyTaxes /></p> */}
-                
+                <p className='valor'><CaixaReal meses={meses}/></p>                
               </div>
             </div>
             <div className='box'>
               <div className='box-content'>
                 <h3>Impostos</h3>
                 <p>(Estimativa Mensal)</p>
-                {/* <p className='valor'><EstimatedMonthlyTaxes /></p> */}
-                
+                <p className='valor'><EstimatedMonthlyTaxes /></p>                
               </div>
             </div>
             {/* <div className='box'>
