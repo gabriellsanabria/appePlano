@@ -1,12 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef,useEffect, useState } from 'react';
 
 const Impostos = ({meses}) => {
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 1}`);
+  const [valorImpostoMensal, setValorImpostoMensal] = useState(null);
+
+
+  useEffect(() => {
+    const fetchImpostoMensal = async () => {
+      try {
+        const response = await fetch('https://api.eplano.com.br/listar_impostos_mensais');
+        if (!response.ok) {
+          throw new Error('Erro ao obter os impostos mensais');
+        }
+        const data = await response.json();
+        setValorImpostoMensal(data[0].valor_imposto_mensal);
+      } catch (error) {
+        console.error('Erro:', error);
+      }
+    };
+
+    fetchImpostoMensal();
+  }, []);
+
+
 
   const createDynamicValues = (value, numMonths) => Array(numMonths).fill(value);
 
   const valueMap = {
-    "IMPOSTOS": createDynamicValues(15, meses.length),
+    "IMPOSTOS": createDynamicValues(valorImpostoMensal, meses.length),
   };
 
   const sumInvestments = () => 
