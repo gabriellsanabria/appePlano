@@ -253,7 +253,7 @@ const [lucroLiquidoAcumulado, setLucroLiquidoAcumulado] = useState(new Array(mes
     const values = item in valueMap ? valueMap[item] : (item === "LUCRO LÍQUIDO ACUMULADO" ? investmentSums : Array(meses.length).fill(0));
   
     const renderedCells = values.map((value, index) => {
-      if (index === 0 && item === "LUCRO LÍQUIDO ACUMULADO") {
+      if (index === 1 && item === "LUCRO LÍQUIDO ACUMULADO") {
         cumulativeSum = lucroLiquidoMensal; // Iniciar com lucroLiquidoMensal se for o primeiro item
       } else {
         cumulativeSum += value; // Somar o valor atual ao acumulado

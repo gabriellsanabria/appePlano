@@ -248,7 +248,7 @@ const LucroLiquidoMensal = ({ meses }) => {
     const values = item in valueMap ? valueMap[item] : (item === "LUCRO LÍQUIDO MENSAL" ? investmentSums : Array(meses.length).fill(0));
     return values.map((value, index) => (
       <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
-        {index === 0 && item === "LUCRO LÍQUIDO MENSAL" ? `R$ ${lucroLiquidoMensal.toLocaleString("pt-BR")}` : `R$ ${value.toLocaleString("pt-BR")}`}
+        {index === 1 && item === "LUCRO LÍQUIDO MENSAL" ? `R$ ${lucroLiquidoMensal.toLocaleString("pt-BR")}` : `R$ ${value.toLocaleString("pt-BR")}`}
       </div>
     ));
   };

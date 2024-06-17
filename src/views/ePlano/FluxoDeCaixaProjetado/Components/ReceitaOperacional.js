@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
 
-const Caixa = ({ meses }) => {
+const ReceitaOperacional = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
   const [loading, setLoading] = useState(true);
   
@@ -69,7 +69,7 @@ const Caixa = ({ meses }) => {
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);
       
-
+      
       } catch (error) {
         console.error('Falha ao carregar dados:', error);
         setAmount('Erro ao carregar dados');
@@ -100,13 +100,11 @@ const Caixa = ({ meses }) => {
   
   const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'));
 
-  // Remover 15% do totalMensalProjetado
-  const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
   
   // const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
   const percentages1 = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
   const percentages = percentages1.map(() => 1);
-  
+
   const caixaInicial = insumosInvestimento + insumosCapitalGiro;
   
   const investimentosEstimados = estruturaInvestimento + insumosInvestimento + insumosCapitalGiro;
@@ -116,7 +114,7 @@ const Caixa = ({ meses }) => {
   fixedInvestments[0] = investimentosTotaisEstimados;
   
   // Calculando a receita operacional usando a função createDynamicValues
-  let receitaOperacionalValues = createDynamicValues(totalMensalProjetadoPosDesconto, meses.length, percentages, fixedInvestments);
+  let receitaOperacionalValues = createDynamicValues(totalMensalProjetado, meses.length, percentages, fixedInvestments);
 
   receitaOperacionalValues[1] += caixaInicial;
     
@@ -151,19 +149,6 @@ const Caixa = ({ meses }) => {
     "Receita Operacional": receitaOperacionalValues,
   };
   
-      
-  
-
-  
-  // Assume totalCaixa is a state variable initialized using useState
-  const [totalCaixa, setTotalCaixa] = useState(0);
-  const [caixaLiquido, setCaixaLiquido] = useState(0);
-  const [caixaEstoque, setCaixaEstoque] = useState(0);
-  const [caixaRecebiveis, setCaixaRecebiveis] = useState(0);
-  const [caixaContasPagar, setCaixaContasPagar] = useState(0);
-
-
-
   useEffect(() => {
     const fetchCaixaData = async () => {
       try {
@@ -205,78 +190,39 @@ const Caixa = ({ meses }) => {
     // Dependências do useEffect, se necessário
   }, []);
   
-const [lucroLiquidoAcumulado, setLucroLiquidoAcumulado] = useState(new Array(meses.length).fill(0));
-
-  
-  const [totalImposto, setTotalImposto] = useState(0);
-  useEffect(() => {
-    const fetchImpostoData = async () => {
-      try {
-        setLoading(true);
-
-        const responseImposto = await axios.get(`${API_BASE_URL}/listar_impostos_mensais`);
-        const imposto = responseImposto.data.reduce((total, item) => total + parseFloat(item.valor_imposto_mensal), 0)/100;
-        setTotalImposto(imposto);
-        console.log('Dados de imposto:', imposto);
-
-      } catch (error) {
-        console.error('Erro ao buscar dados da API:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImpostoData();
-
-    // Dependências do useEffect, se necessário
-  }, []);  
+  // Assume totalCaixa is a state variable initialized using useState
+  const [totalCaixa, setTotalCaixa] = useState(0);
+  const [caixaLiquido, setCaixaLiquido] = useState(0);
+  const [caixaEstoque, setCaixaEstoque] = useState(0);
+  const [caixaRecebiveis, setCaixaRecebiveis] = useState(0);
+  const [caixaContasPagar, setCaixaContasPagar] = useState(0);
     
   // alert(totalMensalProjetado);
   const despesasEstimadasTotal = insumosDespesas + despesasTotais;  
   const receitaOp = totalMensalProjetado - despesasEstimadasTotal + totalCaixa;
   
-  const lucroLiquidoMensal = totalMensalProjetado-(totalMensalProjetado*totalImposto)-despesasEstimadasTotal+totalCaixa;
-  
   console.log('aqui5',totalCaixa);
 
   console.log('aqui',receitaOp);
 
-  console.log('aqui6',lucroLiquidoMensal);
-
-  
   const sumInvestments = () => valueMap["Receita Operacional"];
   const investmentSums = sumInvestments();
 
-
   const renderCells = (item, highlight) => {
-    let cumulativeSum = 0;
-    const values = item in valueMap ? valueMap[item] : (item === "CAIXA" ? investmentSums : Array(meses.length).fill(0));
-  
-    const renderedCells = values.map((value, index) => {
-      if (index === 1 && item === "CAIXA") {
-        cumulativeSum = lucroLiquidoMensal; // Iniciar com lucroLiquidoMensal se for o primeiro item
-      } else {
-        cumulativeSum += value; // Somar o valor atual ao acumulado
-      }
-  
-      return (
-        <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
-          {`R$ ${cumulativeSum.toLocaleString("pt-BR")}`} {/* Mostrando o acumulado até o mês atual */}
-        </div>
-      );
-    });
-  
-    return renderedCells;
+    const values = item in valueMap ? valueMap[item] : (item === "FLUXO DE CAIXA" ? investmentSums : Array(meses.length).fill(0));
+    return values.map((value, index) => (
+      <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
+        {index === 1 && item === "Receita Operacional" ? `R$ ${receitaOp.toLocaleString("pt-BR")}` : `R$ ${value.toLocaleString("pt-BR")}`}
+      </div>
+    ));
   };
-  
-
   const renderTable = (items, highlightItems) => (
     <div className='table'>
       {items.map(item => (
         <div key={item} className='row' style={{ fontWeight: highlightItems.includes(item) ? 'bold' : 'normal' }}>
           <div className='cellCol items-color'>{item}</div>
           <div className='cell total-color'>
-            R$ {(item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) : (item === "CAIXA" ? investmentSums.reduce((a, b) => a + b, 0) : 0)).toLocaleString("pt-BR")}
+            R$ {(item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) : (item === "FLUXO DE CAIXA" ? investmentSums.reduce((a, b) => a + b, 0) : 0)).toLocaleString("pt-BR")}
           </div>
           {renderCells(item, highlightItems.includes(item))}
         </div>
@@ -284,17 +230,18 @@ const [lucroLiquidoAcumulado, setLucroLiquidoAcumulado] = useState(new Array(mes
     </div>
   );
 
-  const lucroliquidomensal = [
-    "CAIXA",
+  const fluxoCaixa = [
+    // "FLUXO DE CAIXA",
+    "Receita Operacional",
   ];
 
-  const highlightItems = ["CAIXA"];
+  const highlightItems = ["FLUXO DE CAIXA"];
 
   return (
     <div className='groupLine'>
-      {renderTable(lucroliquidomensal, highlightItems)}
+      {renderTable(fluxoCaixa, highlightItems)}
     </div>
   );
 };
 
-export default Caixa;
+export default ReceitaOperacional;

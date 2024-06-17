@@ -8,6 +8,7 @@ import DespesasEstimadas from './Components/DespesasEstimadas';
 import CaixaInicial from './Components/CaixaInicial';
 import CaixaReal from './Components/CaixaReal';
 import FluxoCaixa from './Components/FluxoCaixa';
+import ReceitaOperacional from './Components/ReceitaOperacional';
 import LucroLiquidoMensal from './Components/LucroLiquidoMensal';
 import LucroLiquidoAcumulado from './Components/LucroLiquidoAcumulado';
 import Impostos from './Components/Impostos';
@@ -56,7 +57,7 @@ const FluxoDeCaixaProjetado = () => {
             <DespesasEstimadas meses={meses} />
             {/* <CaixaInicial meses={meses}/> */}
             <CaixaReal meses={meses}/>
-            <FluxoCaixa meses={meses} />
+            <ReceitaOperacional meses={meses} />
             <Impostos meses={meses} />
             <LucroLiquidoMensal meses={meses} />
             <LucroLiquidoAcumulado meses={meses} />
