@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from  '../../../apiConfig';
 
-const TotalEstimatedPayments = ({ meses }) => {
+const LucroLAPessimista = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
   const [loading, setLoading] = useState(true);
   
@@ -96,7 +96,7 @@ const TotalEstimatedPayments = ({ meses }) => {
     return values;
   };
   
-  const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'));
+  const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.')) * 0.8;
 
   // Remover 15% do totalMensalProjetado
   const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
@@ -244,13 +244,13 @@ const TotalEstimatedPayments = ({ meses }) => {
     });
   
     // Exibir o último resultado acumulado fora do mapeamento
-    const lastAccumulatedValue = cumulativeSum.toLocaleString("pt-BR");
+    const lastAccumulatedValue = cumulativeSum;
   
     return (
       <>
         {renderedCells}
         <div className='last-result'>
-         {`R$ ${lastAccumulatedValue}`}
+         R$ {parseFloat(lastAccumulatedValue).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
         </div>
       </>
     );
@@ -276,4 +276,4 @@ const TotalEstimatedPayments = ({ meses }) => {
   return renderTable(lucroliquidomensal, highlightItems);
 };
 
-export default TotalEstimatedPayments;
+export default LucroLAPessimista;

@@ -8,7 +8,7 @@ import './AnaliseViabilidadePayback.scss';
 import GrossMonthlyRevenue from '../../Components/FinancialIndicators/GrossMonthlyRevenue';
 import NetMonthlyProfit from '../../Components/FinancialIndicators/NetMonthlyProfit';
 import EstimatedMonthlyTaxes from '../../Components/FinancialIndicators/EstimatedMonthlyTaxes';
-import TotalEstimatedPayments from '../../Components/FinancialIndicators/TotalEstimatedPayments';
+import TotalEstimatedPayments from '../../Components/FinancialIndicators/LucroLAEsperado';
 import MonthlyExpenses from '../../Components/FinancialIndicators/MonthlyExpenses';
 import InitialInvestment from '../../Components/FinancialIndicators/InitialInvestment';
 import ExpectedPayback from '../../Components/FinancialIndicators/ExpectedPayback';
@@ -18,6 +18,9 @@ import CaixaRealPieChart from '../../Components/Charts/CaixaRealPieChart';
 import CaixaReal from '../../Components/FinancialIndicators/CaixaReal';
 import ProfitAnalysisLineChart from '../../Components/Charts/ProfitAnalysisLineChart';
 import LucroLiquidoAcumuladoTotal from '../../ePlano/FluxoDeCaixaProjetado/Components/LucroLiquidoAcumuladoTotal';
+import LucroLAEsperado from '../../Components/FinancialIndicators/LucroLAEsperado';
+import LucroLAOtimista from '../../Components/FinancialIndicators/LucroLAOtimista';
+import LucroLAPessimista from '../../Components/FinancialIndicators/LucroLAPessimista';
 
 
 
@@ -104,7 +107,7 @@ const AnaliseViabilidadePayback = () => {
                 <h3>Lucro Líquido Acumulado Esperado</h3>
                 <p>(Somatório 24 meses)</p>
                 <p className='valor'>
-                  <TotalEstimatedPayments meses={meses} />                  
+                  <LucroLAEsperado meses={meses} />                  
                 </p>
               </div>
             </div>
@@ -114,7 +117,7 @@ const AnaliseViabilidadePayback = () => {
                 <h3>Lucro Líquido Acumulado Otimista</h3>
                 <p>(Somatório 24 meses)</p>
                 <p className='valor'>
-                  <TotalEstimatedPayments meses={meses} />                  
+                  <LucroLAOtimista meses={meses} />                  
                 </p>
               </div>
             </div>
@@ -124,7 +127,7 @@ const AnaliseViabilidadePayback = () => {
                 <h3>Lucro Líquido Acumulado Pessimista</h3>
                 <p>(Somatório 24 meses)</p>
                 <p className='valor'>
-                  <TotalEstimatedPayments meses={meses} />                  
+                  <LucroLAPessimista meses={meses} />                  
                 </p>
               </div>
             </div>
