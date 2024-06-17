@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
 
-const LucroLiquidoAcumulado = ({ meses }) => {
+const LucroLiquidoMensal = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
+  const [loading, setLoading] = useState(true);
   
   const [estruturaInvestimento, setEstruturaInvestimento] = useState(0);
   const [insumosInvestimento, setInsumosInvestimento] = useState(0);
@@ -67,7 +69,7 @@ const LucroLiquidoAcumulado = ({ meses }) => {
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);
       
-      
+
       } catch (error) {
         console.error('Falha ao carregar dados:', error);
         setAmount('Erro ao carregar dados');
@@ -101,7 +103,9 @@ const LucroLiquidoAcumulado = ({ meses }) => {
   // Remover 15% do totalMensalProjetado
   const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
   
-  const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  // const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages1 = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const percentages = percentages1.map(() => 1);
   
   const caixaInicial = insumosInvestimento + insumosCapitalGiro;
   
@@ -150,20 +154,119 @@ const LucroLiquidoAcumulado = ({ meses }) => {
       
   
 
+  
+  // Assume totalCaixa is a state variable initialized using useState
+  const [totalCaixa, setTotalCaixa] = useState(0);
+  const [caixaLiquido, setCaixaLiquido] = useState(0);
+  const [caixaEstoque, setCaixaEstoque] = useState(0);
+  const [caixaRecebiveis, setCaixaRecebiveis] = useState(0);
+  const [caixaContasPagar, setCaixaContasPagar] = useState(0);
+
+
+
+  useEffect(() => {
+    const fetchCaixaData = async () => {
+      try {
+        setLoading(true);
+
+        const response6 = await axios.get(`${API_BASE_URL}/api/caixa/liquido`);
+        const totalLiquido = response6.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaLiquido(totalLiquido);
+        console.log('Dados de caixa líquido:', totalLiquido);
+
+        const response7 = await axios.get(`${API_BASE_URL}/api/caixa/estoque`);
+        const totalEstoque = response7.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaEstoque(totalEstoque);
+        console.log('Dados de caixa estoque:', totalEstoque);
+
+        const response8 = await axios.get(`${API_BASE_URL}/api/caixa/recebiveis`);
+        const totalRecebiveis = response8.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaRecebiveis(totalRecebiveis);
+        console.log('Dados de caixa recebíveis:', totalRecebiveis);
+
+        const response9 = await axios.get(`${API_BASE_URL}/api/caixa/contas_pagar`);
+        const totalContasPagar = response9.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaContasPagar(totalContasPagar);
+        console.log('Dados de caixa contas a pagar:', totalContasPagar);
+
+        const resultadoCaixa = totalLiquido + totalEstoque + totalRecebiveis - totalContasPagar;
+        setTotalCaixa(resultadoCaixa);
+        console.log('Resultado Caixa:', resultadoCaixa);
+
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCaixaData();
+
+    // Dependências do useEffect, se necessário
+  }, []);
+  
+const [lucroLiquidoAcumulado, setLucroLiquidoAcumulado] = useState(new Array(meses.length).fill(0));
+
+  
+  const [totalImposto, setTotalImposto] = useState(0);
+  useEffect(() => {
+    const fetchImpostoData = async () => {
+      try {
+        setLoading(true);
+
+        const responseImposto = await axios.get(`${API_BASE_URL}/listar_impostos_mensais`);
+        const imposto = responseImposto.data.reduce((total, item) => total + parseFloat(item.valor_imposto_mensal), 0)/100;
+        setTotalImposto(imposto);
+        console.log('Dados de imposto:', imposto);
+
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchImpostoData();
+
+    // Dependências do useEffect, se necessário
+  }, []);  
+    
+  // alert(totalMensalProjetado);
+  const despesasEstimadasTotal = insumosDespesas + despesasTotais;  
+  const receitaOp = totalMensalProjetado - despesasEstimadasTotal + totalCaixa;
+  
+  const lucroLiquidoMensal = totalMensalProjetado-(totalMensalProjetado*totalImposto)-despesasEstimadasTotal+totalCaixa;
+  
+  console.log('aqui5',totalCaixa);
+
+  console.log('aqui',receitaOp);
+
+  console.log('aqui6',lucroLiquidoMensal);
+
+  
   const sumInvestments = () => valueMap["Receita Operacional"];
   const investmentSums = sumInvestments();
 
+
   const renderCells = (item, highlight) => {
-    let accumulatedTotal = 0;
+    let cumulativeSum = 0;
     const values = item in valueMap ? valueMap[item] : (item === "LUCRO LÍQUIDO ACUMULADO" ? investmentSums : Array(meses.length).fill(0));
-    return values.map((value, index) => {
-      accumulatedTotal += value; // Acumula o valor atual ao total acumulado
+  
+    const renderedCells = values.map((value, index) => {
+      if (index === 0 && item === "LUCRO LÍQUIDO ACUMULADO") {
+        cumulativeSum = lucroLiquidoMensal; // Iniciar com lucroLiquidoMensal se for o primeiro item
+      } else {
+        cumulativeSum += value; // Somar o valor atual ao acumulado
+      }
+  
       return (
         <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
-          R$ {accumulatedTotal.toLocaleString("pt-BR")}
+          {`R$ ${cumulativeSum.toLocaleString("pt-BR")}`} {/* Mostrando o acumulado até o mês atual */}
         </div>
       );
     });
+  
+    return renderedCells;
   };
   
 
@@ -181,7 +284,7 @@ const LucroLiquidoAcumulado = ({ meses }) => {
     </div>
   );
 
-  const lucroliquidoacumulado = [
+  const lucroliquidomensal = [
     "LUCRO LÍQUIDO ACUMULADO",
   ];
 
@@ -189,9 +292,9 @@ const LucroLiquidoAcumulado = ({ meses }) => {
 
   return (
     <div className='groupLine'>
-      {renderTable(lucroliquidoacumulado, highlightItems)}
+      {renderTable(lucroliquidomensal, highlightItems)}
     </div>
   );
 };
 
-export default LucroLiquidoAcumulado;
+export default LucroLiquidoMensal;

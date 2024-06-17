@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
 
 const FluxoCaixa = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
+  const [loading, setLoading] = useState(true);
   
   const [estruturaInvestimento, setEstruturaInvestimento] = useState(0);
   const [insumosInvestimento, setInsumosInvestimento] = useState(0);
@@ -147,8 +149,61 @@ const FluxoCaixa = ({ meses }) => {
     "Receita Operacional": receitaOperacionalValues,
   };
   
-      
+  useEffect(() => {
+    const fetchCaixaData = async () => {
+      try {
+        setLoading(true);
+
+        const response6 = await axios.get(`${API_BASE_URL}/api/caixa/liquido`);
+        const totalLiquido = response6.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaLiquido(totalLiquido);
+        console.log('Dados de caixa líquido:', totalLiquido);
+
+        const response7 = await axios.get(`${API_BASE_URL}/api/caixa/estoque`);
+        const totalEstoque = response7.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaEstoque(totalEstoque);
+        console.log('Dados de caixa estoque:', totalEstoque);
+
+        const response8 = await axios.get(`${API_BASE_URL}/api/caixa/recebiveis`);
+        const totalRecebiveis = response8.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaRecebiveis(totalRecebiveis);
+        console.log('Dados de caixa recebíveis:', totalRecebiveis);
+
+        const response9 = await axios.get(`${API_BASE_URL}/api/caixa/contas_pagar`);
+        const totalContasPagar = response9.data.reduce((total, item) => total + parseFloat(item.valor), 0);
+        setCaixaContasPagar(totalContasPagar);
+        console.log('Dados de caixa contas a pagar:', totalContasPagar);
+
+        const resultadoCaixa = totalLiquido + totalEstoque + totalRecebiveis - totalContasPagar;
+        setTotalCaixa(resultadoCaixa);
+        console.log('Resultado Caixa:', resultadoCaixa);
+
+      } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCaixaData();
+
+    // Dependências do useEffect, se necessário
+  }, []);
   
+  // Assume totalCaixa is a state variable initialized using useState
+  const [totalCaixa, setTotalCaixa] = useState(0);
+  const [caixaLiquido, setCaixaLiquido] = useState(0);
+  const [caixaEstoque, setCaixaEstoque] = useState(0);
+  const [caixaRecebiveis, setCaixaRecebiveis] = useState(0);
+  const [caixaContasPagar, setCaixaContasPagar] = useState(0);
+    
+  // alert(totalMensalProjetado);
+  const despesasEstimadasTotal = insumosDespesas + despesasTotais;  
+  const receitaOp = totalMensalProjetado - despesasEstimadasTotal + totalCaixa;
+  
+  console.log('aqui5',totalCaixa);
+
+  console.log('aqui',receitaOp);
 
   const sumInvestments = () => valueMap["Receita Operacional"];
   const investmentSums = sumInvestments();
@@ -157,11 +212,10 @@ const FluxoCaixa = ({ meses }) => {
     const values = item in valueMap ? valueMap[item] : (item === "FLUXO DE CAIXA" ? investmentSums : Array(meses.length).fill(0));
     return values.map((value, index) => (
       <div key={index} className='cell' style={{ fontWeight: highlight ? 'bold' : 'normal' }}>
-        R$ {value.toLocaleString("pt-BR")}
+        {index === 0 && item === "Receita Operacional" ? `R$ ${receitaOp.toLocaleString("pt-BR")}` : `R$ ${value.toLocaleString("pt-BR")}`}
       </div>
     ));
   };
-
   const renderTable = (items, highlightItems) => (
     <div className='table'>
       {items.map(item => (
