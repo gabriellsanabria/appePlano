@@ -68,8 +68,18 @@ const ProdutosServicos = () => {
                 <h1>Produtos e Serviços</h1>
               </div>
               <div className='texts'>              
-                <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
-                {/* Aqui você pode listar e descrever os produtos e serviços que o seu negócio oferece de forma simples e organizada. Siga os passos abaixo para adicionar cada item e fornecer uma breve descrição sobre eles. Estamos aqui para ajudá-lo a construir uma lista completa e detalhada, permitindo uma gestão eficiente do seu catálogo de produtos e serviços. */}
+                <p>
+                  Liste e Descreva os Produtos/ Serviços que o seu Negócio comercializa 
+                </p>
+                <p>1- Clique no Botão “Adicionar Produto/ Serviço”</p>
+                <ul>
+                  <li>A- Na tela que será aberta, adicionar cada Produto/ Serviço que o seu Negócio comercializa.</li>
+                  <li>B- Para cada Produto/ Serviço inserido insira um breve descritivo do mesmo. </li>
+                </ul>
+                <p>Em seguida, Salve o Produto/ Serviço.</p>
+                <p>Realize este passo a passo para cada Produto/ Serviço. </p>
+                <p>Observação: Você pode inserir quantos Produtos/ Serviços desejar. O importante é que esteja bem alinhado com o seu Negócio.</p>
+                <p>Depois, clique no Botão “Estimar Receitas” para prosseguir com o seu ePlano Financeiro. </p>
               </div>
               <div className='add-button'>
                 <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>

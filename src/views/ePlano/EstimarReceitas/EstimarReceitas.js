@@ -191,18 +191,27 @@ Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realiz
             <p>
             Quando todos os Produtos/ Serviços e o Imposto estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
             </p> */}
-            <p>Estime as receitas mensais e os impostos do seu negócio seguindo estes passos:</p>            
-            <ul>
-              <li>
-              Adicione cada produto/serviço e estime a receita mensal.
-              </li>
+            <p>
+            Estime as Receitas Mensais do seu Negócio com base nos Produtos/ Serviços que foram inseridos na tela anterior. 
+              </p>            
+              <p>Clique no Botão “Adicionar Receitas”. </p>
 
-              <li>Adicione a estimativa do imposto mensal.</li>
-
-              <li>Confira e ajuste as informações, se necessário.</li>
-
-              <li>Avance para continuar com o ePlano Financeiro.</li>
-            </ul>
+              <ul>
+                <li>A- Na tela que será aberta, Selecione cada Produto/ Serviço inserido na Tela Anterior (todos os Produtos/ Serviços cadastrados na Tela Anterior são exibidos ao Clicar no Campo “Selecione o Produto/ Serviço”).</li>
+                <li>B- Para cada Produto/ Serviço Selecionado (um a um), Insira as 2 Informações para calcular a Receita Média Estimada Mensal: </li>
+              </ul>
+              <ul>
+                <ul>
+                  <li>B1- Digite o Valor Unitário ($) de Venda do Produto/ Serviço.</li>
+                  <li>B2- Digite a Quantidade Estimada do Produto/ Serviço comercializado.</li>
+                </ul>
+              </ul>
+              <ul>
+                <li>C- Salve estas 2 informações e repita o mesmo passo a passo para cada Produto/ Serviço.</li>
+              </ul>
+              <p>Após Preencher e Salvar as Estimativas de todos os Produtos/ Serviços, confira na Tabela da Tela Principal (Estimar Receitas) se todos foram Preenchidos corretamente. </p>
+              <p>Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realize os ajustes necessários.</p>
+              <p>Quando todos os Produtos/ Serviços estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.</p>
           </div>
           <div className='add-button'>
             <Link to="#" onClick={openResumoExecutivoModal}>Adicionar Receitas</Link>
