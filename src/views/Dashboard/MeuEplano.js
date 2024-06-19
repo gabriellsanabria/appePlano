@@ -98,7 +98,7 @@ const MeuEplano = () => {
                   <li>Elaborar um Fluxo de Caixa Projetado.</li>
                   <li>Criar Cenários de Projeção (mais otimista e mais pessimista).</li>
                   <li>Entender melhor a relação de Receitas e Despesas do seu Negócio.</li>
-                  <li>vitar surpresas ao longo da jornada. </li>
+                  <li>Evitar surpresas ao longo da jornada. </li>
                 </ul>
                 <p>O Objetivo Principal é Analisar a Viabilidade Financeira do seu Negócio ao longo dos meses.
                 Para te ajudar, nós simplificamos este Processo em 5 Botões, são eles: </p>
