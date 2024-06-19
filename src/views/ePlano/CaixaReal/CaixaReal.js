@@ -259,20 +259,39 @@ const handleDelete = async (id, type) => {
         </div>
         <div className="right-column">
           <div className='title'>
-            <h1>Estime o Caixa Real/Atual do negócio</h1>
+            <h1>Estime o Caixa Atual do Negócio </h1>
           </div>
           <div className='texts'>
-           <p>
-           Defina e estime os investimentos para iniciar seu negócio. Na tela, organize os investimentos em estrutura física/virtual, incluindo reformas, despesas durante a reforma, marketing inicial, equipamentos, e outros. Adicione o valor para cada item e salve. Repita o processo para todos os investimentos necessários.
-
-
-           </p>
+           <p>Defina e estime o Caixa do seu Negócio. </p>
+           <p>Esta tela está organizada em 4 tipos de Caixa, são eles: </p>
+           <ul>
+            <li>Caixa Líquido.</li>
+            <li>Caixa Insumos (Estoque).</li>
+            <li>Caixa Recebíveis.</li>
+            <li>Caixa Contas a Pagar.</li>
+           </ul>
             
           </div>
           <div className='dashboard-col'>
             <p>Vamos Definir e Estimar os Investimento para Implementar o seu Negócio</p>
             <div className='title'>
               <h3>Caixa Líquido</h3>
+              <p>
+              Neste Botão registre, pelo menos de maneira aproximada, quanto você tem em Caixa Líquido hoje no seu Negócio.
+              </p>
+              <p>Exemplos de Caixa Líquido</p>
+              <ul>
+                <li>Dinheiro no Caixa Físico do seu Negócio.</li>
+                <li>Dinheiro Aplicado, em geral; na conta corrente de Bancos, Poupanças etc. </li>
+              </ul>
+              <p>Preenchendo o Caixa Insumos: </p>
+
+              <ul>
+                <li>A. Faça uma Estimativa do Caixa Líquido que o seu Negócio possui hoje.</li>
+                <li>B. Clique no Botão “Adicionar Caixa Líquido” e insira o total estimado do Caixa Líquido. E Salve.</li>
+              </ul>
+
+
             </div>
             <div className='add-button'>
               <Link onClick={openCaixaLiquidoModal}>Adicionar Caixa Líquido</Link>
@@ -306,21 +325,19 @@ const handleDelete = async (id, type) => {
           </div>
           <div className='dashboard-col'>
             <div className='title'>
-              <h3>Caixa Estoque</h3>
+              <h3>Caixa Insumos (Estoque)</h3>
             </div>
             <div className='texts'>
             <p>
-              Insumos (Estoque): neste Botão você deve inserir Investimentos com o um Primeiro Estoque de Insumos para iniciar a Operação do seu Negócio.
+              Neste Botão registre, pelo menos de maneira aproximada, quanto você tem em Estoque de Insumos hoje no seu Negócio
             </p>
             <p>
-              Faça uma Estimativa de Insumos para ter em Estoque, com base nas Despesas com Insumos (Tela anterior).
+              Preenchendo o Caixa Insumos: 
             </p>
-            <p>
-              Clique no Botão “Adicionar Insumos” e insira o nome do Item e qual é o Valor de Investimento. E Salve.
-            </p>
-            <p>
-            Repita este passo para Todos os Investimentos com Insumos.  
-            </p>
+            <ul>
+              <li>A. Faça uma Estimativa dos Insumos que você possui em Estoque hoje. </li>
+              <li>B. Clique no Botão “Adicionar Caixa Insumos” e insira o total estimado de Caixa com Insumos (Estoque). E Salve </li>
+            </ul>
             </div>
             <div className='add-button'>
               <Link onClick={openCaixaestoqueModal}>Adicionar Insumos (Estoque)</Link>
@@ -357,22 +374,18 @@ const handleDelete = async (id, type) => {
               <h3>Caixa Recebíveis</h3>
             </div>
             <div className='texts'>
-              <p>O Capital de Giro é uma Capital de Reserva para que você tenha mais Segurança no desenvolvimento do seu Negócio.</p>
-              <p>
-                Capital de Giro: neste Botão você deve inserir uma Breve Estimativa de Capital de Giro.
-              </p>
-              <p>
-                Considere ter um Capital de Reserva para Eventuais Necessidades durante os primeiros meses de operação do Negócio.
-              </p>
-              <p>
-                Sugestão: Tenha um caixa de, pelo menos, 3 a 6 meses de operação.
-              </p>
-              <p>
-                Guarde este Capital em um Investimento que possa ser acessado a qualquer momento.
-              </p>
-              <p>
-                Quando todos os Investimentos estiverem Estimados, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-              </p>
+              <p>Neste Botão registre, pelo menos de maneira aproximada, quanto você tem em Recebíveis, a partir de hoje no seu Negócio</p>
+              <p>Exemplos Recebíveis</p>
+              <ul>
+                <li>Cartão de Crédito a ser recebido. </li>
+                <li>Cheques a serem recebidos. </li>
+                <li>Pagamentos Parcelados de Clientes que estão em dívida com o seu Negócio. </li>
+              </ul>
+              <p>Preenchendo o Caixa Recebíveis:</p>
+              <ul>
+                <li>A. Faça uma Estimativa dos Recebíveis, somando todos os valores que estão te devendo; os valores em aberto hoje.</li>
+                <li>B. Clique no Botão “Adicionar Caixa Recebíveis” e insira o total estimado de Caixa com Recebíveis. E Salve. </li>
+              </ul>
             </div>
             <div className='add-button'>
               <Link onClick={openCaixaRecebiveisModal}>Adicionar Recebíveis</Link>
@@ -410,7 +423,17 @@ const handleDelete = async (id, type) => {
               <h3>Caixa Contas a pagar</h3>
             </div>
             <div className='texts'>
-              
+              <p>Neste Botão registre, pelo menos de maneira aproximada, quanto você tem em Contas a Pagar, a partir de hoje no seu Negócio. </p>
+              <p>Exemplos de Contas a Pagar: </p>
+              <ul>
+                <li>Dívidas Negociadas, em geral.</li>
+                <li>Pagamentos Parcelados de Insumos. </li>
+              </ul>
+              <p>Preenchendo o Caixa Contas a Pagar: </p>
+              <ul>
+                <li>A. Faça uma Estimativa das Contas a Pagar, somando todos os boletos em aberto hoje.</li>
+                <li>B. Clique no Botão “Adicionar Contas a Pagar” e insira o total estimado de Caixa com Contas a Pagar. E Salve. </li>
+              </ul>
             </div>
             <div className='add-button'>
               <Link onClick={openCaixaContasPagarModal}>Adicionar Contas</Link>

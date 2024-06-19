@@ -152,7 +152,19 @@ const EstimarImpostos = () => {
         <div className="right-column">
           
           <div className='title'>
-            <h1>Estimar Impostos Mensais</h1>
+            <h1>Estimar os Impostos Médios Mensais </h1>
+          </div>
+          <div className='texts'>
+            <p>Estime a Média Mensal dos Impostos que incidem no seu Negócio. </p>
+            <p>Clique no Botão “Adicionar Imposto”.</p>
+            <ul>
+              <li>A- Na tela que será aberta, Adicione uma Estimativa de Imposto Mensal.</li>
+              <li>B- Salve esta informação</li>
+            </ul>
+            <p>Após Preencher e Salvar a Estimativa do Imposto Mensal, confira na Tabela da Tela Principal (Estimar Receitas) se foi Preenchido corretamente.</p>
+            <p>Se a Estimativa estiver errada, volte no Botão “Adicionar Imposto” e realize o ajuste necessário. </p>
+
+            <p>Quando o Imposto estiver Estimado, clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro. </p>
           </div>
           <div className='add-button'>
             {/* <Link to="#" onClick={() => setIsTaxModalOpen(true)}>Editar Impostos</Link> */}
