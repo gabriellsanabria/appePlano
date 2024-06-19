@@ -90,12 +90,31 @@ const MeuEplano = () => {
               <div className="right-column">
                 <h1>Elabore o ePlano Financeiro do seu Negócio</h1>
                 <p>
-                Descubra a viabilidade financeira da sua ideia de negócio através de um plano financeiro completo.
+                Elaborar o ePlano Financeiro do seu Negócio – do seu Negócio em Operação –, entre outros, tem alguns objetivos.
                 </p>
-                <p>
-                Comece definindo os produtos e serviços que serão comercializados e siga os passos para estimar receitas, impostos, despesas mensais e investimentos necessários. Com estas informações, você terá uma fotografia financeira clara da sua ideia antes de avançar para o fluxo de caixa projetado e o painel de indicadores.
-                </p>
-                <p> Vamos começar?</p>
+                <ul>
+                  <li>Aprender mais sobre o seu Negócio ao longo dos meses futuros.</li>
+                  <li>Entender se o seu Negócio é Viável Financeiramente (ao longo dos meses futuros).</li>
+                  <li>Elaborar um Fluxo de Caixa Projetado.</li>
+                  <li>Criar Cenários de Projeção (mais otimista e mais pessimista).</li>
+                  <li>Entender melhor a relação de Receitas e Despesas do seu Negócio.</li>
+                  <li>vitar surpresas ao longo da jornada. </li>
+                </ul>
+                <p>O Objetivo Principal é Analisar a Viabilidade Financeira do seu Negócio ao longo dos meses.
+                Para te ajudar, nós simplificamos este Processo em 5 Botões, são eles: </p>
+                <ul>
+                  <li>Receitas Mensais: onde você vai listar os Produtos/ Serviços que serão comercializados. </li>
+                  <li> Estimar Receitas: onde você vai inserir Preços e Quantidades para cada Produto/Serviço listado anteriormente. </li>
+                  <li> Despesas Mensais: onde você vai listar e estimar as Despesas Mensais do seu Negócio. </li>
+                  <li> Caixa Real: onde você vai listar os 4 Tipos de Caixas do seu Negócio. </li>
+                  <li> Impostos. </li>
+                </ul>
+                <p>Após inserir as informações nos Botões acima, você terá elaborado uma “Fotografia Financeira”– do seu Negócio – nos outros 2 botões:</p>
+                <ul>
+                  <li>Fluxo de Caixa Projetado.</li>
+                  <li>Painel de Indicadores.</li>
+                </ul>
+                <p>Vamos iniciar? Comece pela descrição dos Produtos e Serviços. </p>
                 <div className="button-row">
                   <h3><FaChevronCircleRight /> Receitas Mensais</h3>
                   <div className="button-section">
@@ -129,7 +148,7 @@ const MeuEplano = () => {
                 <div className="button-row">
                   <h3><FaChevronCircleRight /> Despesas Mensais</h3>
                   <div className="button-section">
-                    <NavLink to='/estimar-investimentos' className="big-button">
+                    {/* <NavLink to='/estimar-investimentos' className="big-button">
                       <div className='icons'>
                         <MdStorefront />
                       </div>
@@ -140,7 +159,7 @@ const MeuEplano = () => {
                       <div className='exclamation-icon' title="Tooltip para Estrutura">
                         <FaExclamationCircle />
                       </div>
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink to='/estimar-despesas' className="big-button">
                       <div className='icons'>
                         <PiChartLineDownBold />
@@ -167,7 +186,43 @@ const MeuEplano = () => {
                     </NavLink>
                   </div>
                 </div>
-                
+
+                <div className="button-row">
+                  <h3><FaChevronCircleRight /> Análise do Negócio</h3>
+                  <div className="button-section">
+                    
+                    <NavLink to='/fluxo-caixa-projetado' className="big-button">
+                      <div className='icons'>
+                        <FaRegChartBar />
+                      </div>
+                      <div className='title'>
+                        <h2>Fluxo de Caixa Projetado</h2>
+                        <p>
+                          Analise a Viabilidade da sua Ideia de Negócio.
+                        </p>
+                      </div>
+                      <div className='exclamation-icon' title="Tooltip para Fluxo de Caixa Projetado">
+                        <FaExclamationCircle />
+                      </div>
+                    </NavLink>
+
+                    <NavLink to='/analise-viabilidad' className="big-button">
+                      <div className='icons'>
+                        <PiPiggyBankBold />
+                      </div>
+                      <div className='title'>
+                        <h2>Painel Indicadores ePlano</h2>
+                        <p>
+                          Estime o Caixa Real do Negócio
+                        </p>
+                      </div>
+                      <div className='exclamation-icon' title="Tooltip para Estimar Caixa">
+                        <FaExclamationCircle />
+                      </div>
+                    </NavLink>
+                   
+                  </div>
+                </div>                
                 <div className="button-row">
                   <h3><FaChevronCircleRight /> Caixa</h3>
                   <div className="button-section">
@@ -182,21 +237,6 @@ const MeuEplano = () => {
                         </p>
                       </div>
                       <div className='exclamation-icon' title="Tooltip para Estimar Caixa">
-                        <FaExclamationCircle />
-                      </div>
-                    </NavLink>
-                    
-                    <NavLink to='/fluxo-caixa-projetado' className="big-button">
-                      <div className='icons'>
-                        <FaRegChartBar />
-                      </div>
-                      <div className='title'>
-                        <h2>Fluxo de Caixa Projetado</h2>
-                        <p>
-                          Analise a Viabilidade da sua Ideia de Negócio.
-                        </p>
-                      </div>
-                      <div className='exclamation-icon' title="Tooltip para Fluxo de Caixa Projetado">
                         <FaExclamationCircle />
                       </div>
                     </NavLink>
