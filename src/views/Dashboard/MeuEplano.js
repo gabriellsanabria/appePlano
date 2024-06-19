@@ -243,7 +243,7 @@ const MeuEplano = () => {
                   </div>
                 </div>
 
-                <p>Elaborar o ePlano Financeiro do seu Negócio, entre outros, tem alguns objetivos:</p>
+                {/* <p>Elaborar o ePlano Financeiro do seu Negócio, entre outros, tem alguns objetivos:</p>
                 <ul>
                   <li>Aprender mais sobre a sua Ideia ao longo dos meses futuros.</li>
                   <li>Entender se uma ideia de Negócio é Viável Financeiramente.</li>
@@ -271,7 +271,7 @@ const MeuEplano = () => {
                   </li>
                 </ul>
                 <p>Vamos iniciar? Comece pela definição dos <Link to='/produtos-servicos'>Produtos e Serviços</Link></p>
-              </div>
+              </div> */}
             </React.Fragment>
           ))}
 
