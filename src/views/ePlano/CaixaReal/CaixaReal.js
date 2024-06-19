@@ -426,8 +426,8 @@ const handleDelete = async (id, type) => {
               <p>Neste Botão registre, pelo menos de maneira aproximada, quanto você tem em Contas a Pagar, a partir de hoje no seu Negócio. </p>
               <p>Exemplos de Contas a Pagar: </p>
               <ul>
-                <li>Dívidas Negociadas, em geral.</li>
-                <li>Pagamentos Parcelados de Insumos. </li>
+                <li>Dívidas Negociadas, em geral</li>
+                <li>Pagamentos Parcelados de Insumos</li>
               </ul>
               <p>Preenchendo o Caixa Contas a Pagar: </p>
               <ul>
