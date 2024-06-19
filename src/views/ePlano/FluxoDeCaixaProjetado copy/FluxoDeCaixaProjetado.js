@@ -29,11 +29,9 @@ const FluxoDeCaixaProjetado = () => {
           </div>
           <div className='texts'>
             <p>
-                Este é o Fluxo de Caixa Projetado; a partir das informações que foram salvas nas 4 Telas anteriores
-              </p>    
+            Este é o Fluxo de Caixa Projetado; a partir das informações que foram salvas nas Telas anteriores.</p>    
               <p>O Fluxo de Caixa está dividido em:</p>
               <ul>
-                <li>Investimentos.</li>
                 <li>Receitas Mensais,</li>
                 <li>Despesas Mensais.</li>
                 <li>Caixa Inicial.</li>
@@ -58,7 +56,7 @@ const FluxoDeCaixaProjetado = () => {
             <Impostos meses={meses} />
             <LucroLiquidoMensal meses={meses} />
             <LucroLiquidoAcumulado meses={meses} />
-            <Caixa meses={meses} />
+            {/* <Caixa meses={meses} /> */}
           </div>
         </div>
       </div>

@@ -148,7 +148,7 @@ const AnaliseViabilidadePayback = () => {
           </div>
 
           <div className='title'>
-            <h1>Tempo de Retorno do seu Investimento (Payback)</h1>
+            <h1>Resultado Operacional Acumulado (Projeções Estimadas do Negócio)</h1>
           </div>
           <div className='flex-container'>
             <div className='box'>
