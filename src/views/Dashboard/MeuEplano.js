@@ -243,35 +243,8 @@ const MeuEplano = () => {
                   </div>
                 </div>
 
-                {/* <p>Elaborar o ePlano Financeiro do seu Negócio, entre outros, tem alguns objetivos:</p>
-                <ul>
-                  <li>Aprender mais sobre a sua Ideia ao longo dos meses futuros.</li>
-                  <li>Entender se uma ideia de Negócio é Viável Financeiramente.</li>
-                  <li>Elaborar um Fluxo de Caixa Projetado.</li>
-                  <li>Criar Cenários de Projeção (mais otimista e mais pessimista).</li>
-                  <li>Analisar o Risco de Investir na sua Ideia de Negócio.</li>
-                  <li>Evitar surpresas ao longo da jornada.</li>
-                </ul>
-                <p>O Objetivo Principal é Analisar a Viabilidade Financeira da sua Ideia de Negócio.
-
-                  Para te ajudar, nós simplificamos este Processo nos 4 Botões acima, são eles:
-                </p>
-                <ul>
-                  <li>Receitas Mensais: onde você vai listar os Produtos/ Serviços que serão comercializados.</li>
-                  <li>Estimar Receitas e Impostos: onde você vai inserir Preços e Quantidades para cada Produto/ Serviço listado anteriormente.</li>
-                  <li>Despesas Mensais: onde você vai listar e estimar as Despesas Mensais da sua ideia de Negócio.</li>
-                  <li>Investimentos: onde você vai listar e estimar os Investimentos necessários para implementar as sua Ideia de Negócio.</li>
-                </ul>
-
-                <p>Após inserir as informações nos 4 Botões acima, você terá elaborado uma “Fotografia Financeira” – da sua Ideia de Negócio – antes de iniciar qualquer atividade nos outros 2 botões</p>
-                <ul>
-                  <li>Fluxo de Caixa Projetado.</li>
-                  <li>
-                    Painel de Indicadores.
-                  </li>
-                </ul>
-                <p>Vamos iniciar? Comece pela definição dos <Link to='/produtos-servicos'>Produtos e Serviços</Link></p>
-              </div> */}
+              
+              </div> 
             </React.Fragment>
           ))}
 
