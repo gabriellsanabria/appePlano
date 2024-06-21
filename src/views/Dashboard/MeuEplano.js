@@ -5,7 +5,7 @@ import { getFirestore, collection, getDocs, where, query } from 'firebase/firest
 import Layout from '../../components/Layout/layout';
 import GuiaEplano from '../../components/GuiaEplano/GuiaEplano';
 import TwoColumnLayout from '../../components/Layout/TwoColumnLayout';
-import Organograma from '../../components/OrganogramaComp/Organograma'; // Adicionei a importação do componente Organograma
+
 
 import './MeuEplano.scss';
 
