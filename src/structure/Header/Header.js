@@ -147,9 +147,9 @@ const Header = () => {
   const title = getTitle(pathname);
   // Função para adicionar a classe 'active' no menuTab
   const isActive = (path) => {
-    return currentPath === path ? 'active' : '';
+    return currentPath.startsWith(path) ? 'active' : '';
   };
-
+  
   return (
     <div className="header">
       <div className="header-content">

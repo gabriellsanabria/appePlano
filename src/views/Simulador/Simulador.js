@@ -2,12 +2,13 @@ import React from 'react';
 import Layout from '../../components/Layout/layout';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../components/PageHeader/PageHeader';
-import { AiOutlineDashboard  } from "react-icons/ai";
+import { FaChartSimple } from "react-icons/fa6";
 
 const Dashboard = () => {
   const headerTitle = 'Simulador Financeiro';
   const headerSubtitle = 'Painel de Indicadores do seu ePlano Financeiro Simulado';
-  const headerIcon = AiOutlineDashboard ;  // Use o ícone IoClose diretamente
+  const headerIcon = FaChartSimple ;  // Use o ícone IoClose diretamente
+  
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
     { label: headerTitle, path: '/dashboard' },

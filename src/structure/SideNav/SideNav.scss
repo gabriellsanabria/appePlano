@@ -2,19 +2,145 @@
 @import '../../assets/scss/colors';
 .sidenav {
   display: flex;
-  align-content: center;
-  justify-content: center;
   width: 80px;
   min-height: 100vh;
   background-color: #fff;
   box-shadow: 0 32px 32px -12px rgba(46, 44, 46, 0.325);
   color: #fff;
   overflow-x: hidden;
-  padding: 20px 15px;
+  padding: 20px 18px;
   transition: 0.5s;
-  .header-sidenav{
+  flex-direction: column;
+  .sidenav-header{
     img{
       width: 100%;
     }
+  }
+  .sidenav-body{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    .menu-key{
+      margin: 30px 0;    
+      width: 100%;
+      border-radius: 15px;
+      background-color: #F8F9FE;  
+      ul{
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        list-style: none;
+        margin: 0;
+        padding: 0px 0; 
+        flex-direction: column;
+        li{
+          display: flex;
+          align-items: center;
+          align-content: center;
+          justify-content: center;
+          margin: 0px 0;
+          padding: 3px 0;
+          border-radius: 15px;
+          width: 100%;
+          a{
+            display: flex;
+            padding: 12px 10px;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            svg{
+              font-size: 1.2rem;
+            }
+            &.active{
+              background-color: $orange-color;
+              color: white;
+              width: 100%;
+              border-radius: 15px;
+            }
+            &:hover{
+              background-color: $orange-color;
+              color: white;
+              width: 100%;
+              border-radius: 15px;
+            }
+          }
+        }
+    }
+    }
+    .menu-navigation{
+      margin: 0px 0;    
+      width: 100%;
+      border-radius: 15px;
+      ul{
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        list-style: none;
+        margin: 0;
+        padding: 0px 0; 
+        flex-direction: column;
+        li{
+          display: flex;
+          align-items: center;
+          align-content: center;
+          justify-content: center;
+          margin: 5px 0;
+          padding: 3px 0;
+          border-radius: 15px;
+          width: 100%;
+          a{
+            display: flex;
+            padding: 12px 10px;
+            align-items: center;
+            align-content: center;
+            justify-content: center;
+            svg{
+              font-size: 1.4rem;
+            }
+            &.active{
+              background-color: $orange-color;
+              color: white;
+              width: 100%;
+              border-radius: 15px;
+            }
+            &:hover{
+              background-color: $orange-color;
+              color: white;
+              width: 100%;
+              border-radius: 15px;
+            }
+          }
+        }
+    }
+    }
+  }
+}
+.menu-tooltip {
+  position: absolute;
+  background-color: black;
+  box-shadow: 0 15px 32px -10px rgba(46, 44, 46, 0.325);
+  color: white;
+  padding: 15px 10px;
+  margin-left: 270px;
+  border-radius: 5px;
+  z-index: 999; // Certifique-se de que a div esteja acima de outros elementos
+  font-size: 12px;
+  width: 15%;
+  text-align: center;
+    
+  // Adicionar um triÃ¢ngulo do lado esquerdo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 100%; // Coloque-o Ã  esquerda do elemento pai
+    margin-top: -5px; // Ajuste para centralizar verticalmente
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent; // TriÃ¢ngulo preto Ã  esquerda
   }
 }

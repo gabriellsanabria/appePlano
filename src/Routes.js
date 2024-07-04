@@ -137,6 +137,23 @@ const AppRoutes = () => {
           element={user ? <Planejador /> : <Navigate to="/login" />}
         />
         <Route
+          path="/planejador-financeiro/produtos"
+          element={user ? <ProdutosServicos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/planejador-financeiro/estimar-receitas"
+          element={user ? <Planejador /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/planejador-financeiro/estimar-despesas"
+          element={user ? <Planejador /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/planejador-financeiro/fluxo-caixa"
+          element={user ? <Planejador /> : <Navigate to="/login" />}
+        />
+
+        <Route
           path="/simulador-financeiro"
           element={user ? <Simulador /> : <Navigate to="/login" />}
         />
