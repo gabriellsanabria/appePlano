@@ -1,0 +1,41 @@
+// Breadcrumb.scss
+@import '../../assets/scss/colors';
+
+.breadcrumb {
+    padding: 0px;
+  
+    li {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      .breadcrumb-separator {
+        margin: 0 5px; /* Espaçamento entre o separador e os itens */
+        color: #999; /* Cor do separador */
+      }
+      a{
+        text-decoration: none;
+        }
+      &:last-child {
+        .breadcrumb-item {
+          &.active {
+            color: #777;
+          }
+          a {
+            color: #007bff;
+            text-decoration: none;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  
+    .breadcrumb-item {
+      &.active {
+        color: #a1a1a1;
+      }
+    }
+  }
+  

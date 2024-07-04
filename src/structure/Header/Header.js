@@ -22,6 +22,7 @@ const Header = () => {
   const userName = sessionStorage.getItem('userName') || '';
   const [userEmpresa, setUserEmpresa] = useState(null); // Estado para armazenar dados da empresa do usuário
   const [loading, setLoading] = useState(true);
+  const [currentPath, setCurrentPath] = useState(pathname); // Estado para armazenar a URL atual
 
   const togglePopover = () => {
     setPopoverVisible(!popoverVisible);
@@ -50,7 +51,9 @@ const Header = () => {
     navigate('/auth'); // Substitua history.push por navigate
   };
 
-  
+  useEffect(() => {
+    setCurrentPath(pathname); // Atualiza o estado com a URL atual ao mudar de localização
+  }, [pathname]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -142,19 +145,32 @@ const Header = () => {
   }
 
   const title = getTitle(pathname);
+  // Função para adicionar a classe 'active' no menuTab
+  const isActive = (path) => {
+    return currentPath === path ? 'active' : '';
+  };
 
   return (
     <div className="header">
       <div className="header-content">
-        <div className="title">{title}</div>
+        {/* <div className="title">{title}</div> */}
+        <div className='menuTab'>
+          <ul>
+            <li>
+              <Link className={isActive('/dashboard')} to='/dashboard'>Dashboard</Link>
+            </li>
+            <li>
+              <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Planejador Financeiro</Link>
+            </li>
+            <li>
+              <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>Simulador Financeiro</Link>
+            </li>
+          </ul>
+        </div>
         <div className="icons">
-          <div className="notifications-icon">
-            <IoIosHelpCircle />
-            <IoMdNotifications />
-          </div>
           <div className='userSession'>
             <div className="avatar" onClick={togglePopover}>
-              {/* <div className="user-name">Olá, {userName}</div> */}
+              <div className="user-name">{userName}</div>
               <div className="user-photo-container">
                 {user && user.photoURL ? (
                   <img className="user-photo" src={user.photoURL} alt="Avatar" />

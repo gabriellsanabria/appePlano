@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getFirestore, doc, getDoc, updateDoc, query, collection, where, getDocs} from 'firebase/firestore';
 import firebaseApp from '../../config/firebaseConfig';
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 
 import Layout from '../../components/Layout/layout';
 import useAuth from '../../hooks/useAuth';
@@ -112,9 +113,14 @@ const EditarConta = () => {
       [name]: value,
     }));
   };
-
+  // Exemplo de itens de breadcrumb
+  const breadcrumbItems = [
+    { label: 'Home', path: '/' },
+    { label: 'Dashboard', path: '/dashboard' },
+  ];
   return (
     <Layout>
+        <Breadcrumb items={breadcrumbItems} />
     <div className='dashboard-page' id='MinhaConta'>
   <div className='dashboard-content'>
     <div className="minhaconta-page">

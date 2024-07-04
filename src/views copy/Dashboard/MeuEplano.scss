@@ -1,0 +1,196 @@
+// CustomDash.scss
+@import '../../assets/scss/colors';
+
+.dashboard-page {
+  background-color: #fafafa;
+  display: flex;
+  width: 100%;
+}
+
+.hd-dashboard{
+  width: 100%;
+  display: flex;
+  margin: 15px 0;
+  .botao_add_widget{
+    display: flex;
+    width: 100%;
+    // justify-content: flex-end;
+    justify-content: flex-start;
+  }
+}
+
+.item-grid {
+  position: relative;
+
+  .card-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    z-index: 9999999999999999999999999999999999999;
+    color: #333; // Altere a cor conforme necessário
+    padding: 10px;
+    border-radius: 8px;
+    &:hover {
+      background-color: $cinza-claro;
+    }
+  }
+  .popover {
+    position: absolute;
+    background-color:  $primary-color; /* Cor de fundo do popover */
+    box-shadow: 0 12px 12px 5px rgba(0, 0, 0, 0.1); /* Sombra do popover */
+    padding: 20px 0px;
+    right: 5px;
+    top: 40px;
+    border-radius: 8px;
+    z-index: 9999000; /* Ajuste a ordem de empilhamento conforme necessário */
+    &:before {
+      content: '';
+      position: absolute;
+      top: -14%;
+      right: 9%;
+      margin-left: -10px;
+      border-width: 10px;
+      border-style: solid;
+      border-color: transparent transparent $primary-color transparent;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  
+      li {
+        cursor: pointer;
+        padding: 8px 30px;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        color: white;
+        text-align: right;
+  
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+.dashboard-content {
+
+}
+
+#profile{
+  .box-profile{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    .logo-avatar{
+      background-color: #e6e6e6;
+      display: flex;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      padding: 5px;
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+    .company-name{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      align-content: center;
+      justify-content: center;
+      margin: 10px 0;
+      h2{        
+        text-align: center;
+        font-size: 1.2em;
+        text-transform: capitalize!important;
+      }
+    }
+  }
+  .box-detalhes{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    border: solid 1px #dddddd;
+    background-color: white;
+    flex-direction: column;
+    margin: 0  0 20px 0;
+    .header-box-detalhes{
+      width: 100%;
+      display: flex;
+      h4{
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .body-box-detalhes{
+      width: 100%;
+      display: flex;   
+      flex-direction: column;
+      .detalhes{
+        width: 100%;
+        display: flex;  
+        margin: 10px 0; 
+        font-size: 0.8em;
+        .col-esq{
+          width: 40%;
+          display: flex;
+          justify-content: flex-end;
+          margin: 0 0px;
+          color: #555454;
+          font-weight: 800;
+        }
+        .col-dir{
+          width: 60%;
+          display: flex;
+          justify-content: flex-start;
+          margin: 0 10px;
+          color: black;
+        }
+      }   
+    }
+    hr{
+      width: 100%;
+    }
+  }
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.big-button {
+  width: calc(33.33% - 10px); /* Defina a largura de cada botão */
+  height: 80px;
+  font-size: 16px;
+  background-color: #007bff;
+  padding: 5px 15px;
+  margin: 5px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
+
+.big-button:hover {
+  background-color: #0056b3;
+}

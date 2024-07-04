@@ -1,0 +1,36 @@
+// PageHeader.scss
+@import '../../assets/scss/colors';
+.page-header {
+  
+    .header-content {
+      display: flex;
+      align-items: center;
+  
+      .header-icon {
+        margin-right: 12px;
+        background-color: $secondary-color;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        padding: 8px;
+        border-radius: 15px;
+        svg{
+            color: white;
+            font-size: 28px;
+        }
+      }
+  
+      h1 {
+        font-size: 24px;
+        margin: 0;
+      }
+  
+      .header-subtitle {
+        font-size: 14px;
+        color: #666;
+        margin-top: 8px; // Espaçamento entre o título e o texto de apoio
+      }
+    }
+  }
+  

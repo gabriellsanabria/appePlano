@@ -15,6 +15,8 @@ import Loader from './views/Loader/Loader';
 import TutorialModal from './components/TutorialModal/TutorialModal';
 import Doc from './components/Doc/Doc';
 
+import Planejador from './views/Planejador/Planejador';
+import Simulador from './views/Simulador/Simulador';
 
 import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
 import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
@@ -129,6 +131,14 @@ const AppRoutes = () => {
         <Route
           path="/dashboard"
           element={user ? <Dashboard /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/planejador-financeiro"
+          element={user ? <Planejador /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro"
+          element={user ? <Simulador /> : <Navigate to="/login" />}
         />
         <Route
           path="/meu-eplano/:urlBase/:ePlanoId/:urlEplano"
