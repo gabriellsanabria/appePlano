@@ -1,7 +1,6 @@
 // PageHeader.scss
 @import '../../assets/scss/colors';
-.page-header {
-  
+.page-header {  
     .header-content {
       display: flex;
       align-items: center;
@@ -31,6 +30,37 @@
         color: #666;
         margin-top: 8px; // Espaçamento entre o título e o texto de apoio
       }
+      .boxSideForm{
+        display: flex;
+        margin: 0 15px;
+        width: 50px;
+        button{
+          background-color: #dbdbdb;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          margin: 0;
+          padding: 0;
+          color: $primary-color;
+          svg{
+            margin: 5px 2px 0 0px;
+          }
+          &:hover{
+            background-color: $secondary-color;
+            color: white;
+          }
+        }
+      }
     }
   }
-  
+
+  /* Estilos para o overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* cor do overlay */
+  z-index: 1000; /* garantir que o overlay esteja acima de todo o conteúdo */
+}

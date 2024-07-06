@@ -1,0 +1,216 @@
+@import 'colors';
+/* Estilos para a tabela */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+    // border: 1px solid #ccc;
+  
+    th,
+    td {
+      // border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+  
+    th {
+      background-color: #F2E8E8;
+      color: #333;
+      font-weight: bold;
+      padding: 10px 25px ;
+    }
+    td{
+      padding: 25px ;
+    }
+  
+    tbody tr:nth-child(even) {
+      background-color: #fff;
+    }
+  
+    tbody tr:hover {
+      background-color: #FBF7F7;
+    }
+  }
+
+  
+.actions-container {
+  position: relative;
+  .Dots{
+    cursor: pointer;
+  }
+  .popover-content {
+    position: absolute;
+    top: -230%;
+    right: 70%;
+    width: 200px;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 9999999;
+    &::before {
+      content: ''; /* Conteúdo vazio */
+      position: absolute;
+      top: 45px;
+      right: -8px; /* Ajuste a posição horizontal conforme necessário */
+      border-top: 10px solid transparent; /* Lado superior transparente */
+      border-bottom: 10px solid transparent; /* Lado inferior transparente */
+      border-left: 10px solid #fff; /* Lado esquerdo colorido */
+    }
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      font-size: 16px;
+      color: #333;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px;
+      font-size: 14px;
+      color: #333;
+      height: auto!important;
+      border: none;
+      background: none;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+
+  &:hover .popover-content {
+    display: block;
+  }
+}
+
+.row-actions{
+  width: 100%;
+    a{      
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px;
+      font-size: 14px;
+      color: #333;
+      height: auto!important;
+      border: none;
+      background: none;
+      cursor: pointer;
+      text-decoration: none;
+      &:hover{
+        background-color: #dddddd;
+      }
+    }
+}
+
+  
+  /* Estilos para a paginação */
+  .pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+  
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+  
+    span {
+      margin: 0 10px;
+      font-size: 14px;
+    }
+  }
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px 10px;
+    .filter-container{
+      display: flex;
+      flex: 1;
+      button{
+        display: flex;
+        flex: 1;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+  
+      }
+    }
+    .pagination_select{
+      display: flex;  
+      select{
+        
+        width: 200px!important;
+        border: 1px solid #cbd6e2;
+        box-shadow: none;
+        border-radius: 6px;
+        padding: 10px;
+        text-align: center;
+        font-family: "Futura", sans-serif;
+      }
+    }
+    .pagination_Bt{
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        .numero_paginas{
+            display: flex;
+            font-size: 12px;
+            margin: 0 5px;
+            input[type="number"] {
+              width: 50px!important;
+              border: 1px solid #cbd6e2;
+              border-radius: 6px;
+              padding: 10px;
+              text-align: center;
+            }
+        }
+        .chevronBt{
+            flex: 1;
+            display: flex;
+            background-color: $primary-color;
+            border: 1px solid #cbd6e2;
+            border-radius: 5px  !important;
+            padding: 10px !important;
+            margin: 0 0 0 5px;
+            height: auto!important;
+            color: #fff;
+            cursor: pointer;
+            &:disabled {
+                background-color: #fff;
+                cursor: not-allowed;
+                color: #afafaf;
+              }
+          
+            &:hover:not(:disabled) {
+            background-color: #0056b3;
+            }
+        }
+    }
+  }

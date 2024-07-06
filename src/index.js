@@ -9,6 +9,8 @@ import './assets/scss/Buttons.scss'; // Importe o arquivo SCSS global
 import './assets/scss/react-modal.scss'; // Importe o arquivo SCSS global
 import './assets/scss/Widgets.scss'; // Importe o arquivo SCSS global
 import './assets/scss/spinner.scss'; // Importe o arquivo SCSS global
+import './assets/scss/Table.scss'; // Importe o arquivo SCSS global
+import './assets/scss/SideForm.scss'; // Importe o arquivo SCSS global
 
 const root = document.getElementById('root');
 const reactRoot = createRoot(root);

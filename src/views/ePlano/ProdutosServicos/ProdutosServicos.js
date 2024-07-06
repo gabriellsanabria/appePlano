@@ -1,127 +1,229 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Layout from '../../../components/Layout/layout';
-import ModalResumoExecutivo from './ProdutosServicosModal';
-import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import PageHeader from '../../../components/PageHeader/PageHeader';
+import { SiHackthebox } from 'react-icons/si';
+import { HiDotsVertical } from "react-icons/hi";
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useTable, usePagination } from 'react-table';
+import { FaChevronRight, FaChevronLeft, FaShare } from "react-icons/fa";
+import { FiChevronsLeft, FiChevronsRight, FiShare } from "react-icons/fi";
 
-const ProdutosServicos = () => {
-  const [produtosServicosData, setProdutosServicosData] = useState([]);
-  const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
-  const [lastProductId, setLastProductId] = useState(null); // Estado para rastrear o último ID de produto/serviço
+const Planejador = () => {
+  const headerTitle = 'Produtos e Serviços';
+  const headerSubtitle = 'Liste e Descreva os Produtos/Serviços que o seu Negócio irá comercializar';
+  const sideType = 'SideFormProdutos';
+  const headerIcon = SiHackthebox;
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/produtos_servicos`);
-      if (!response.ok) {
-        throw new Error('Falha ao buscar os dados');
-      }
-      const data = await response.json();
-      setProdutosServicosData(data);
-    } catch (error) {
-      console.error(error);
+  const breadcrumbItems = [
+    { label: 'Dashboard', path: '/' },
+    { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
+    { label: headerTitle, path: '/dashboard' },
+  ];
+
+  const renderRowActions = (mpId, row) => {
+    return (
+      <div className="row-actions">
+        <Link to={`/ficha-tecnica`}>
+          <FaEdit /> Editar
+        </Link>
+        <Link>
+          <FaTrashAlt /> Deletar
+        </Link>
+      </div>
+    );
+  };
+
+  // Dados para a tabela (exemplo de dados)
+  const data = React.useMemo(
+    () => [
+      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
+      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
+      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
+      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
+      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
+      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
+      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
+      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
+      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
+      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
+      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
+      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
+      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
+      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
+      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
+    ],
+    []
+  );
+
+  // Estado para os checkboxes
+  const [selectedRows, setSelectedRows] = useState([]);
+
+  const handleCheckboxChange = (id) => {
+    setSelectedRows((prevSelected) =>
+      prevSelected.includes(id)
+        ? prevSelected.filter((rowId) => rowId !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  const handleSelectAllChange = () => {
+    if (selectedRows.length === data.length) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(data.map((row) => row.id));
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const openResumoExecutivoModal = () => {
-    setIsResumoExecutivoModalOpen(true);
-  };
-
-  const handleExcluirProdutoServico = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+  // Colunas da tabela
+  const columns = React.useMemo(
+    () => [
+      {
+        id: 'checkbox',
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <input
+            type="checkbox"
+            checked={selectedRows.length === data.length}
+            onChange={handleSelectAllChange}
+          />
+        ),
+        Cell: ({ row }) => (
+          <input
+            type="checkbox"
+            checked={selectedRows.includes(row.original.id)}
+            onChange={() => handleCheckboxChange(row.original.id)}
+          />
+        ),
+      },
+      { Header: 'Produto', accessor: 'produto' },
+      { Header: 'Descrição', accessor: 'descricao' },
+      {
+        Header: 'Ações',
+        accessor: 'acoes',
+        Cell: ({ row }) => (
+          <div className="actions-container">
+            <div className='Dots'>
+              <HiDotsVertical />
+            </div>
+            <div className="popover-content">
+              {renderRowActions(row.original.mp_id, row)}
+            </div>
+          </div>
+        ),
       }
-      fetchData(); // Atualiza os dados após a exclusão
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    ],
+    [selectedRows, data]
+  );
 
-// // Verifica se um novo produto/serviço foi adicionado e atualiza os dados se necessário
-// useEffect(() => {
-//   const initialCount = produtosServicosData.length;
-//   fetchData(); // Busca os dados novamente
-//   return () => {
-//     const finalCount = produtosServicosData.length;
-//     if (finalCount > initialCount) {
-//       // Se o número de produtos/serviços aumentou, um novo item foi adicionado
-//       setLastProductId(produtosServicosData[finalCount - 1].id);
-//     }
-//   };
-// }, [produtosServicosData]);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    prepareRow,
+    gotoPage,
+    previousPage,
+    nextPage,
+    canPreviousPage,
+    canNextPage,
+    state: { pageIndex, pageSize, pageCount, pageOptions },
+    setPageSize,
+  } = useTable({ columns, data }, usePagination);
 
   return (
     <Layout>
-      <div className='dashboard-page'>
-        <div className='dashboard-content'>
-          <div className='title'>
-            <h1>Produtos e Serviços</h1>
-          </div>
-          
-          <div className='texts'>              
-            <p>Liste e Descreva os Produtos/ Serviços que o seu Negócio irá comercializar</p>
-                <p>
-                  <b>
-                    INSTRUÇÕES PARA LISTAR E DESCREVER OS PRODUTOS/ SERVIÇOS QUE O SEU NEGÓCIO IRÁ COMERCIALIZAR
-                  </b>
-                </p>
-                <p>1- Clique no Botão “Adicionar Produto/ Serviço”.</p>
-                <ul>
-                  <li>A- Na tela que será aberta, adicionar cada Produto/ Serviço que o seu Negócio irá comercializar.</li>
-                  <li>B- Para cada Produto/ Serviço inserido insira um breve descritivo do mesmo.</li>
-                </ul>
-                <p>
-                  Em seguida, Salve o Produto/ Serviço.
-                  Realize este passo a passo para cada Produto/ Serviço.
-
-                  Observação: Você pode inserir quantos Produtos/ Serviços desejar.
-
-                  Clique no Botão “Avançar” para prosseguir com o seu ePlano Financeiro.
-                </p>
-            </div>
-          <div className='add-button'>
-            <Link onClick={openResumoExecutivoModal}>Adicionar Produto/Serviço</Link>
-          </div>
-          <div className='table-container'>
-            <table>
-              <thead>
-                <tr>
-                  <th>Produtos/Serviços</th>
-                  <th>Descrição</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                {produtosServicosData.map((produtoServico) => (
-                  <tr key={produtoServico.id}>
-                    <td>{produtoServico.produto_servico}</td>
-                    <td>{produtoServico.descricao}</td>
-                    <td>
-                      <button onClick={() => handleExcluirProdutoServico(produtoServico.id)}><FaTrashAlt /></button>
-                    </td>
-                  </tr>
+      <div className="container">
+        <Breadcrumb items={breadcrumbItems} />
+        <PageHeader title={headerTitle} subtitle={headerSubtitle} icon={headerIcon} sideType={sideType}/>
+        <table {...getTableProps()} className="table">
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th {...column.getHeaderProps()}>{column.render('Header')}</th>
                 ))}
-              </tbody>
-            </table>
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {page.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  ))}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <div className="pagination">
+          <div className="pagination_select">
+            <select
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+            >
+              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  mostrar {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="numero_paginas"></div>
+          <div className="pagination_Bt">
+            <button
+              className="chevronBt"
+              onClick={() => gotoPage(0)}
+              disabled={!canPreviousPage}
+            >
+              <FiChevronsLeft />
+            </button>
+            <button
+              className="chevronBt"
+              onClick={previousPage}
+              disabled={!canPreviousPage}
+            >
+              <FaChevronLeft />
+            </button>
+            <div className="numero_paginas">
+              <span>
+                ir para página:{' '}
+                <input
+                  type="number"
+                  defaultValue={pageIndex + 1}
+                  onChange={(e) => {
+                    const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                    gotoPage(page);
+                  }}
+                  style={{ width: '100px' }}
+                />
+              </span>{' '}
+            </div>
+            <div className="numero_paginas">
+              {pageOptions ? `${pageIndex + 1} de ${pageOptions.length}` : ''}
+            </div>
+            <button
+              className="chevronBt"
+              onClick={nextPage}
+              disabled={!canNextPage}
+            >
+              <FaChevronRight />
+            </button>
+            <button
+              className="chevronBt"
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+            >
+              <FiChevronsRight />
+            </button>
           </div>
         </div>
       </div>
-      {isResumoExecutivoModalOpen && (
-        <ModalResumoExecutivo
-          isOpen={isResumoExecutivoModalOpen}
-          onClose={() => setIsResumoExecutivoModalOpen(false)}
-        />
-      )}
     </Layout>
   );
 };
 
-export default ProdutosServicos;
+export default Planejador;

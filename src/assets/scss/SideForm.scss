@@ -1,0 +1,79 @@
+
+/* Estilos para o SideForm */
+.SideForm {
+    position: fixed;
+    top: 0;
+    right: -5px;
+    width: 550px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    transition: transform 0.2s ease-out;
+    z-index: 999999999;
+    padding: 20px;
+  
+    &.open {
+      transform: translateX(0);
+    }
+  
+    .SideForm-content {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .sideForm-header{
+        display: flex;
+        width: 100%;
+        h1{
+          font-size: 1.8rem;
+        }
+      }
+      .sideForm-body{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        .form-content{
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          margin: 0 0 20px 0;
+          label{
+            margin: 0;
+            padding: 0;
+            font-weight: 700;
+          }
+          input{
+            background-color: #f0f0f0;
+          }
+          textarea{
+            background-color: #f0f0f0;
+            box-shadow: none;
+          }
+        }
+      }
+      .sideForm-footer{
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        button{
+          display: flex;
+          width: 46%;
+          margin: 0 5px;
+          align-items: center;
+          align-content: center;
+          justify-content: center;
+          border: solid 1px white;
+          border-radius: 10px;
+          font-size: 1rem;
+          &.cancelButton{
+            background-color: #f0f0f0;
+            border: solid 2px black;
+            color: black;
+          }
+          &.saveButton{
+
+          }
+        }
+      }
+    }
+  }
