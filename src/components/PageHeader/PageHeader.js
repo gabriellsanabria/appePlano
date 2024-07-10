@@ -27,19 +27,28 @@ const PageHeader = ({ title, subtitle, icon, sideType, onAdd }) => {
     <>
       <div className="page-header">
         <div className="header-content">
-          <div className="header-icon">
-            <IconComponent />
-          </div>
-          <div>
-            <h1>{title}</h1>
-          </div>
-          <div className="boxSideForm">
-            <button onClick={openSideForm}>
-              <FaPlus />
-            </button>
+            <div className='header-infos'>            
+              <div className="header-icon">
+                <IconComponent />
+              </div>
+              <div className='header-title'>
+                <h1>{title}</h1>
+              </div>
+              <div className="boxSideForm">
+                <button onClick={openSideForm}>
+                  <FaPlus />
+                </button>
+              </div>
+            </div>
+            {subtitle && <p className="header-subtitle">{subtitle}</p>}
+        </div>
+        
+        <div className="boxTotais">
+          <div className='stage-total'>
+            <div className='ttlTotal'>Total</div>
+            <div className='valor'>R$ 60.400,00</div>
           </div>
         </div>
-        {subtitle && <p className="header-subtitle">{subtitle}</p>}
       </div>
 
       {isOverlayOpen && (

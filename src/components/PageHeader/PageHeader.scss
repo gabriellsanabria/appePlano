@@ -1,54 +1,85 @@
 // PageHeader.scss
 @import '../../assets/scss/colors';
 .page-header {  
+  display: flex;
+  align-items: center;
     .header-content {
       display: flex;
-      align-items: center;
-  
-      .header-icon {
-        margin-right: 12px;
-        background-color: $orange-color;
+      width: 70%;
+      flex-direction: column;
+      .header-infos{
+        width: 70%;
         display: flex;
         align-items: center;
-        align-content: center;
-        justify-content: center;
-        padding: 8px;
-        border-radius: 15px;
-        svg{
-            color: white;
-            font-size: 28px;
+        .header-icon {
+          margin-right: 12px;
+          background-color: $orange-color;
+          display: flex;
+          align-items: center;
+          align-content: center;
+          justify-content: center;
+          padding: 8px;
+          border-radius: 15px;
+          svg{
+              color: white;
+              font-size: 28px;
+          }
+        }
+    
+        h1 {
+          font-size: 24px;
+          margin: 0;
+        }
+    
+        .header-subtitle {
+          font-size: 14px;
+          color: #666;
+          p{
+            
+          }
+        }
+        .boxSideForm{
+          display: flex;
+          margin: 0 15px;
+          width: 50px;
+          button{
+            background-color: #dbdbdb;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+            color: $primary-color;
+            svg{
+              margin: 5px 2px 0 0px;
+            }
+            &:hover{
+              background-color: $secondary-color;
+              color: white;
+            }
+          }
         }
       }
-  
-      h1 {
-        font-size: 24px;
-        margin: 0;
-      }
-  
-      .header-subtitle {
-        font-size: 14px;
-        color: #666;
-        margin-top: 8px; // Espaçamento entre o título e o texto de apoio
-      }
-      .boxSideForm{
+    }
+    .boxTotais{
+      display: flex;
+      margin: 0 15px;
+      width: 30%;     
+      justify-content: flex-end;
+      .stage-total{
         display: flex;
-        margin: 0 15px;
-        width: 50px;
-        button{
-          background-color: #dbdbdb;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          margin: 0;
-          padding: 0;
-          color: $primary-color;
-          svg{
-            margin: 5px 2px 0 0px;
-          }
-          &:hover{
-            background-color: $secondary-color;
-            color: white;
-          }
+        background-color: white;
+        box-shadow: 2px 5px 20px 0px rgba(0, 0, 0, 0.3);
+        padding: 20px 30px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        .ttlTotal{
+          display: flex;
+          margin: 0 25px 0 0; 
+        }
+        .valor{
+          display: flex;
         }
       }
     }

@@ -60,7 +60,7 @@ const EstimarReceitas = () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/excluir_receita_mensal_negocio/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -73,7 +73,6 @@ const EstimarReceitas = () => {
       console.error(error);
     }
   };
-  
   
 
   useEffect(() => {

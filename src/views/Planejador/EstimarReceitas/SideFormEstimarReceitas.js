@@ -1,85 +1,160 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 import PropTypes from 'prop-types';
+import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
 
-const SideFormProdutos = ({ closeSideForm, onAdd }) => {
-  const [produtoServico, setProdutoServico] = useState('');
-  const [descricao, setDescricao] = useState('');
+const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [valorUnitarioVenda, setValorUnitarioVenda] = useState('');
+  const [projecaoVendasPorDia, setProjecaoVendasPorDia] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [produtosServicos, setProdutosServicos] = useState([]);
+
+  useEffect(() => {
+    obterProdutosServicos();
+  }, []);
+
+  const obterProdutosServicos = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/produtos_servicos`);
+      const data = await response.json();
+      
+      const options = data.map((produtoServico) => ({
+        value: produtoServico.id,
+        label: produtoServico.produto_servico
+      }));
+
+      options.sort((a, b) => a.label.localeCompare(b.label));
+
+      setProdutosServicos(options);
+    } catch (error) {
+      console.error('Erro ao obter produtos/serviços:', error);
+    }
+  };
 
   const handleClose = () => {
-    closeSideForm(); // Calling the closeSideForm function received via props
+    closeSideForm();
   };
 
   const handleSave = async () => {
     try {
-      // Verifica se os campos estão vazios
-      if (!produtoServico || !descricao) {
+      if (!selectedOption || !valorUnitarioVenda || !projecaoVendasPorDia) {
         throw new Error('Por favor, preencha todos os campos.');
       }
-  
+
       setIsLoading(true);
-  
-      // Monta o objeto com os dados a serem enviados
+
       const bodyData = {
-        produto_servico: produtoServico,
-        descricao: descricao,
+        produto_servico: selectedOption.label,
+        valor_unitario: valorUnitarioVenda,
+        quantidade_vendida_por_mes: projecaoVendasPorDia
       };
-  
-      console.log('Dados a serem enviados:', bodyData);
-  
-      const response = await fetch(`${API_BASE_URL}/adicionar_produto_servico`, {
+
+      const response = await fetch(`${API_BASE_URL}/adicionar_receita_mensal_negocio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Falha ao adicionar produto/serviço');
+        throw new Error('Falha ao adicionar receita');
       }
-  
-      // Chama a função onAdd passada de PageHeader para atualizar o estado em Planejador
+
       onAdd(bodyData);
-  
-      // Fechar o modal após uma solicitação bem-sucedida
+
       closeSideForm();
     } catch (error) {
       console.error('Erro ao salvar:', error.message);
-  
-      // Exibe uma mensagem para o usuário informando que é necessário preencher os campos
       alert(error.message);
     } finally {
       setIsLoading(false);
     }
   };
-  
+
+  const handleValorUnitarioChange = (values) => {
+    const { floatValue } = values;
+    setValorUnitarioVenda(floatValue);
+  };
 
   return (
     <>
       <div className='sideForm-header'>
-          <h1>Cadastre um produto/serviço</h1>
+          <h1>Adicione uma receita estimada</h1>
       </div>
       <div className='sideForm-body'>
           <div className='form-content'>
-              <label>Nome do Produto/Serviço</label>
+              <label>Selecione o produto/serviço</label>
+              <Select
+                value={selectedOption}
+                onChange={setSelectedOption}
+                options={produtosServicos}
+                placeholder="Selecione o produto/serviço..."
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    backgroundColor: '#fff',
+                    marginLeft: '0px',
+                    marginRight: '0px',
+                    marginTop: '10px',
+                    padding: '12px 10px',
+                    flex: 1,
+                    borderRadius: '5px',
+                    fontSize: '14px',
+                    cursor: 'pointer'
+                  }),
+                  container: (provided) => ({
+                    ...provided,
+                    flex: 1,
+                  }),
+                  menu: (provided) => ({
+                    ...provided,
+                    backgroundColor: '#f3f3f3',
+                    borderRadius: '5px'
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected ? '#fff' : '#EFF0F6',
+                    color: 'black',
+                    borderRadius: '0px',
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    paddingLeft: '20px',
+                    textAlign: 'left',
+                    '&:hover': {
+                      backgroundColor: '#ccc',
+                    },
+                  }),
+                }}
+              />
+          </div>
+          <div className='form-content'>
+              <label>Preço de venda (R$)</label>
+              <NumericFormat
+                displayType={'input'}
+                thousandSeparator='.'
+                prefix={'R$'}
+                decimalSeparator=','
+                decimalScale={2}
+                fixedDecimalScale={true}
+                allowNegative={false}
+                isNumericString={false}
+                value={valorUnitarioVenda}
+                placeholder="Digite o valor (R$) unitário de venda"
+                onValueChange={handleValorUnitarioChange}
+              />
+          </div>
+          <div className='form-content'>
+              <label>Quantidade projetada de vendas por mês</label>
               <input
                 type="text"
-                value={produtoServico}
-                onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o nome do produto/serviço..."
+                value={projecaoVendasPorDia}
+                onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
+                placeholder="Digite a projeção de vendas por mês"
               />
-          </div>            
-          <div className='form-content'>
-              <label>Descrição</label>
-              <textarea
-                rows="8"
-                value={descricao}
-                onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Digite a descrição do produto/serviço..."
-              />
-          </div>            
+          </div>
       </div>
       <div className='sideForm-footer'>
           <button className='cancelButton' onClick={handleClose}>Cancelar</button>
@@ -89,9 +164,9 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
   );
 };
 
-SideFormProdutos.propTypes = {
+SideFormEstimarReceitas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired, // Ensure onAdd is required and of type function
+  onAdd: PropTypes.func.isRequired,
 };
 
-export default SideFormProdutos;
+export default SideFormEstimarReceitas;
