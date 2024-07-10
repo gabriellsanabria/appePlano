@@ -3,14 +3,15 @@ import React from 'react';
 import { createRoot } from 'react-dom';
 import App from './App';
 import './index.css';
-import 'typeface-mulish'; // Importe a fonte Mulish
-import './assets/scss/global.scss'; // Importe o arquivo SCSS global
-import './assets/scss/Buttons.scss'; // Importe o arquivo SCSS global
-import './assets/scss/react-modal.scss'; // Importe o arquivo SCSS global
-import './assets/scss/Widgets.scss'; // Importe o arquivo SCSS global
-import './assets/scss/spinner.scss'; // Importe o arquivo SCSS global
-import './assets/scss/Table.scss'; // Importe o arquivo SCSS global
-import './assets/scss/SideForm.scss'; // Importe o arquivo SCSS global
+import 'typeface-mulish'; 
+import './assets/scss/global.scss';
+import './assets/scss/Alertas.scss'; 
+import './assets/scss/Buttons.scss'; 
+import './assets/scss/react-modal.scss';
+import './assets/scss/Widgets.scss'; 
+import './assets/scss/spinner.scss'; 
+import './assets/scss/Table.scss';
+import './assets/scss/SideForm.scss'; 
 
 const root = document.getElementById('root');
 const reactRoot = createRoot(root);

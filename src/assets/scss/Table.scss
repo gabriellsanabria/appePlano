@@ -41,9 +41,9 @@
   }
   .popover-content {
     position: absolute;
-    top: -230%;
-    right: 70%;
-    width: 200px;
+    top: -150%;
+    right: 105%;
+    width: 130px;
     display: none;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -52,11 +52,11 @@
     &::before {
       content: ''; /* Conteúdo vazio */
       position: absolute;
-      top: 45px;
-      right: -8px; /* Ajuste a posição horizontal conforme necessário */
+      top: 25px;
+      right: -10px; /* Ajuste a posição horizontal conforme necessário */
       border-top: 10px solid transparent; /* Lado superior transparente */
       border-bottom: 10px solid transparent; /* Lado inferior transparente */
-      border-left: 10px solid #fff; /* Lado esquerdo colorido */
+      border-left: 10px solid #ccc; /* Lado esquerdo colorido */
     }
     .action-btn {
       background: none;

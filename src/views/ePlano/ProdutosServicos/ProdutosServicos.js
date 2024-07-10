@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../../../components/Layout/layout';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
+import Alertas from '../../../components/Alertas/Alertas';
+
 import { SiHackthebox } from 'react-icons/si';
 import { HiDotsVertical } from "react-icons/hi";
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTable, usePagination } from 'react-table';
-import { FaChevronRight, FaChevronLeft, FaShare } from "react-icons/fa";
-import { FiChevronsLeft, FiChevronsRight, FiShare } from "react-icons/fi";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+
 
 const Planejador = () => {
   const headerTitle = 'Produtos e Serviços';
@@ -22,40 +26,59 @@ const Planejador = () => {
     { label: headerTitle, path: '/dashboard' },
   ];
 
-  const renderRowActions = (mpId, row) => {
-    return (
-      <div className="row-actions">
-        <Link to={`/ficha-tecnica`}>
-          <FaEdit /> Editar
-        </Link>
-        <Link>
-          <FaTrashAlt /> Deletar
-        </Link>
-      </div>
-    );
+  // Estado para os dados da API
+  const [apiData, setApiData] = useState([]);
+  const [saveMessage, setSaveMessage] = useState(null);
+  const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
+  const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
+
+  // Função para buscar os dados da API
+  const fetchData = async () => {
+    try {
+      const response = await fetch('https://api.eplano.com.br/produtos_servicos');
+      if (response.ok) {
+        let data = await response.json();
+        // Ordenando os dados por produto_servico em ordem alfabética
+        data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
+        setApiData(data);
+      } else {
+        throw new Error('Erro ao buscar dados da API');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+    }
   };
 
-  // Dados para a tabela (exemplo de dados)
-  const data = React.useMemo(
-    () => [
-      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
-      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
-      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
-      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
-      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
-      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
-      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
-      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
-      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
-      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
-      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
-      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
-      { id: 1, produto: 'Produto A', descricao: 'Descrição do Produto A' },
-      { id: 2, produto: 'Produto B', descricao: 'Descrição do Produto B' },
-      { id: 3, produto: 'Produto C', descricao: 'Descrição do Produto C' },
-    ],
-    []
-  );
+  const handleExcluirProdutoServico = async (id) => {
+    try {
+      // Exibe um alerta de confirmação
+      const confirmacao = window.confirm('Tem certeza que deseja excluir este produto/serviço?');
+      
+      // Se o usuário cancelar, retorna sem fazer nada
+      if (!confirmacao) {
+        return;
+      }
+  
+      // Se confirmado, prossegue com a exclusão
+      const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Falha ao excluir produto/serviço');
+      }
+      fetchData(); // Atualiza os dados após a exclusão
+      setAlertMessage('Produto/Serviço Deletado com sucesso!');
+      setAlertType('success');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
+
+  useEffect(() => {
+    fetchData();
+  }, []); // Executa apenas uma vez ao montar o componente
 
   // Estado para os checkboxes
   const [selectedRows, setSelectedRows] = useState([]);
@@ -76,18 +99,43 @@ const Planejador = () => {
     }
   };
 
-  // Colunas da tabela
-  const columns = React.useMemo(
+  // Função para renderizar ações de linha
+  const renderRowActions = (id, row) => {
+    return (
+      <div className="row-actions">
+        <Link to={`/ficha-tecnica`}>
+          <FaEdit /> Editar
+        </Link>
+        <Link onClick={() => handleExcluirProdutoServico(id)}>
+          <FaTrashAlt /> Deletar
+        </Link>
+      </div>
+    );
+  };
+
+  // Mapeando os dados da API para o formato esperado pelo react-table
+  const data = useMemo(
+    () =>
+      apiData.map((item) => ({
+        id: item.id,
+        produto_servico: item.produto_servico,
+        descricao: item.descricao,
+      })),
+    [apiData]
+  );
+  
+
+  const columns = useMemo(
     () => [
       {
-        id: 'checkbox',
-        Header: ({ getToggleAllRowsSelectedProps }) => (
+        Header: (
           <input
             type="checkbox"
             checked={selectedRows.length === data.length}
             onChange={handleSelectAllChange}
           />
         ),
+        accessor: 'selection',
         Cell: ({ row }) => (
           <input
             type="checkbox"
@@ -95,9 +143,20 @@ const Planejador = () => {
             onChange={() => handleCheckboxChange(row.original.id)}
           />
         ),
+        disableSortBy: true,
       },
-      { Header: 'Produto', accessor: 'produto' },
-      { Header: 'Descrição', accessor: 'descricao' },
+      { 
+        Header: <strong>Produto</strong>, 
+        accessor: 'produto_servico',
+        Cell: ({ value }) => <strong>{value}</strong>, 
+      },
+      { 
+        Header: <strong>Descrição</strong>, 
+        accessor: 'descricao',
+        Cell: ({ value }) => (
+          value ? value : '-'
+        ),
+      },
       {
         Header: 'Ações',
         accessor: 'acoes',
@@ -107,7 +166,7 @@ const Planejador = () => {
               <HiDotsVertical />
             </div>
             <div className="popover-content">
-              {renderRowActions(row.original.mp_id, row)}
+              {renderRowActions(row.original.id, row)}
             </div>
           </div>
         ),
@@ -115,6 +174,7 @@ const Planejador = () => {
     ],
     [selectedRows, data]
   );
+  
 
   const {
     getTableProps,
@@ -131,11 +191,24 @@ const Planejador = () => {
     setPageSize,
   } = useTable({ columns, data }, usePagination);
 
+  // Função onAdd para ser passada para SideFormProdutos
+  const handleAddProduto = (newItem) => {
+    setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
+    // alert('Produto adicionado com sucesso!');
+    // Lógica adicional se necessário
+  };
+
   return (
     <Layout>
       <div className="container">
         <Breadcrumb items={breadcrumbItems} />
-        <PageHeader title={headerTitle} subtitle={headerSubtitle} icon={headerIcon} sideType={sideType}/>
+        <PageHeader
+          title={headerTitle}
+          subtitle={headerSubtitle}
+          icon={headerIcon}
+          sideType={sideType}
+          onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
+        />
         <table {...getTableProps()} className="table">
           <thead>
             {headerGroups.map((headerGroup) => (
@@ -222,6 +295,12 @@ const Planejador = () => {
           </div>
         </div>
       </div>
+      {saveMessage && 
+        <Alertas message={saveMessage} type={alertType} onClose={() => setSaveMessage(null)} />
+      }
+      {alertMessage && 
+        <Alertas message={alertMessage} type={alertType} onClose={() => setAlertMessage(null)} />
+      }
     </Layout>
   );
 };

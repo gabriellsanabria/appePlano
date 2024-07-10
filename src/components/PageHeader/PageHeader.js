@@ -4,7 +4,7 @@ import './PageHeader.scss'; // Ensure the path is correct for your CSS/Sass file
 import { FaPlus } from 'react-icons/fa';
 import SideForm from '../SideForm/SideForm';
 
-const PageHeader = ({ title, subtitle, icon, sideType }) => {
+const PageHeader = ({ title, subtitle, icon, sideType, onAdd }) => {
   const IconComponent = icon;
 
   // States to control the visibility of SideForm and overlay
@@ -49,7 +49,7 @@ const PageHeader = ({ title, subtitle, icon, sideType }) => {
       {/* SideForm that appears from right to left */}
       <div className={`SideForm ${isSideFormOpen ? 'open' : ''}`}>
         <div className="SideForm-content">
-          <SideForm type={sideType} closeSideForm={closeSideForm} /> {/* Ensure sideType is passed correctly */}
+          <SideForm type={sideType} closeSideForm={closeSideForm} onAdd={onAdd} />
         </div>
       </div>
     </>
@@ -60,7 +60,8 @@ PageHeader.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
   icon: PropTypes.elementType.isRequired,
-  sideType: PropTypes.string.isRequired, // sideType prop should be required
+  sideType: PropTypes.string.isRequired,
+  onAdd: PropTypes.func.isRequired, // Ensure onAdd is required and of type function
 };
 
 export default PageHeader;
