@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Import different types of SideForm as needed
-import SideFormProdutos from './SideFormProdutos'; // Example import
+import SideFormProdutos from '../../views/Planejador/ProdutosServicos/SideFormProdutos'; // Example import
 
 const SideForm = ({ type, closeSideForm, onAdd }) => {
   switch (type) {

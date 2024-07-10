@@ -5,7 +5,7 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
 
-import { SiHackthebox } from 'react-icons/si';
+import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { HiDotsVertical } from "react-icons/hi";
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTable, usePagination } from 'react-table';
@@ -14,11 +14,11 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 
-const Planejador = () => {
-  const headerTitle = 'Produtos e Serviços';
-  const headerSubtitle = 'Liste e Descreva os Produtos/Serviços que o seu Negócio irá comercializar';
-  const sideType = 'SideFormProdutos';
-  const headerIcon = SiHackthebox;
+const EstimarDespesas = () => {
+  const headerTitle = 'Estimar Despesas';
+  const headerSubtitle = 'Vamos estimar as Despesas Mensais do seu Negócio';
+  const sideType = 'SideFormEstimarDespesas';
+  const headerIcon = PiChartLineDownBold;
 
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
@@ -305,4 +305,4 @@ const Planejador = () => {
   );
 };
 
-export default Planejador;
+export default EstimarDespesas;

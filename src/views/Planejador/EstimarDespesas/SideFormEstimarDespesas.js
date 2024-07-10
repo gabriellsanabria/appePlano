@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { API_BASE_URL } from '../../apiConfig';
+import { API_BASE_URL } from '../../../apiConfig';
 
-const SideFormProdutos = ({ closeSideForm, onAdd }) => {
+const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
   const [produtoServico, setProdutoServico] = useState('');
   const [descricao, setDescricao] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -89,9 +89,9 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
   );
 };
 
-SideFormProdutos.propTypes = {
+SideFormEstimarDespesas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired, // Ensure onAdd is required and of type function
 };
 
-export default SideFormProdutos;
+export default SideFormEstimarDespesas;

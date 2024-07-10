@@ -18,9 +18,13 @@ import Doc from './components/Doc/Doc';
 import Planejador from './views/Planejador/Planejador';
 import Simulador from './views/Simulador/Simulador';
 
-import ProdutosServicos from './views/ePlano/ProdutosServicos/ProdutosServicos';
-import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
-import EstimarDepesas from './views/ePlano/EstimarDepesas/EstimarDepesas';
+import ProdutosServicos from './views/Planejador/ProdutosServicos/ProdutosServicos';
+import EstimarReceitas from './views/Planejador/EstimarReceitas/EstimarReceitas';
+import EstimarDespesas from './views/Planejador/EstimarDespesas/EstimarDespesas';
+
+
+// import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
+// import EstimarDepesas from './views/ePlano/EstimarDepesas/EstimarDepesas';
 import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
 import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
 import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
@@ -142,11 +146,11 @@ const AppRoutes = () => {
         />
         <Route
           path="/planejador-financeiro/estimar-receitas"
-          element={user ? <Planejador /> : <Navigate to="/login" />}
+          element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
         />
         <Route
           path="/planejador-financeiro/estimar-despesas"
-          element={user ? <Planejador /> : <Navigate to="/login" />}
+          element={user ? <EstimarDespesas /> : <Navigate to="/login" />}
         />
         <Route
           path="/planejador-financeiro/fluxo-caixa"
@@ -171,7 +175,7 @@ const AppRoutes = () => {
         />
         <Route
           path="/estimar-despesas"
-          element={user ? <EstimarDepesas /> : <Navigate to="/login" />}
+          element={user ? <EstimarDespesas /> : <Navigate to="/login" />}
         />
         <Route
           path="/estimar-investimentos"
