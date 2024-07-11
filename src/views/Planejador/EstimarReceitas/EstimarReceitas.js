@@ -18,6 +18,7 @@ const EstimarReceitas = () => {
   const headerTitle = 'Estimar Receitas';
   const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
   const sideType = 'SideFormEstimarReceitas';
+  const hasTotal = 'hasEstimarReceitas';
   const headerIcon = PiChartLineUpBold;
 
   const breadcrumbItems = [
@@ -231,6 +232,7 @@ const EstimarReceitas = () => {
         <PageHeader
           title={headerTitle}
           subtitle={headerSubtitle}
+          hasTotal={hasTotal}
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader

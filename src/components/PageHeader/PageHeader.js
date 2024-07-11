@@ -4,7 +4,7 @@ import './PageHeader.scss'; // Ensure the path is correct for your CSS/Sass file
 import { FaPlus } from 'react-icons/fa';
 import SideForm from '../SideForm/SideForm';
 
-const PageHeader = ({ title, subtitle, icon, sideType, onAdd }) => {
+const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal }) => {
   const IconComponent = icon;
 
   // States to control the visibility of SideForm and overlay
@@ -46,7 +46,7 @@ const PageHeader = ({ title, subtitle, icon, sideType, onAdd }) => {
         <div className="boxTotais">
           <div className='stage-total'>
             <div className='ttlTotal'>Total</div>
-            <div className='valor'>R$ 60.400,00</div>
+            <div className='valor'>{hasTotal}</div>
           </div>
         </div>
       </div>
