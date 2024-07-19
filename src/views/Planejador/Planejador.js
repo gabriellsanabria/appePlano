@@ -3,6 +3,7 @@ import Layout from '../../components/Layout/layout';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../components/PageHeader/PageHeader';
 import { FaChartSimple } from "react-icons/fa6";
+import AnaliseViabilidadePayback from '../ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback2';
 
 const Planejador = () => {
   const headerTitle = 'Planejador Fincanceiro';
@@ -27,7 +28,7 @@ const Planejador = () => {
             <h2>Indicadores - Planejamento</h2>
           </div>
           <div className='dashStage-body'>
-            
+            <AnaliseViabilidadePayback />
           </div>
         </div>
 

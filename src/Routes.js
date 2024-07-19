@@ -16,6 +16,7 @@ import TutorialModal from './components/TutorialModal/TutorialModal';
 import Doc from './components/Doc/Doc';
 
 import Planejador from './views/Planejador/Planejador';
+import PlanejadorFluxoCaixa from './views/Planejador/PlanejadorFluxoCaixa/PlanejadorFluxoCaixa';
 import Simulador from './views/Simulador/Simulador';
 
 import ProdutosServicos from './views/Planejador/ProdutosServicos/ProdutosServicos';
@@ -154,7 +155,7 @@ const AppRoutes = () => {
         />
         <Route
           path="/planejador-financeiro/fluxo-caixa"
-          element={user ? <Planejador /> : <Navigate to="/login" />}
+          element={user ? <PlanejadorFluxoCaixa /> : <Navigate to="/login" />}
         />
 
         <Route
