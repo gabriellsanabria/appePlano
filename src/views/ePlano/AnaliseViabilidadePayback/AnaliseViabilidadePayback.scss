@@ -115,13 +115,27 @@
   .dashboard-content {
     .flex-container {
       display: flex;
-      margin-bottom: 20px;
+      padding-bottom: 20px;
+      margin: 0!important;
+      background-color: white!important;
 
       .box {
         flex: 1;
-        border: 1px solid #ccc;
-        padding: 20px;
+        border: 0!important;
+        padding: 0 20px!important;
         margin-right: 10px;
+        background-color: rgb(255, 255, 255);
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        flex-direction: column;
+        .padding-grafico{
+          display: flex;
+          // padding: 10px 20% 50px 20%;
+          width: 40%;
+          margin: 0;
+        }
       }
 
       .box:last-child {

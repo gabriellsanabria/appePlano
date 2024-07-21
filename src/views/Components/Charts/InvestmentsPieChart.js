@@ -53,15 +53,16 @@ const InvestimentsPieChart = () => {
 
     setChart(
       new Chart(ctx, {
-        type: 'pie',
+        type: 'doughnut',
         data: {
-          labels: ['Insumos', 'Estrutura', 'Capital de Giro'], // Alterei o nome da categoria para Capital de Giro
+          
           datasets: [{
             data: [insumosTotalCost, estruturaTotalCost, capitalGiroTotal], // Alterei o nome da variável para capitalGiroTotal
-            backgroundColor: ['#0088FE', '#00C49F', '#FFBB28']
+            backgroundColor: ['#7459D9', '#E3DEF7', '#B9ABEB']
           }]
         },
         options: {
+          cutout: '70%', // Reduz o raio interno em 80% do raio externo
           plugins: {
             datalabels: {
               color: '#fff',
@@ -70,7 +71,9 @@ const InvestimentsPieChart = () => {
               },
               formatter: (value, context) => {
                 return `${context.chart.data.labels[context.dataIndex]}: ${value}`;
-              }
+              },
+              align: 'end', // Alinha as labels à direita
+              anchor: 'end' // Ancora as labels à direita
             }
           }
         }
@@ -80,8 +83,7 @@ const InvestimentsPieChart = () => {
 
   return (
     <div>
-      <h4>Investimentos Totais</h4>
-      <canvas id="InvestimentPieChart" width="400" height="400"></canvas>
+      <canvas id="InvestimentPieChart"></canvas>
     </div>
   );
 };

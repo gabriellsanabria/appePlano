@@ -55,13 +55,14 @@ const PieChartComponent = () => {
       new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Insumos', 'Estrutura', 'Equipe'],
           datasets: [{
             data: [insumosTotalCost, estruturaTotalCost, equipeTotalCost],
-            backgroundColor: ['#0088FE', '#00C49F', '#FFBB28']
+            backgroundColor: ['#7459D9', '#E3DEF7', '#B9ABEB']
           }]
         },
         options: {
+          cutout: '70%', // Reduz o raio interno em 80% do raio externo
+          
           plugins: {
             datalabels: {
               color: '#fff',
@@ -80,8 +81,7 @@ const PieChartComponent = () => {
 
   return (
     <div>
-      <h4>Despesas mensais</h4>
-      <canvas id="pieChart" width="400" height="400"></canvas>
+      <canvas id="pieChart"></canvas>
     </div>
   );
 };

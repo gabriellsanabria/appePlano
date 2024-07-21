@@ -39,7 +39,7 @@
     "react-table": "^7.8.0",
     "react-tooltip": "^5.25.1",
     "react-transition-group": "^4.4.5",
-    "recharts": "^2.10.3",
+    "recharts": "^2.12.7",
     "sass": "^1.69.5",
     "typeface-mulish": "^1.1.13",
     "uuid": "^9.0.1",

@@ -1,0 +1,60 @@
+// Estilos globais
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  h3 {
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .chart {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  // Estilos específicos para cada gráfico
+  .bar-chart {
+    .recharts-wrapper {
+      margin: 0 auto;
+    }
+  }
+  
+  .line-chart {
+    .recharts-wrapper {
+      margin: 0 auto;
+    }
+  }
+
+  .custom-pie {
+    stroke: #8884d8; // Cor da borda azul
+    stroke-width: 6; // Largura da borda
+    fill: transparent !important; // Remove qualquer preenchimento interno (usando !important para garantir prioridade)
+  }
+  
+  
+  .pie-chart {
+    .recharts-wrapper {
+      margin: 0 auto;
+    }
+  }
+  
+  .area-chart {
+    .recharts-wrapper {
+      margin: 0 auto;
+    }
+  }
+  
+  .scatter-chart {
+    .recharts-wrapper {
+      margin: 0 auto;
+    }
+  }
+  

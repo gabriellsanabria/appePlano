@@ -71,14 +71,14 @@ const ReceitaBrutaEstimada = () => {
     const averagePerMonth = totalInvestment / 24;
   
     return (
-      <div className='table'>
+      <div className=''>
         {/* <div className='row'>
           <div className='cell total-color'>
             R$ {totalInvestment.toLocaleString("pt-BR")}
           </div>
         </div> */}
-        <div className='row'>
-          <div className='cell total-color'>
+        <div className=''>
+          <div className=''>
             R$ {averagePerMonth.toLocaleString("pt-BR")}
           </div>
         </div>
@@ -96,7 +96,7 @@ const ReceitaBrutaEstimada = () => {
   const highlightItems = ["RECEITA BRUTA (ESTIMADA)"];
 
   return (
-    <div className='groupLine'>
+    <div className=''>
       {renderTable(investimentosEstimados, highlightItems)}
     </div>
   );

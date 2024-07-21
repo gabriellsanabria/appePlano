@@ -170,9 +170,9 @@ const TotalEstimatedPayments = ({ meses }) => {
   };
 
   const renderTable = (total) => (
-    <div className='table'>
-      <div className='row'>
-        <div className='cell total-color'>
+    <div className=''>
+      <div className=''>
+        <div className=''>
           R$ {total.toLocaleString("pt-BR")}
         </div>
       </div>
@@ -186,7 +186,7 @@ const TotalEstimatedPayments = ({ meses }) => {
   const highlightItems = []; // Não há necessidade de destacar nenhum item
 
   return (
-    <div className='groupLine'>
+    <div className=''>
       {renderTable(investmentSums[investmentSums.length - 1])}
     </div>
   );

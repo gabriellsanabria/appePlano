@@ -19,6 +19,8 @@ import Planejador from './views/Planejador/Planejador';
 import PlanejadorFluxoCaixa from './views/Planejador/PlanejadorFluxoCaixa/PlanejadorFluxoCaixa';
 import Simulador from './views/Simulador/Simulador';
 
+import Recharts from './components/Recharts/Recharts';
+
 import ProdutosServicos from './views/Planejador/ProdutosServicos/ProdutosServicos';
 import EstimarReceitas from './views/Planejador/EstimarReceitas/EstimarReceitas';
 import EstimarDespesas from './views/Planejador/EstimarDespesas/EstimarDespesas';
@@ -225,6 +227,12 @@ const AppRoutes = () => {
           path="/widgetsBase"
           element={user ? <WidgetsBase /> : <Navigate to="/dashboard" />}
         />
+        <Route
+          path="/recharts"
+          element={user ? <Recharts /> : <Navigate to="/dashboard" />}
+        />
+
+
         {/* <Route
           path="/eplano/criar"
           element={
