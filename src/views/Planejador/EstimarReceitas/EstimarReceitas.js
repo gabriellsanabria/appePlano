@@ -15,12 +15,9 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 
 const EstimarReceitas = () => {
-  const [totalValorUnitario, setTotalValorUnitario] = useState(0);
-
   const headerTitle = 'Estimar Receitas';
   const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
   const sideType = 'SideFormEstimarReceitas';
-  const hasTotal = totalValorUnitario;
   const headerIcon = PiChartLineUpBold;
 
   const breadcrumbItems = [
@@ -43,13 +40,7 @@ const EstimarReceitas = () => {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
         data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
-  
-        // Calculando a soma total do campo valor_unitario
-        const totalValorUnitario = data.reduce((total, item) => total + parseFloat(item.valor_unitario), 0);
-  
-        setApiData(data); // Atualiza o estado com os dados ordenados
-        setTotalValorUnitario(totalValorUnitario); // Atualiza o estado com a soma total de valor_unitario
-  
+        setApiData(data);
       } else {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -57,7 +48,6 @@ const EstimarReceitas = () => {
       console.error('Erro:', error);
     }
   };
-  
 
   const handleExcluirProdutoServico = async (id) => {
     try {
@@ -135,6 +125,13 @@ const EstimarReceitas = () => {
     [apiData]
   );
   
+// Calcular o total geral dos valores mensais
+const totalGeral = apiData.reduce(
+  (acc, item) => acc + item.quantidade_vendida_por_mes * item.valor_unitario,
+  0
+);
+
+const hasTotal = totalGeral;
 
   const columns = useMemo(
     () => [
