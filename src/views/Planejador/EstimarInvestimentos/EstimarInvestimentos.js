@@ -4,18 +4,19 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
 
-import TableEstimarDespesasEstrutura from '../Tables/TableEstimarDespesas/TableEstimarDespesasEstrutura';
-import TableEstimarDespesasEquipe from '../Tables/TableEstimarDespesas/TableEstimarDespesasEquipe';
-import TableEstimarDespesasInsumos from '../Tables/TableEstimarDespesas/TableEstimarDespesasInsumos';
+import TableEstimarInvestimentosEstrutura from '../Tables/TableEstimarInvestimentos/TableEstimarInvestimentosEstrutura';
+import TableEstimarCapitalGiro from '../Tables/TableEstimarInvestimentos/TableEstimarCapitalGiro';
+import TableEstimarInvestimentosInsumos from '../Tables/TableEstimarInvestimentos/TableEstimarInvestimentosInsumos';
 
-import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
+import { FaDollarSign } from "react-icons/fa";
 
 
-const EstimarDespesas = () => {
-  const headerTitle = 'Estimar Despesas';
-  const headerSubtitle = 'Vamos estimar as Despesas Mensais do seu Negócio';
-  const sideType = 'SideFormEstimarDespesas';
-  const headerIcon = PiChartLineDownBold;
+
+const EstimarInvestimentos = () => {
+  const headerTitle = 'Estimar Investimentos';
+  const headerSubtitle = 'Vamos estimar os Investimentos do seu Negócio';
+  const sideType = 'SideFormEstimarInvestimentos';
+  const headerIcon = FaDollarSign;
 
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
@@ -51,15 +52,15 @@ const EstimarDespesas = () => {
         <h1>
           Estrutura Física/Virtual
         </h1>
-        <TableEstimarDespesasEstrutura/>
-        <h1>
-          Equipe
-        </h1>
-        <TableEstimarDespesasEquipe/>
+        <TableEstimarInvestimentosEstrutura/>
         <h1>
           Insumos
         </h1>
-        <TableEstimarDespesasInsumos/>
+        <TableEstimarInvestimentosInsumos/>
+        <h1>
+          Capital de Giro
+        </h1>
+        <TableEstimarCapitalGiro/>
         
       </div>
       {saveMessage && 
@@ -72,4 +73,4 @@ const EstimarDespesas = () => {
   );
 };
 
-export default EstimarDespesas;
+export default EstimarInvestimentos;

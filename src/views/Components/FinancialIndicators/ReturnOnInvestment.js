@@ -11,9 +11,6 @@ const ReturnOnInvestment = () => {
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
 
-  // Função para gerar a lista de meses
-  const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 1}`);
-  const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
@@ -74,72 +71,8 @@ const ReturnOnInvestment = () => {
     };
 
     fetchAndProcessData();
-  }, [setAmount]); // Passando setAmount como dependência para o useEffect
+  }, []); // Removido setAmount como dependência para o useEffect
 
-  const createDynamicValues = (totalMensalProjetado, numMonths, percentages, fixedValues) => {
-    const values = [];
-    let totalSoFar = 0;
-    for (let i = 0; i < numMonths; i++) {
-      const percentage = i === 0 ? 0 : percentages[i - 1] || 0;
-      let projectedRevenue;
-      if (fixedValues && fixedValues[i] !== undefined && i === 0) {
-        // Apply fixed value only for the first month
-        projectedRevenue = fixedValues[i];
-      } else {
-        projectedRevenue = totalMensalProjetado * percentage;
-      }
-      totalSoFar += projectedRevenue;
-      values.push(projectedRevenue);
-    }
-    return values;
-  };
-
-  const totalMensalProjetado = parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'));
-
-  // Remover 15% do totalMensalProjetado
-  const totalMensalProjetadoPosDesconto = totalMensalProjetado * 0.85;
-
-  const percentages = [0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-
-  const caixaInicial = insumosInvestimento + insumosCapitalGiro;
-
-  const investimentosEstimados = estruturaInvestimento + insumosInvestimento + insumosCapitalGiro;
-  const investimentosTotaisEstimados = -investimentosEstimados;
-  // Criando um array de valores fixos para os investimentos
-  const fixedInvestments = new Array(meses.length).fill(0);
-  fixedInvestments[0] = investimentosTotaisEstimados;
-
-  // Calculando a receita operacional usando a função createDynamicValues
-  let receitaOperacionalValues = createDynamicValues(totalMensalProjetadoPosDesconto, meses.length, percentages, fixedInvestments);
-
-  receitaOperacionalValues[1] += caixaInicial;
-
-  // Calculando a porcentagem de despesas relacionadas aos insumos com base nas porcentagens fornecidas
-  const despesasInsumosPorcentagem = insumosDespesas * percentages[0]; // Supondo que você queira usar a porcentagem do primeiro mês
-  console.log('Porcentagem de despesas relacionadas aos insumos:', despesasInsumosPorcentagem);
-
-  // Calculando as despesas totais estimadas
-  const despesasTotais = estruturaDespesas + equipeDespesas;
-
-  // Subtraindo despesasTotaisEstimadas de cada valor em receitaOperacionalValues
-  receitaOperacionalValues = receitaOperacionalValues.map((value, index) => {
-    if (index === 0) {
-      return value; // Mantém o primeiro valor intacto
-    } else {
-      return value - despesasTotais - (insumosDespesas * percentages[index - 1]); // Aqui, use a porcentagem correta para cada mês
-    }
-  });
-
-  // Valor total da receita operacional
-  const receitaOperacional = receitaOperacionalValues.reduce((acc, value) => acc + value, 0);
-
-  // Definindo valueMap
-  const valueMap = {
-    "Receita Operacional": receitaOperacionalValues,
-  };
-
-  const sumInvestments = () => valueMap["Receita Operacional"];
-  const investmentSums = sumInvestments();
   useEffect(() => {
     async function fetchData() {
       try {
@@ -169,20 +102,21 @@ const ReturnOnInvestment = () => {
     fetchData();
   }, []);
 
+  // Calcular total de lucro
+  const totalProfitValue = amount !== 'Erro ao carregar dados'
+    ? parseFloat(amount.replace(/[^\d,-]/g, '').replace(',', '.'))
+    : 0;
 
-  const totalProfitValue = investmentSums.reduce((a, b) => a + b, 0).toLocaleString("pt-BR").replace(/[.;]/g, '');
-
-  // Cálculo do ROI usando os valores numéricos
-  const ROI = 1+(totalProfitValue / initialInvestiment);
+  // Calcular ROI
+  const initialInvestmentNumber = parseFloat(initialInvestiment);
+  const ROI = initialInvestmentNumber !== 0
+    ? (1 + (totalProfitValue / initialInvestmentNumber)).toFixed(2)
+    : 0;
 
   return (
     <div>
-      {/* <p>Initial Investment: {initialInvestiment}</p> */}
-      {/* <p>Total Profit: R$ {totalProfitValue}</p> */}
-        {ROI.toFixed(2)}
-      <div className='groupLine'>
-      {/* R$ {investmentSums.reduce((a, b) => a + b, 0).toLocaleString("pt-BR")} */}
-    </div>
+      {/* Mostrar ROI */}
+      {ROI}
     </div>
   );
 };

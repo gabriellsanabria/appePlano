@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import SideFormProdutos from '../../views/Planejador/ProdutosServicos/SideFormProdutos';
 import SideFormEstimarReceitas from '../../views/Planejador/EstimarReceitas/SideFormEstimarReceitas';
 import SideFormEstimarDespesas from '../../views/Planejador/EstimarDespesas/SideFormEstimarDespesas';
+import SideFormEstimarInvestimentos from '../../views/Planejador/EstimarInvestimentos/SideFormEstimarInvestimentos';
+import SideFormImposto from '../../views/Planejador/Impostos/SideFormImpostos';
 
 const SideForm = ({ type, closeSideForm, onAdd }) => {
   switch (type) {
@@ -14,6 +16,10 @@ const SideForm = ({ type, closeSideForm, onAdd }) => {
       return <SideFormEstimarReceitas closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormEstimarDespesas':
       return <SideFormEstimarDespesas closeSideForm={closeSideForm} onAdd={onAdd} />;
+    case 'SideFormEstimarInvestimentos':
+      return <SideFormEstimarInvestimentos closeSideForm={closeSideForm} onAdd={onAdd} />;
+    case 'SideFormImposto':
+      return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
     default:
       return (
         <div>

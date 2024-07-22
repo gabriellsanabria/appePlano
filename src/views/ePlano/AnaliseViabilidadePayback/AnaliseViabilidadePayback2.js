@@ -1,4 +1,5 @@
 import React, { useState,useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
 
@@ -56,6 +57,43 @@ const AnaliseViabilidadePayback = () => {
     };
     fetchData();
   }, []);
+
+  const [despesasInsumosCost, setDespesasInsumosCost] = useState(0);
+  const [despesasEstruturaCost, setDespesasEstruturaCost] = useState(0);
+  const [despesasCapitalGiro, setDespesasCapitalGiro] = useState(0); 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [insumosDespesasResponse, estruturaDespesasResponse, capitalGiroDespesasResponse] = await Promise.all([
+          fetch(`${API_BASE_URL}/api/despesas/insumos`),
+          fetch(`${API_BASE_URL}/api/despesas/estrutura`),
+          fetch(`${API_BASE_URL}/api/despesas/equipe`)
+        ]);
+  
+        const [insumosDespesasData, estruturaDespesasData, capitalGiroDespesasData] = await Promise.all([
+          insumosDespesasResponse.json(),
+          estruturaDespesasResponse.json(),
+          capitalGiroDespesasResponse.json()
+        ]);
+  
+        // Calcula a soma total dos custos para cada categoria
+        const insumosDespesasTotalCost = insumosDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+        const estruturaDespesasTotalCost = estruturaDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+        const capitalGiroDespesasTotal = capitalGiroDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+  
+        // Define os custos totais nos estados correspondentes
+        setDespesasInsumosCost(insumosDespesasTotalCost);
+        setDespesasEstruturaCost(estruturaDespesasTotalCost);
+        setDespesasCapitalGiro(capitalGiroDespesasTotal);
+  
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+  
+
   // Função para gerar a lista de meses
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 0}`);
   const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
@@ -65,97 +103,121 @@ const AnaliseViabilidadePayback = () => {
           
           <div className='chartStage'>          
             <div className='chart-container'>
-              <h2>
-                Investimentos Totais
-              </h2>
-              <div className='chartBox'>
-                <div className='ochart'>
-                  <InvestmentsPieChart/>
+            {insumosCost === 0 && estruturaCost === 0 && capitalGiro === 0 ? (
+              <>
+                <h2>
+                  Investimentos Estimados
+                </h2>              
+                <p>Você ainda não estimou os investimentos. </p>
+                <Link to='/planejador-financeiro/estimar-investimento'>Clique aqui para estimar investimentos</Link>
+              </>
+              ) : (
+                <>
+                <h2>
+                  <Link to='/planejador-financeiro/estimar-investimento'>Investimentos Estimados</Link>
+                </h2>
+                <div className='chartBox'>
+                  <div className='ochart'>
+                    <InvestmentsPieChart/>
+                  </div>
+                  <div className='label-box'>
+                      <div className='label-chart'>
+                        <div className='barraCor azul1'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Insumos
+                          </div>
+                          <div className='valores'>
+                            R$ {insumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='label-chart'>
+                        <div className='barraCor azul3'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Estrutura
+                          </div>
+                          <div className='valores'>
+                            R$ {estruturaCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='label-chart'>
+                        <div className='barraCor azul3'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Capital de Giro
+                          </div>
+                          <div className='valores'>
+                            R$ {capitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-                <div className='label-box'>
-                    <div className='label-chart'>
-                      <div className='barraCor azul1'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Insumos
-                        </div>
-                        <div className='valores'>
-                          R$ {insumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </div>
-                      </div>
-                    </div>
-                    <div className='label-chart'>
-                      <div className='barraCor azul3'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Estrutura
-                        </div>
-                        <div className='valores'>
-                          R$ {estruturaCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </div>
-                      </div>
-                    </div>
-                    <div className='label-chart'>
-                      <div className='barraCor azul3'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Capital de Giro
-                        </div>
-                        <div className='valores'>
-                          R$ {capitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
+                </>
+              )}
+              
             </div>  
 
             <div className='chart-container'>
-              <h2>
-                Despesas Mensais
-              </h2>
-              <div className='chartBox'>
-                <div className='ochart'>
-                  <PieChartComponent/>
+            {despesasInsumosCost === 0 && despesasEstruturaCost === 0 && despesasCapitalGiro === 0 ? (
+              <>
+                <h2>
+                  Despesas Mensais Estimadas
+                </h2>              
+                <p>Você ainda não estimou as despesas. </p>
+                <Link to='/planejador-financeiro/estimar-despesas'>Clique aqui para estimar despesas</Link>
+              </>
+              ) : (
+              <>
+                <h2>
+                  <Link to='/planejador-financeiro/estimar-despesas'>Despesas Mensais Estimadas</Link>
+                </h2>
+                <div className='chartBox'>
+                  <div className='ochart'>
+                    <PieChartComponent/>
+                  </div>
+                  <div className='label-box'>
+                      <div className='label-chart'>
+                        <div className='barraCor azul1'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Insumos
+                          </div>
+                          <div className='valores'>
+                            R$ {despesasInsumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='label-chart'>
+                        <div className='barraCor azul3'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Estrutura
+                          </div>
+                          <div className='valores'>
+                            R$ {despesasEstruturaCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='label-chart'>
+                        <div className='barraCor azul3'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Capital de Giro
+                          </div>
+                          <div className='valores'>
+                            R$ {despesasCapitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
-
-                <div className='label-box'>
-                    <div className='label-chart'>
-                      <div className='barraCor azul1'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Insumos
-                        </div>
-                        <div className='valores'>
-                          R$ 130.000,00
-                        </div>
-                      </div>
-                    </div>
-                    <div className='label-chart'>
-                      <div className='barraCor azul3'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Estrutura
-                        </div>
-                        <div className='valores'>
-                          R$ 130.000,00
-                        </div>
-                      </div>
-                    </div>
-                    <div className='label-chart'>
-                      <div className='barraCor azul3'></div>
-                      <div className='infos'>
-                        <div className='ttl'>
-                          Equipe
-                        </div>
-                        <div className='valores'>
-                          R$ 130.000,00
-                        </div>
-                      </div>
-                    </div>
-                </div>
-              </div>
-            </div>  
+              </>              
+            )}
+            </div>
           </div>          
 
           <div className='flex-contain'>

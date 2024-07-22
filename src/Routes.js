@@ -24,11 +24,13 @@ import Recharts from './components/Recharts/Recharts';
 import ProdutosServicos from './views/Planejador/ProdutosServicos/ProdutosServicos';
 import EstimarReceitas from './views/Planejador/EstimarReceitas/EstimarReceitas';
 import EstimarDespesas from './views/Planejador/EstimarDespesas/EstimarDespesas';
+import EstimarInvestimentos from './views/Planejador/EstimarInvestimentos/EstimarInvestimentos';
+import Impostos from './views/Planejador/Impostos/Impostos';
 
 
 // import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
 // import EstimarDepesas from './views/ePlano/EstimarDepesas/EstimarDepesas';
-import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
+// import EstimarInvestimentos from './views/ePlano/EstimarInvestimentos/EstimarInvestimentos';
 import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado';
 import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
 
@@ -154,6 +156,15 @@ const AppRoutes = () => {
         <Route
           path="/planejador-financeiro/estimar-despesas"
           element={user ? <EstimarDespesas /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/planejador-financeiro/estimar-investimento"
+          element={user ? <EstimarInvestimentos /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/planejador-financeiro/impostos"
+          element={user ? <Impostos /> : <Navigate to="/login" />}
         />
         <Route
           path="/planejador-financeiro/fluxo-caixa"

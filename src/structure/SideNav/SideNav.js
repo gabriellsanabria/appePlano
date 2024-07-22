@@ -8,6 +8,7 @@ import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { FaPercentage } from "react-icons/fa";
 import { TbPercentage } from "react-icons/tb";
 import { PiPercentBold } from "react-icons/pi";
+import { FaDollarSign } from "react-icons/fa6";
 
 
 import './SideNav.scss';
@@ -68,18 +69,25 @@ const SideNav = () => {
               <Link to="/planejador-financeiro/estimar-receitas" className={isActive('/planejador-financeiro/estimar-receitas') ? 'active' : ''}>
                   <PiChartLineUpBold  />
                 </Link> 
-                {hoveredMenu === "EstimarReceitasMensais" && <div className="menu-tooltip">Estimar Receitas Mensais do negócio</div>}
+                {hoveredMenu === "EstimarReceitasMensais" && <div className="menu-tooltip">Estimar Receitas</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarDespesasMensais")} onMouseLeave={handleMouseLeave}>
               <Link to="/planejador-financeiro/estimar-despesas" className={isActive('/planejador-financeiro/estimar-despesas') ? 'active' : ''}>
                   <PiChartLineDownBold />
                 </Link> 
-                {hoveredMenu === "EstimarDespesasMensais" && <div className="menu-tooltip">Estimar Despesas Mensais do negócio</div>}
+                {hoveredMenu === "EstimarDespesasMensais" && <div className="menu-tooltip">Estimar Despesas</div>}
+              </li>
+
+              <li onMouseEnter={() => handleMouseEnter("EstimarInvestimentos")} onMouseLeave={handleMouseLeave}>
+              <Link to="/planejador-financeiro/estimar-investimento" className={isActive('/planejador-financeiro/estimar-investimento') ? 'active' : ''}>
+                  <FaDollarSign />
+                </Link> 
+                {hoveredMenu === "EstimarInvestimentos" && <div className="menu-tooltip">Estimar Investimentos</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarImposto")} onMouseLeave={handleMouseLeave}>
-                <Link to="/FaChartSimple" className={isActive('/dashboard') ? 'active' : ''}>
+                <Link to="/planejador-financeiro/impostos" className={isActive('/planejador-financeiro/impostos') ? 'active' : ''}>
                   <PiPercentBold />
                 </Link> 
                 {hoveredMenu === "EstimarImposto" && <div className="menu-tooltip">Estimar Imposto</div>}

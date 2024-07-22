@@ -6,7 +6,7 @@ import Alertas from '../../../components/Alertas/Alertas';
 
 import TableEstimarDespesasEstrutura from '../Tables/TableEstimarDespesas/TableEstimarDespesasEstrutura';
 import TableEstimarDespesasEquipe from '../Tables/TableEstimarDespesas/TableEstimarDespesasEquipe';
-import TableEstimarDespesasInsumos from '../Tables/TableEstimarDespesas/TableEstimarDespesasInsumos';
+import TableEstimarDespesasInsumos from '../Tables/TableEstimarDespesasInsumos';
 
 import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 

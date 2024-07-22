@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
 
-const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
+const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [nomeDespesa, setNomeDespesa] = useState('');
   const [valorEstimadoDespesa, setValorEstimadoDespesa] = useState('');
@@ -13,7 +13,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
   // Opções estáticas para categorias de despesa
   const categoriaDespesaOptions = [
     { value: 'estrutura', label: 'Estrutura' },
-    { value: 'equipe', label: 'Equipe' },
+    { value: 'capital-de-giro', label: 'Capital de Giro' },
     { value: 'insumos', label: 'Insumos' },
   ];
 
@@ -35,16 +35,16 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
       // Define os nomes dos campos baseado na categoria selecionada
       switch (selectedOption.value) {
         case 'estrutura':
-          campoNome = 'nome';
-          campoCusto = 'custo';
+          campoNome = 'estrutura';
+          campoCusto = 'investimento';
           break;
-        case 'equipe':
-          campoNome = 'cargo';
-          campoCusto = 'custo';
+        case 'capital-de-giro':
+          // campoNome = 'cargo';
+          campoCusto = 'investimento_total';
           break;
         case 'insumos':
           campoNome = 'insumo';
-          campoCusto = 'custo';
+          campoCusto = 'investimento';
           break;
         default:
           throw new Error('Categoria de despesa inválida.');
@@ -58,7 +58,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
         [campoCusto]: valorEstimadoDespesa,
       };
   
-      const response = await fetch(`${API_BASE_URL}/api/despesas/${selectedOption.value}`, {
+      const response = await fetch(`${API_BASE_URL}/api/investimentos/${selectedOption.value}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
       });
   
       if (!response.ok) {
-        throw new Error('Falha ao adicionar despesa');
+        throw new Error('Falha ao adicionar Investimento');
       }
       console.log(response);
       onAdd(bodyData);
@@ -86,16 +86,16 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
   return (
     <>
       <div className='sideForm-header'>
-        <h1>Adicione uma despesa estimada</h1>
+        <h1>Adicione um Investimento</h1>
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
-          <label>Selecione a categoria de despesa</label>
+          <label>Selecione a categoria de investimento</label>
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
             options={categoriaDespesaOptions}
-            placeholder="Selecione a categoria de despesa..."
+            placeholder="Selecione a categoria de investimento..."
             styles={{
               control: (provided) => ({
                 ...provided,
@@ -168,9 +168,9 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
   );
 };
 
-SideFormEstimarDespesas.propTypes = {
+SideFormEstimarInvestimentos.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
 };
 
-export default SideFormEstimarDespesas;
+export default SideFormEstimarInvestimentos;
