@@ -25,21 +25,10 @@ const Dashboard = () => {
 
         <div className='dashStage'>
           <div class='dashStage-header'>
-          <h2>Resumo do negócio - Planejado</h2>
-          </div>
-          <div className='dashStage-body'>
-            <AnaliseViabilidadePayback />
+          <h2>Resumos, Tutoriais, cursos e etc [em desenvolvimento]</h2>
           </div>
         </div>
 
-        <div className='dashStage'>
-          <div class='dashStage-header'>
-            <h2>Resumo do negócio - Em operação</h2>
-          </div>
-          <div className='dashStage-body'>
-            <AnaliseViabilidadePayback />
-          </div>
-        </div>
       </div>
     </Layout>
   );

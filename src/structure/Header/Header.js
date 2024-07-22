@@ -165,6 +165,9 @@ const Header = () => {
             <li>
               <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>Simulador Financeiro</Link>
             </li>
+            <li>
+              <Link className={isActive('/academy')} to='#'>ePlano Academy</Link>
+            </li>
           </ul>
         </div>
         <div className="icons">

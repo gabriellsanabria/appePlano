@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState,useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
 
 import Layout from '../../../components/Layout/layout';
 import './AnaliseViabilidadePayback2.scss';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 
 import GrossMonthlyRevenue from '../../Components/FinancialIndicators/GrossMonthlyRevenue';
 import NetMonthlyProfit from '../../Components/FinancialIndicators/NetMonthlyProfit';
@@ -21,7 +22,40 @@ import LucroLiquidoAcumuladoTotal from '../FluxoDeCaixaProjetado/Components/Lucr
 
 
 const AnaliseViabilidadePayback = () => {
-  
+  const [insumosCost, setInsumosCost] = useState(0);
+  const [estruturaCost, setEstruturaCost] = useState(0);
+  const [capitalGiro, setCapitalGiro] = useState(0); // Alterei o nome da variável para capitalGiro
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [insumosResponse, estruturaResponse, capitalGiroResponse] = await Promise.all([
+          fetch(`${API_BASE_URL}/api/investimentos/insumos`),
+          fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
+          fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`)
+        ]);
+
+        const [insumosData, estruturaData, capitalGiroData] = await Promise.all([
+          insumosResponse.json(),
+          estruturaResponse.json(),
+          capitalGiroResponse.json() // Alterei o nome da variável para capitalGiroData
+        ]);
+
+        // Calcula a soma total dos custos para cada categoria
+        const insumosTotalCost = insumosData.reduce((total, item) => total + parseFloat(item.investimento), 0);
+        const estruturaTotalCost = estruturaData.reduce((total, item) => total + parseFloat(item.investimento), 0);
+        const capitalGiroTotal = capitalGiroData.reduce((total, item) => total + parseFloat(item.investimento_total), 0); // Alterei o nome da variável para capitalGiroTotal
+
+        // Define os custos totais nos estados correspondentes
+        setInsumosCost(insumosTotalCost);
+        setEstruturaCost(estruturaTotalCost);
+        setCapitalGiro(capitalGiroTotal); // Alterei o nome da variável para capitalGiro
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
   // Função para gerar a lista de meses
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 0}`);
   const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
@@ -46,7 +80,7 @@ const AnaliseViabilidadePayback = () => {
                           Insumos
                         </div>
                         <div className='valores'>
-                          R$ 130.000,00
+                          R$ {insumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </div>
                       </div>
                     </div>
@@ -57,7 +91,7 @@ const AnaliseViabilidadePayback = () => {
                           Estrutura
                         </div>
                         <div className='valores'>
-                          R$ 130.000,00
+                          R$ {estruturaCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </div>
                       </div>
                     </div>
@@ -68,7 +102,7 @@ const AnaliseViabilidadePayback = () => {
                           Capital de Giro
                         </div>
                         <div className='valores'>
-                          R$ 130.000,00
+                          R$ {capitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </div>
                       </div>
                     </div>

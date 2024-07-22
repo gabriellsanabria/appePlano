@@ -18,7 +18,7 @@ const EstimarReceitas = () => {
   const headerTitle = 'Estimar Receitas';
   const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
   const sideType = 'SideFormEstimarReceitas';
-  const hasTotal = 'hasEstimarReceitas';
+  const hasTotal = 'R$ 50.560,98';
   const headerIcon = PiChartLineUpBold;
 
   const breadcrumbItems = [
