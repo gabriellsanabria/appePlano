@@ -54,7 +54,9 @@ const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal }) => {
           <div className="boxTotais">
             <div className='stage-total'>
               <div className='ttlTotal'>Total</div>
-              <div className='valor'>{hasTotal}</div>
+              <div className='valor'>
+                R$ {hasTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
             </div>
           </div>
         )}
