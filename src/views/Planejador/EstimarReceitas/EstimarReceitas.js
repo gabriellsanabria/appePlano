@@ -131,7 +131,6 @@ const totalGeral = apiData.reduce(
   0
 );
 
-const hasTotal = totalGeral;
 
   const columns = useMemo(
     () => [
@@ -231,6 +230,18 @@ const hasTotal = totalGeral;
     // Lógica adicional se necessário
   };
 
+  const hasTotal = true;
+  // const valorTotal = totalCusto;
+  
+  const valorTotalReceitas = [totalGeral];
+  const labelTotalArray = 'Receitas';
+
+  // Usando o método split para criar um array
+  const labelTotal = labelTotalArray.split(', ');
+  // const valorTotalReceitas = valorTotalArray.split(', ');
+
+  
+
   return (
     <Layout>
       <div className="container">
@@ -239,6 +250,8 @@ const hasTotal = totalGeral;
           title={headerTitle}
           subtitle={headerSubtitle}
           hasTotal={hasTotal}
+          labelTotal={labelTotal}
+          valorTotalOn={valorTotalReceitas}
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader

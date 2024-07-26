@@ -17,6 +17,21 @@ const EstimarDespesas = () => {
   const sideType = 'SideFormEstimarDespesas';
   const headerIcon = PiChartLineDownBold;
 
+  const [totalCustoEstrutura, setTotalCustoEstrutura] = useState(0);
+  const handleTotalCustoEstruturaChange = (newTotalCustoEstrutura) => {
+    setTotalCustoEstrutura(newTotalCustoEstrutura);
+  };
+
+  const [totalCustoEquipe, setTotalCustoEquipe] = useState(0);
+  const handleTotalCustoEquipeChange = (newTotalCustoEquipe) => {
+    setTotalCustoEquipe(newTotalCustoEquipe);
+  };
+  
+  const [totalCustoInsumos, setTotalCustoInsumos] = useState(0);
+  const handleTotalCustoInsumosChange = (newTotalCustoInsumos) => {
+    setTotalCustoInsumos(newTotalCustoInsumos);
+  };
+
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
     { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
@@ -37,6 +52,15 @@ const EstimarDespesas = () => {
     // Lógica adicional se necessário
   };
 
+  const hasTotal = true;
+  // const valorTotal = totalCusto;
+
+  const valorTotal = [totalCustoEstrutura,totalCustoEquipe, totalCustoInsumos];
+  const labelTotalArray = 'Estrutura, Equipe, Insumos';
+
+  // Usando o método split para criar um array
+  const labelTotal = labelTotalArray.split(', ');
+
   return (
     <Layout>
       <div className="container">
@@ -46,20 +70,24 @@ const EstimarDespesas = () => {
           subtitle={headerSubtitle}
           icon={headerIcon}
           sideType={sideType}
-          onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
+          onAdd={handleAddProduto}
+
+          hasTotal={hasTotal}
+          labelTotal={labelTotal}
+          valorTotalOn={valorTotal}
         />
         <h1>
           Estrutura Física/Virtual
         </h1>
-        <TableEstimarDespesasEstrutura/>
+        <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} />
         <h1>
           Equipe
         </h1>
-        <TableEstimarDespesasEquipe/>
+        <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange}/>
         <h1>
           Insumos
         </h1>
-        <TableEstimarDespesasInsumos/>
+        <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange}/>
         
       </div>
       {saveMessage && 

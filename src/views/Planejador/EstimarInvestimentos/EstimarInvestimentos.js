@@ -18,6 +18,19 @@ const EstimarInvestimentos = () => {
   const sideType = 'SideFormEstimarInvestimentos';
   const headerIcon = FaDollarSign;
 
+  const [totalInvestimentosEstrutura, setTotalInvestimentosEstrutura] = useState(0);
+  const handleTotalInvestimentosEstruturaChange = (newTotalInvestimentosEstrutura) => {
+    setTotalInvestimentosEstrutura(newTotalInvestimentosEstrutura);
+  };
+  const [totalInvestimentosInsumos, setTotalInvestimentosInsumos] = useState(0);
+  const handleTotalInvestimentosInsumosChange = (newTotalInvestimentosInsumos) => {
+    setTotalInvestimentosInsumos(newTotalInvestimentosInsumos);
+  };
+  const [totalInvestimentosCapital, setTotalInvestimentosCapital] = useState(0);
+  const handleTotalInvestimentosCapitalChange = (newTotalInvestimentosCapital) => {
+    setTotalInvestimentosCapital(newTotalInvestimentosCapital);
+  };
+
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
     { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
@@ -38,6 +51,16 @@ const EstimarInvestimentos = () => {
     // Lógica adicional se necessário
   };
 
+  const hasTotal = true;
+  // const valorTotal = totalCusto;
+
+  const valorTotal = [totalInvestimentosEstrutura, totalInvestimentosInsumos, totalInvestimentosCapital];
+  const labelTotalArray = 'Estrutura, Insumos, Capital de Giro';
+
+  // Usando o método split para criar um array
+  const labelTotal = labelTotalArray.split(', ');
+
+
   return (
     <Layout>
       <div className="container">
@@ -48,19 +71,23 @@ const EstimarInvestimentos = () => {
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
+
+          hasTotal={hasTotal}
+          labelTotal={labelTotal}
+          valorTotalOn={valorTotal}
         />
         <h1>
           Estrutura Física/Virtual
         </h1>
-        <TableEstimarInvestimentosEstrutura/>
+        <TableEstimarInvestimentosEstrutura onTotalInvestimentosEstruturaChange={handleTotalInvestimentosEstruturaChange} />
         <h1>
           Insumos
         </h1>
-        <TableEstimarInvestimentosInsumos/>
+        <TableEstimarInvestimentosInsumos onTotalInvestimentosInsumosChange={handleTotalInvestimentosInsumosChange} />
         <h1>
           Capital de Giro
         </h1>
-        <TableEstimarCapitalGiro/>
+        <TableEstimarCapitalGiro onTotalInvestimentosCapitalChange={handleTotalInvestimentosCapitalChange} />
         
       </div>
       {saveMessage && 

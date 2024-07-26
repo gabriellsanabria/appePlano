@@ -11,12 +11,13 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 
 
-const TableEstimarDespesasEquipe = () => {
+const TableEstimarDespesasEquipe = ({onTotalInvestimentosCapitalChange}) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
+  const [totalInvestimentos, setTotalInvestimentos] = useState(0);
 
   // Função para buscar os dados da API
 const fetchData = async () => {
@@ -25,8 +26,13 @@ const fetchData = async () => {
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
-        data.sort((a, b) => a.cargo.localeCompare(b.cargo));
+        data.sort((a, b) => a.investimento_total.localeCompare(b.investimento_total));
+        
+        const totalInvestimentos = data.reduce((sum, item) => sum + parseFloat(item.investimento_total) || 0, 0);
+        setTotalInvestimentos(totalInvestimentos);
+  
         setApiData(data);
+        if (onTotalInvestimentosCapitalChange) onTotalInvestimentosCapitalChange(totalInvestimentos);
       } else {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -132,11 +138,16 @@ const fetchData = async () => {
         ),
         disableSortBy: true,
       },
-      { 
-        Header: <strong>Investimento Capital de Giro</strong>, 
+      {
+        Header: <strong>Capital de Giro</strong>, 
         accessor: 'investimento_total',
         Cell: ({ value }) => (
-          value ? value : '-'
+          <strong>
+            R$ {parseFloat(value).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </strong>
         ),
       },
       {

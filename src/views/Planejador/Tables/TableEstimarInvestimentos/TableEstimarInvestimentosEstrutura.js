@@ -11,12 +11,13 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 
 
-const TableEstimarDespesasEstrutura = () => {
+const TableEstimarInvestimentosEstrutura = ({ onTotalInvestimentosEstruturaChange }) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
+  const [totalInvestimentos, setTotalInvestimentos] = useState(0);
 
   // Função para buscar os dados da API
 const fetchData = async () => {
@@ -25,8 +26,13 @@ const fetchData = async () => {
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
-        data.sort((a, b) => a.nome.localeCompare(b.nome));
+        data.sort((a, b) => a.estrutura.localeCompare(b.estrutura));
+       
+        const totalInvestimentos = data.reduce((sum, item) => sum + parseFloat(item.investimento) || 0, 0);
+        setTotalInvestimentos(totalInvestimentos);
+  
         setApiData(data);
+        if (onTotalInvestimentosEstruturaChange) onTotalInvestimentosEstruturaChange(totalInvestimentos);
       } else {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -137,11 +143,16 @@ const fetchData = async () => {
         accessor: 'estrutura',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-      { 
+      {
         Header: <strong>Investimento</strong>, 
         accessor: 'investimento',
         Cell: ({ value }) => (
-          value ? value : '-'
+          <strong>
+            R$ {parseFloat(value).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </strong>
         ),
       },
       {
@@ -287,4 +298,4 @@ const fetchData = async () => {
   );
 };
 
-export default TableEstimarDespesasEstrutura;
+export default TableEstimarInvestimentosEstrutura;

@@ -11,12 +11,13 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 
 
-const TableEstimarDespesasInsumos = () => {
+const TableEstimarDespesasInsumos = ({onTotalCustoInsumosChange}) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
+  const [totalCusto, setTotalCusto] = useState(0);
 
   // Função para buscar os dados da API
 const fetchData = async () => {
@@ -26,7 +27,12 @@ const fetchData = async () => {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
         data.sort((a, b) => a.insumo.localeCompare(b.insumo));
+  
+        const totalCusto = data.reduce((sum, item) => sum + parseFloat(item.custo) || 0, 0);
+        setTotalCusto(totalCusto);
+  
         setApiData(data);
+        if (onTotalCustoInsumosChange) onTotalCustoInsumosChange(totalCusto);
       } else {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -133,15 +139,21 @@ const fetchData = async () => {
         disableSortBy: true,
       },
       { 
-        Header: <strong>Produto</strong>, 
+        Header: <strong>Insumo</strong>, 
         accessor: 'insumo',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-      { 
-        Header: <strong>Descrição</strong>, 
+
+      {
+        Header: <strong>Custo</strong>, 
         accessor: 'custo',
         Cell: ({ value }) => (
-          value ? value : '-'
+          <strong>
+            R$ {parseFloat(value).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </strong>
         ),
       },
       {

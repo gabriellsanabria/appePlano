@@ -11,22 +11,27 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 
 
-const TableEstimarDespesasEstrutura = () => {
+const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange }) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
+  const [totalCusto, setTotalCusto] = useState(0);
 
   // Função para buscar os dados da API
-const fetchData = async () => {
+  const fetchData = async () => {
     try {
       const response = await fetch('https://api.eplano.com.br/api/despesas/estrutura');
       if (response.ok) {
         let data = await response.json();
-        // Ordenando os dados por produto_servico em ordem alfabética
         data.sort((a, b) => a.nome.localeCompare(b.nome));
+  
+        const totalCusto = data.reduce((sum, item) => sum + parseFloat(item.custo) || 0, 0);
+        setTotalCusto(totalCusto);
+  
         setApiData(data);
+        if (onTotalCustoEstruturaChange) onTotalCustoEstruturaChange(totalCusto);
       } else {
         throw new Error('Erro ao buscar dados da API');
       }
@@ -34,6 +39,7 @@ const fetchData = async () => {
       console.error('Erro:', error);
     }
   };
+  
   
 
   const handleExcluirProdutoServico = async (id) => {
@@ -106,7 +112,7 @@ const fetchData = async () => {
       apiData.map((item) => ({
         id: item.id,
         nome: item.nome,
-        custo: item.custo,
+        custo: item.custo.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
       })),
     [apiData]
   );
@@ -133,15 +139,20 @@ const fetchData = async () => {
         disableSortBy: true,
       },
       { 
-        Header: <strong>Produto</strong>, 
+        Header: <strong>Estrutura</strong>, 
         accessor: 'nome',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-      { 
-        Header: <strong>Descrição</strong>, 
+      {
+        Header: <strong>Custo</strong>, 
         accessor: 'custo',
         Cell: ({ value }) => (
-          value ? value : '-'
+          <strong>
+            R$ {parseFloat(value).toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </strong>
         ),
       },
       {

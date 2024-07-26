@@ -4,7 +4,7 @@ import './PageHeader.scss'; // Certifique-se de que o caminho está correto para
 import { FaPlus } from 'react-icons/fa';
 import SideForm from '../SideForm/SideForm';
 
-const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal }) => {
+const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal, labelTotal, valorTotalOn }) => {
   const IconComponent = icon;
 
   // States to control the visibility of SideForm and overlay
@@ -23,8 +23,8 @@ const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal }) => {
     setIsOverlayOpen(false);
   };
 
-  // Check if hasTotal is undefined or null
-  const shouldShowTotal = hasTotal != null;
+  // Check if hasTotal is true (boolean)
+  const shouldShowTotal = hasTotal === true;
 
   return (
     <>
@@ -54,13 +54,17 @@ const PageHeader = ({ title, subtitle, icon, sideType, onAdd, hasTotal }) => {
           <div className="boxTotais">
             <div className='stage-total'>
               <div className='ttlTotal'>Total</div>
-              <div className='valor'>
-                R$ {hasTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </div>
+              {labelTotal.slice(0, valorTotalOn.length).map((label, index) => (
+                <div className='valor' key={index}>
+                  <div className='valor-label'>{label}</div>
+                  <div className='valor-total'>
+                    R$ {valorTotalOn[index].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
-
       </div>
 
       {isOverlayOpen && (
@@ -83,7 +87,9 @@ PageHeader.propTypes = {
   icon: PropTypes.elementType.isRequired,
   sideType: PropTypes.string, // sideType is now optional
   onAdd: PropTypes.func.isRequired, // Ensure onAdd is required and of type function
-  hasTotal: PropTypes.number, // Ensure hasTotal is of type number, and now optional
+  hasTotal: PropTypes.bool, // Ensure hasTotal is of type boolean
+  labelTotal: PropTypes.string, // Optional prop
+  valorTotalReceitas: PropTypes.number, // Ensure valorTotalReceitas is of type number and optional
 };
 
 export default PageHeader;
