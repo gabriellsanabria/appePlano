@@ -175,6 +175,45 @@ const AppRoutes = () => {
           path="/simulador-financeiro"
           element={user ? <Simulador /> : <Navigate to="/login" />}
         />
+
+        <Route
+          path="/simulador-financeiro"
+          element={user ? <Planejador /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro/produtos"
+          element={user ? <ProdutosServicos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro/estimar-receitas"
+          element={user ? <EstimarReceitas /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro/estimar-despesas"
+          element={user ? <EstimarDespesas /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro/estimar-investimento"
+          element={user ? <EstimarInvestimentos /> : <Navigate to="/login" />}
+        />
+
+        <Route
+          path="/simulador-financeiro/impostos"
+          element={user ? <Impostos /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/simulador-financeiro/fluxo-caixa"
+          element={user ? <PlanejadorFluxoCaixa /> : <Navigate to="/login" />}
+        />
+
+
+
+
+
+
+
+
+        
         <Route
           path="/meu-eplano/:urlBase/:ePlanoId/:urlEplano"
           element={user ? <MeuEplano /> : <Navigate to="/login" />}

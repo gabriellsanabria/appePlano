@@ -99,17 +99,20 @@ const SideNav = () => {
         )}
         {showMenuKey2 && ( // Renderiza menu-key2 se a URL for '/simulador-financeiro'
           <>
+          
           <div className='menu-key'>
             <ul>
-              <li>
-                <Link to='' className='active'>
+              <li onMouseEnter={() => handleMouseEnter("IndicadoresPlan")} onMouseLeave={handleMouseLeave}>
+                <Link to="/simulador-financeiro" className={isActive('/simulador-financeiro') ? 'active' : ''}>
                   <FaChartSimple />
-                </Link>
+                </Link> 
+                {hoveredMenu === "IndicadoresPlan" && <div className="menu-tooltip">Indicadores e Viabilidade do seu Negócio</div>}
               </li>
-              <li>
-                <Link to=''>
+              <li onMouseEnter={() => handleMouseEnter("FluxoCaixaPlan")} onMouseLeave={handleMouseLeave}>
+                <Link to="/simulador-financeiro/fluxo-caixa" className={isActive('/simulador-financeiro/fluxo-caixa') ? 'active' : ''}>
                   <FaChartGantt />
-                </Link>
+                </Link> 
+                {hoveredMenu === "FluxoCaixaPlan" && <div className="menu-tooltip">Fluxo de Caixa Planjeado do seu Negócio</div>}
               </li>
             </ul>
           </div>
@@ -117,28 +120,35 @@ const SideNav = () => {
             <ul>
               
               <li onMouseEnter={() => handleMouseEnter("CadastroProdutosServicos")} onMouseLeave={handleMouseLeave}>
-                <Link to="/FaChartSimple" className={isActive('/dashboard') ? 'active' : ''}>
+                <Link to="/simulador-financeiro/produtos" className={isActive('/simulador-financeiro/produtos') ? 'active' : ''}>
                   <SiHackthebox />
                 </Link> 
                 {hoveredMenu === "CadastroProdutosServicos" && <div className="menu-tooltip">Cadastre Produtos e/ou Serviços</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarReceitasMensais")} onMouseLeave={handleMouseLeave}>
-                <Link to="/FaChartSimple" className={isActive('/dashboard') ? 'active' : ''}>
+              <Link to="/simulador-financeiro/estimar-receitas" className={isActive('/simulador-financeiro/estimar-receitas') ? 'active' : ''}>
                   <PiChartLineUpBold  />
                 </Link> 
-                {hoveredMenu === "EstimarReceitasMensais" && <div className="menu-tooltip">Estimar Receitas Mensais do negócio</div>}
+                {hoveredMenu === "EstimarReceitasMensais" && <div className="menu-tooltip">Estimar Receitas</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarDespesasMensais")} onMouseLeave={handleMouseLeave}>
-                <Link to="/FaChartSimple" className={isActive('/dashboard') ? 'active' : ''}>
+              <Link to="/simulador-financeiro/estimar-despesas" className={isActive('/simulador-financeiro/estimar-despesas') ? 'active' : ''}>
                   <PiChartLineDownBold />
                 </Link> 
-                {hoveredMenu === "EstimarDespesasMensais" && <div className="menu-tooltip">Estimar Despesas Mensais do negócio</div>}
+                {hoveredMenu === "EstimarDespesasMensais" && <div className="menu-tooltip">Estimar Despesas</div>}
+              </li>
+
+              <li onMouseEnter={() => handleMouseEnter("EstimarInvestimentos")} onMouseLeave={handleMouseLeave}>
+              <Link to="/simulador-financeiro/estimar-investimento" className={isActive('/simulador-financeiro/estimar-investimento') ? 'active' : ''}>
+                  <FaDollarSign />
+                </Link> 
+                {hoveredMenu === "EstimarInvestimentos" && <div className="menu-tooltip">Estimar Investimentos</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarImposto")} onMouseLeave={handleMouseLeave}>
-                <Link to="/FaChartSimple" className={isActive('/dashboard') ? 'active' : ''}>
+                <Link to="/simulador-financeiro/impostos" className={isActive('/simulador-financeiro/impostos') ? 'active' : ''}>
                   <PiPercentBold />
                 </Link> 
                 {hoveredMenu === "EstimarImposto" && <div className="menu-tooltip">Estimar Imposto</div>}

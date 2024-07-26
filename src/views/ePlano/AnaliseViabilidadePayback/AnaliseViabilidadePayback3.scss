@@ -1,0 +1,130 @@
+.chartStage{
+    display: flex;
+    .chart-container{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin: 0 20px;
+        h2{
+            margin: 0;
+            padding: 0;
+            font-size: 1.2rem;
+            text-align: left;
+            a{
+                color: black;
+                text-decoration: none;
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+        .chartBox{
+            display: flex;
+            .ochart{
+                display: flex;
+                flex: 1;     
+                align-items: center;
+                align-content: center;
+                justify-content: center;
+            }
+            .label-box{
+                display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-direction: column;
+                flex: 2;            
+                .label-chart{
+                    display: flex;
+                    align-items: center;
+                    align-content: center;
+                    justify-content: center;
+                    .barraCor{
+                        display: flex;
+                        flex: 1;
+                        height: 10px;
+                        border-radius: 10px;
+                        margin: 0;
+                        padding: 0;
+                        &.azul1{
+                            background-color: #7459D9;
+                        }
+                        &.azul2{
+                            background-color: #E3DEF7;
+                        }
+                        &.azul3{
+                            background-color: #B9ABEB;
+                        }
+                        &.lj1 {
+                            background-color: #f7740f; /* Laranja mais intenso e escuro */
+                        }
+                        
+                        &.lj2 {
+                            background-color: #ff8f00; /* Laranja brilhante e vibrante */
+                        }
+                        
+                        &.lj3 {
+                            background-color: #fcc36f; /* Laranja mais claro, ainda vibrante */
+                        }
+                        
+                        &.lj4 {
+                            background-color: #ffe9c9; /* Laranja suave e claro */
+                        }                        
+                    }
+                    .infos{
+                        display: flex;
+                        flex: 3;
+                        flex-direction: column; 
+                        margin:5px 20px;
+                        padding: 0;                       
+                        .ttl{
+
+                        }
+                        .valores{
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.flex-contain {
+    display: flex;
+    padding-bottom: 20px;
+    margin: 50px 0!important;
+    background-color: white!important;
+    flex-wrap: wrap;
+
+    .indicador {
+        display: flex;
+        width: 25%;
+        margin: 0 0 50px 0px;
+        .indicador-content{
+            display: flex;
+            flex-direction: column;
+            h3{
+                margin: 0;
+                padding: 0;
+                font-size: 1.1em;
+                font-weight: 600;
+                color: #11263C;
+            }
+            p{
+                margin: 0;
+                padding: 0;
+                font-size: 0.8em;
+                color: #979797;
+            }
+            .valor{           
+                margin: 10px 0 0 0;     
+                font-size: 1.8em;
+                font-weight: 800;
+                color: #11263C;
+            }
+        }
+    }
+
+    .indicador:last-child {
+      margin-right: 0;
+    }
+  }

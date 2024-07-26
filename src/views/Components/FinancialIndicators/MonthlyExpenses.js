@@ -35,8 +35,10 @@ const MonthlyExpenses = ({ meses }) => {
     return [0, ...Array(numMonths - 1).fill(value)];
   };
 
-  const insumosVariation = [0, 0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
-
+  // const insumosVariation = [0, 0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];
+  const insumosVariation1 = [0, 0.2, 0.4, 0.6, 0.8, 1, 1, 1, 1.1, 1.1, 1.1, 1.2, 1.2, 1.2, 1.2, 1.2, 1.2, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 1.5];  
+  const insumosVariation = insumosVariation1.map(() => 1);
+  
   const valueMap = {
     "Estrutura Física/ Virtual": createDynamicValues(estruturaDespesas, meses.length),
     "Equipe de Trabalho": createDynamicValues(equipeDespesas, meses.length),
@@ -85,7 +87,7 @@ const MonthlyExpenses = ({ meses }) => {
 
   const renderTable = () => (
     <div>
-      R$ {averageInvestment.toLocaleString("pt-BR")}
+      R$ {parseFloat(averageInvestment).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
     </div>
   );
 
