@@ -5,7 +5,7 @@
   align-items: center;
     .header-content {
       display: flex;
-      width: 60%;
+      width: 50%;
       flex-direction: column;
       .header-infos{
         width: 70%;
@@ -64,7 +64,7 @@
     .boxTotais{
       display: flex;
       margin: 0 10px;
-      width: 40%;     
+      width: 50%;     
       justify-content: flex-end;
       .stage-total{
         display: flex;

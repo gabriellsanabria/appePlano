@@ -7,6 +7,7 @@ import SideFormEstimarReceitas from '../../views/Planejador/EstimarReceitas/Side
 import SideFormEstimarDespesas from '../../views/Planejador/EstimarDespesas/SideFormEstimarDespesas';
 import SideFormEstimarInvestimentos from '../../views/Planejador/EstimarInvestimentos/SideFormEstimarInvestimentos';
 import SideFormImposto from '../../views/Planejador/Impostos/SideFormImpostos';
+import SideFormEstimarCaixa from '../../views/Simulador/EstimarCaixa/SideFormEstimarCaixa';
 
 const SideForm = ({ type, closeSideForm, onAdd }) => {
   switch (type) {
@@ -20,6 +21,8 @@ const SideForm = ({ type, closeSideForm, onAdd }) => {
       return <SideFormEstimarInvestimentos closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormImposto':
       return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
+    case 'SideFormEstimarCaixa':
+      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;      
     default:
       return (
         <div>

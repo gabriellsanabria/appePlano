@@ -9,7 +9,7 @@ import { FaPercentage } from "react-icons/fa";
 import { TbPercentage } from "react-icons/tb";
 import { PiPercentBold } from "react-icons/pi";
 import { FaDollarSign } from "react-icons/fa6";
-
+import { PiPiggyBankBold } from "react-icons/pi";
 
 import './SideNav.scss';
 
@@ -141,10 +141,10 @@ const SideNav = () => {
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarInvestimentos")} onMouseLeave={handleMouseLeave}>
-              <Link to="/simulador-financeiro/estimar-investimento" className={isActive('/simulador-financeiro/estimar-investimento') ? 'active' : ''}>
-                  <FaDollarSign />
+              <Link to="/simulador-financeiro/estimar-caixa" className={isActive('/simulador-financeiro/estimar-caixa') ? 'active' : ''}>
+                  <PiPiggyBankBold />
                 </Link> 
-                {hoveredMenu === "EstimarInvestimentos" && <div className="menu-tooltip">Estimar Investimentos</div>}
+                {hoveredMenu === "EstimarInvestimentos" && <div className="menu-tooltip">Estimar Caixa</div>}
               </li>
 
               <li onMouseEnter={() => handleMouseEnter("EstimarImposto")} onMouseLeave={handleMouseLeave}>
