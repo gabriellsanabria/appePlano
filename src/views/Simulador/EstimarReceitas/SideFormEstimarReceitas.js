@@ -25,7 +25,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
 
   const obterProdutosServicos = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/produtos_servicos/${userId}`);
+      const response = await fetch(`${API_BASE_URL}/api/simulador/produtos_servicos/${userId}`);
       const data = await response.json();
       
       const options = data.map((produtoServico) => ({
@@ -60,7 +60,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
         uidUser: userId
       };
 
-      const response = await fetch(`${API_BASE_URL}/adicionar_receita_mensal_negocio`, {
+      const response = await fetch(`${API_BASE_URL}api/simulador/adicionar_receita_mensal_negocio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

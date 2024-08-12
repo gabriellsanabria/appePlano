@@ -11,8 +11,8 @@ import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTable, usePagination } from 'react-table';
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
-import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
-
+import { API_BASE_URL } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 
 const ProdutosServicos = () => {
   const headerTitle = 'Produtos e Serviços';
@@ -32,18 +32,33 @@ const ProdutosServicos = () => {
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   // Função para buscar os dados da API
   const fetchData = async () => {
+    if (!userId) {
+      console.error('User ID não disponível');
+      return;
+    }
+
+    console.log('Buscando dados para o User ID:', userId);
+
     try {
-      const response = await fetch('https://api.eplano.com.br/produtos_servicos');
-      if (response.ok) {
-        let data = await response.json();
-        // Ordenando os dados por produto_servico em ordem alfabética
-        data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
-        setApiData(data);
-      } else {
-        throw new Error('Erro ao buscar dados da API');
+      const response = await fetch(`https://api.eplano.com.br/produtos_servicos/${userId}`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Erro ao buscar dados da API: ${errorText}`);
       }
+      
+      let data = await response.json();
+      console.log('Dados recebidos:', data);
+      
+      // Ordenando os dados por produto_servico em ordem alfabética
+      data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
+      setApiData(data);
     } catch (error) {
       console.error('Erro:', error);
     }
@@ -63,22 +78,25 @@ const ProdutosServicos = () => {
       const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
         method: 'DELETE',
       });
+
       if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+        const errorText = await response.text();
+        throw new Error(`Falha ao excluir produto/serviço: ${errorText}`);
       }
+
       fetchData(); // Atualiza os dados após a exclusão
       setAlertMessage('Produto/Serviço Deletado com sucesso!');
       setAlertType('success');
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao excluir produto/serviço:', error);
     }
   };
-  
-  
 
   useEffect(() => {
-    fetchData();
-  }, []); // Executa apenas uma vez ao montar o componente
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]); // Executa quando o loading mudar ou userId estiver disponível
 
   // Estado para os checkboxes
   const [selectedRows, setSelectedRows] = useState([]);
@@ -123,7 +141,6 @@ const ProdutosServicos = () => {
       })),
     [apiData]
   );
-  
 
   const columns = useMemo(
     () => [
@@ -174,7 +191,6 @@ const ProdutosServicos = () => {
     ],
     [selectedRows, data]
   );
-  
 
   const {
     getTableProps,
@@ -198,6 +214,10 @@ const ProdutosServicos = () => {
     // Lógica adicional se necessário
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Layout>
       <div className="container">
@@ -209,6 +229,7 @@ const ProdutosServicos = () => {
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
         />
+
         <table {...getTableProps()} className="table">
           <thead>
             {headerGroups.map((headerGroup) => (

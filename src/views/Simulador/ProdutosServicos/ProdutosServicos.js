@@ -5,25 +5,24 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
 
-import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
+import { SiHackthebox } from 'react-icons/si';
 import { HiDotsVertical } from "react-icons/hi";
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTable, usePagination } from 'react-table';
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
-import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import { API_BASE_URL } from '../../../apiConfig';
 import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 
-
-const EstimarReceitas = () => {
-  const headerTitle = 'Estimar Receitas';
-  const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
-  const sideType = 'SideFormEstimarReceitas';
-  const headerIcon = PiChartLineUpBold;
+const ProdutosServicos = () => {
+  const headerTitle = 'Produtos e Serviços';
+  const headerSubtitle = 'Liste e Descreva os Produtos/Serviços que o seu Negócio irá comercializar';
+  const sideType = 'SideFormProdutos';
+  const headerIcon = SiHackthebox;
 
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
-    { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
+    { label: 'Simulador Financeiro', path: '/simulador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
 
@@ -36,7 +35,7 @@ const EstimarReceitas = () => {
   // Obtendo o usuário e o estado de carregamento do hook useAuth
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
-  
+
   // Função para buscar os dados da API
   const fetchData = async () => {
     if (!userId) {
@@ -47,7 +46,7 @@ const EstimarReceitas = () => {
     console.log('Buscando dados para o User ID:', userId);
 
     try {
-      const response = await fetch(`https://api.eplano.com.br/receitas_mensais_negocio/user/${userId}`);
+      const response = await fetch(`https://api.eplano.com.br/api/simulador/produtos_servicos/${userId}`);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -65,7 +64,6 @@ const EstimarReceitas = () => {
     }
   };
 
-
   const handleExcluirProdutoServico = async (id) => {
     try {
       // Exibe um alerta de confirmação
@@ -77,20 +75,22 @@ const EstimarReceitas = () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/excluir_receita_mensal_negocio/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/excluir_produto_servico/${id}`, {
         method: 'DELETE',
       });
+
       if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+        const errorText = await response.text();
+        throw new Error(`Falha ao excluir produto/serviço: ${errorText}`);
       }
+
       fetchData(); // Atualiza os dados após a exclusão
       setAlertMessage('Produto/Serviço Deletado com sucesso!');
       setAlertType('success');
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao excluir produto/serviço:', error);
     }
   };
-  
 
   useEffect(() => {
     if (!loading && userId) {
@@ -137,19 +137,10 @@ const EstimarReceitas = () => {
       apiData.map((item) => ({
         id: item.id,
         produto_servico: item.produto_servico,
-        valor_unitario: item.valor_unitario,
-        quantidade_vendida_por_mes: item.quantidade_vendida_por_mes,
-        total_mensal: item.quantidade_vendida_por_mes*item.valor_unitario,
+        descricao: item.descricao,
       })),
     [apiData]
   );
-  
-// Calcular o total geral dos valores mensais
-const totalGeral = apiData.reduce(
-  (acc, item) => acc + item.quantidade_vendida_por_mes * item.valor_unitario,
-  0
-);
-
 
   const columns = useMemo(
     () => [
@@ -176,38 +167,13 @@ const totalGeral = apiData.reduce(
         accessor: 'produto_servico',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-      {
-        Header: <strong>Valor unitário de Venda (R$)</strong>,
-        accessor: 'valor_unitario',
-        Cell: ({ value }) => (
-          <strong>
-            R$ {parseFloat(value).toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </strong>
-        ),
-      },
-      
       { 
-        Header: <strong> Quantidade Vendida por Mês	</strong>, 
-        accessor: 'quantidade_vendida_por_mes',
+        Header: <strong>Descrição</strong>, 
+        accessor: 'descricao',
         Cell: ({ value }) => (
           value ? value : '-'
         ),
       },
-      { 
-        Header: <strong>Total Mensal</strong>, 
-        accessor: 'total_mensal',
-        Cell: ({ value }) => (
-          <strong>
-            R$ {parseFloat(value).toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </strong>
-        ), 
-      },  
       {
         Header: 'Ações',
         accessor: 'acoes',
@@ -225,7 +191,6 @@ const totalGeral = apiData.reduce(
     ],
     [selectedRows, data]
   );
-  
 
   const {
     getTableProps,
@@ -249,17 +214,9 @@ const totalGeral = apiData.reduce(
     // Lógica adicional se necessário
   };
 
-  const hasTotal = true;
-  // const valorTotal = totalCusto;
-  
-  const valorTotalReceitas = [totalGeral];
-  const labelTotalArray = 'Receitas';
-
-  // Usando o método split para criar um array
-  const labelTotal = labelTotalArray.split(', ');
-  // const valorTotalReceitas = valorTotalArray.split(', ');
-
-  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout>
@@ -268,13 +225,11 @@ const totalGeral = apiData.reduce(
         <PageHeader
           title={headerTitle}
           subtitle={headerSubtitle}
-          hasTotal={hasTotal}
-          labelTotal={labelTotal}
-          valorTotalOn={valorTotalReceitas}
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
         />
+
         <table {...getTableProps()} className="table">
           <thead>
             {headerGroups.map((headerGroup) => (
@@ -371,4 +326,4 @@ const totalGeral = apiData.reduce(
   );
 };
 
-export default EstimarReceitas;
+export default ProdutosServicos;

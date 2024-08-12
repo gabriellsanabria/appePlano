@@ -12,7 +12,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 import useAuth from '../../../../hooks/useAuth'; // Importe o hook useAuth
 
 
-const TableEstimarDespesasInsumos = ({onTotalCustoInsumosChange}) => {
+const TableEstimarDespesasEquipe = ({ onTotalCustoEquipeChange }) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
@@ -23,24 +23,24 @@ const TableEstimarDespesasInsumos = ({onTotalCustoInsumosChange}) => {
   // Obtendo o usuário e o estado de carregamento do hook useAuth
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
-
+  
   // Função para buscar os dados da API
 const fetchData = async () => {
     try {
-      const response = await fetch(`https://api.eplano.com.br/api/despesas/insumos/user/${userId}`);
+      const response = await fetch(`https://api.eplano.com.br/api/simulador/despesas/equipe/user/${userId}`);
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
-        data.sort((a, b) => a.insumo.localeCompare(b.insumo));
-  
+        data.sort((a, b) => a.cargo.localeCompare(b.cargo));
+
         const totalCusto = data.reduce((sum, item) => sum + parseFloat(item.custo) || 0, 0);
         setTotalCusto(totalCusto);
-  
+
         setApiData(data);
-        if (onTotalCustoInsumosChange) onTotalCustoInsumosChange(totalCusto);
-      } else {
-        throw new Error('Erro ao buscar dados da API');
-      }
+        if (onTotalCustoEquipeChange) onTotalCustoEquipeChange(totalCusto);
+        } else {
+          throw new Error('Erro ao buscar dados da API');
+        }
     } catch (error) {
       console.error('Erro:', error);
     }
@@ -58,7 +58,7 @@ const fetchData = async () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/api/despesas/insumos/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -72,13 +72,13 @@ const fetchData = async () => {
     }
   };
   
+  
   useEffect(() => {
     if (!loading && userId) {
       fetchData();
     }
   }, [loading, userId]); // Executa quando o loading mudar ou userId estiver disponível
 
-  
   // Estado para os checkboxes
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -117,7 +117,7 @@ const fetchData = async () => {
     () =>
       apiData.map((item) => ({
         id: item.id,
-        insumo: item.insumo,
+        cargo: item.cargo,
         custo: item.custo,
       })),
     [apiData]
@@ -145,11 +145,10 @@ const fetchData = async () => {
         disableSortBy: true,
       },
       { 
-        Header: <strong>Insumo</strong>, 
-        accessor: 'insumo',
+        Header: <strong>Membro</strong>, 
+        accessor: 'cargo',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-
       {
         Header: <strong>Custo</strong>, 
         accessor: 'custo',
@@ -305,4 +304,4 @@ const fetchData = async () => {
   );
 };
 
-export default TableEstimarDespesasInsumos;
+export default TableEstimarDespesasEquipe;

@@ -34,7 +34,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
   
       console.log('Dados a serem enviados:', bodyData);
   
-      const response = await fetch(`${API_BASE_URL}/produto_servico`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/produto_servico`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -10,6 +11,10 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
   const [valorEstimadoDespesa, setValorEstimadoDespesa] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   // Opções estáticas para categorias de despesa
   const categoriaDespesaOptions = [
     { value: 'estrutura', label: 'Estrutura' },
@@ -56,6 +61,7 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
         categoria_despesa: selectedOption.label,
         [campoNome]: nomeDespesa,
         [campoCusto]: valorEstimadoDespesa,
+        uidUser: userId,
       };
   
       const response = await fetch(`${API_BASE_URL}/api/investimentos/${selectedOption.value}`, {

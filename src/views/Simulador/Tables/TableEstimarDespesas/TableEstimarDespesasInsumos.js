@@ -27,7 +27,7 @@ const TableEstimarDespesasInsumos = ({onTotalCustoInsumosChange}) => {
   // Função para buscar os dados da API
 const fetchData = async () => {
     try {
-      const response = await fetch(`https://api.eplano.com.br/api/despesas/insumos/user/${userId}`);
+      const response = await fetch(`https://api.eplano.com.br/api/simulador/despesas/insumos/user/${userId}`);
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
@@ -58,7 +58,7 @@ const fetchData = async () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/api/despesas/insumos/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

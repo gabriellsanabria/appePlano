@@ -23,7 +23,7 @@ const EstimarReceitas = () => {
 
   const breadcrumbItems = [
     { label: 'Dashboard', path: '/' },
-    { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
+    { label: 'Simulador Financeiro', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
 
@@ -47,7 +47,7 @@ const EstimarReceitas = () => {
     console.log('Buscando dados para o User ID:', userId);
 
     try {
-      const response = await fetch(`https://api.eplano.com.br/receitas_mensais_negocio/user/${userId}`);
+      const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
       
       if (!response.ok) {
         const errorText = await response.text();
@@ -77,7 +77,7 @@ const EstimarReceitas = () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/excluir_receita_mensal_negocio/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/excluir_receita_mensal_negocio/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
