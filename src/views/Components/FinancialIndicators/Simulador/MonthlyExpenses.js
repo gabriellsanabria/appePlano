@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
-import useAuth from '../../../hooks/useAuth';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const MonthlyExpenses = ({ meses }) => {
   const [estruturaDespesas, setEstruturaDespesas] = useState(0);
@@ -14,17 +14,17 @@ const MonthlyExpenses = ({ meses }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
+        const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`);
         const dataEstrutura = await responseEstruturaDespesas.json();
         const somaDespesasEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEstruturaDespesas(somaDespesasEstrutura);
 
-        const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
+        const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`);
         const dataInsumos = await responseInsumosDespesas.json();
         const somaDespesasInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
         setInsumosDespesas(somaDespesasInsumos);
         
-        const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
+        const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`);
         const dataEquipe = await responseEquipeDespesas.json();
         const somaDespesasEquipe = dataEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEquipeDespesas(somaDespesasEquipe);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 const InvestimentsPieChart = () => {
   const [chart, setChart] = useState(null);
@@ -9,16 +10,22 @@ const InvestimentsPieChart = () => {
   const [estruturaCost, setEstruturaCost] = useState(0);
   const [capitalGiro, setCapitalGiro] = useState(0); // Alterei o nome da variável para capitalGiro
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   const fetchData = async () => {
     try {
       const [insumosResponse, estruturaResponse, capitalGiroResponse] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/investimentos/insumos`),
-        fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
-        fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`)
+        fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`)
       ]);
 
       const [insumosData, estruturaData, capitalGiroData] = await Promise.all([

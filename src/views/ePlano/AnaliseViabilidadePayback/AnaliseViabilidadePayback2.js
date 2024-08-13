@@ -6,6 +6,7 @@ import 'chartjs-plugin-datalabels'; // Importe o plugin
 import Layout from '../../../components/Layout/layout';
 import './AnaliseViabilidadePayback2.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 import GrossMonthlyRevenue from '../../Components/FinancialIndicators/GrossMonthlyRevenue';
 import NetMonthlyProfit from '../../Components/FinancialIndicators/NetMonthlyProfit';
@@ -26,13 +27,18 @@ const AnaliseViabilidadePayback = () => {
   const [insumosCost, setInsumosCost] = useState(0);
   const [estruturaCost, setEstruturaCost] = useState(0);
   const [capitalGiro, setCapitalGiro] = useState(0); // Alterei o nome da variável para capitalGiro
+
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [insumosResponse, estruturaResponse, capitalGiroResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/investimentos/insumos`),
-          fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
-          fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`)
+          fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`),
+          fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`),
+          fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`)
         ]);
 
         const [insumosData, estruturaData, capitalGiroData] = await Promise.all([
@@ -55,8 +61,10 @@ const AnaliseViabilidadePayback = () => {
         console.error('Error fetching data:', error);
       }
     };
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   const [despesasInsumosCost, setDespesasInsumosCost] = useState(0);
   const [despesasEstruturaCost, setDespesasEstruturaCost] = useState(0);
@@ -65,9 +73,9 @@ const AnaliseViabilidadePayback = () => {
     const fetchData = async () => {
       try {
         const [insumosDespesasResponse, estruturaDespesasResponse, capitalGiroDespesasResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/despesas/insumos`),
-          fetch(`${API_BASE_URL}/api/despesas/estrutura`),
-          fetch(`${API_BASE_URL}/api/despesas/equipe`)
+          fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`),
+          fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`),
+          fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`)
         ]);
   
         const [insumosDespesasData, estruturaDespesasData, capitalGiroDespesasData] = await Promise.all([
@@ -90,8 +98,10 @@ const AnaliseViabilidadePayback = () => {
         console.error('Error fetching data:', error);
       }
     };
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
   
 
   // Função para gerar a lista de meses

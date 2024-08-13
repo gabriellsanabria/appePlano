@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const CaixaRealPieChart = () => {
   const [chart, setChart] = useState(null);
@@ -9,18 +10,24 @@ const CaixaRealPieChart = () => {
   const [estruturaCost, setEstruturaCost] = useState(0);
   const [capitalGiro, setCapitalGiro] = useState(0);  
   const [contasPagar, setcaixaContasPagarTotal] = useState(0);
-  
+ 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+   
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   const fetchData = async () => {
     try {
       const [caixaLiquidoResponse, caixaEstoque, caixaRecebiveis, caixaContasPagar] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/caixa/liquido`),
-        fetch(`${API_BASE_URL}/api/caixa/estoque`),
-        fetch(`${API_BASE_URL}/api/caixa/recebiveis`),
-        fetch(`${API_BASE_URL}/api/caixa/contas_pagar`)
+        fetch(`${API_BASE_URL}/api/caixa/liquido/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/caixa/estoque/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/caixa/recebiveis/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/caixa/contas_pagar/user/${userId}`)
       ]);
 
       const [caixaLiquidoData, caixaEstoqueData, caixaRecebiveisData, caixaContasPagarData] = await Promise.all([

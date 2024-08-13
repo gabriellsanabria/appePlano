@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 const ReceitaBrutaEstimada = () => {
   const [amount, setAmount] = useState('Carregando...');
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 1}`);
   const meses = generateMonths(25);  // Lista de meses ajustada para 24 meses
  
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -28,9 +33,10 @@ const ReceitaBrutaEstimada = () => {
         setAmount('Erro ao carregar dados');
       }
     };
-
-    fetchAndProcessData();
-  }, [setAmount]); // Passando setAmount como dependência para o useEffect
+    if (!loading && userId) {
+      fetchAndProcessData();
+    }
+  }, [setAmount,loading, userId]); // Passando setAmount como dependência para o useEffect
   
 
 
@@ -67,8 +73,12 @@ const ReceitaBrutaEstimada = () => {
   };
 
   const renderTable = (items, highlightItems) => {
+    // Supondo que investmentSums é uma variável global ou passada como argumento
     const totalInvestment = investmentSums.reduce((a, b) => a + b, 0);
     const averagePerMonth = totalInvestment / 24;
+  
+    // Verifique se averagePerMonth é NaN e substitua por 0.00 se necessário
+    const formattedAverage = isNaN(averagePerMonth) ? 0.00 : averagePerMonth;
   
     return (
       <div className=''>
@@ -79,12 +89,13 @@ const ReceitaBrutaEstimada = () => {
         </div> */}
         <div className=''>
           <div className=''>
-            R$ {averagePerMonth.toLocaleString("pt-BR")}
+            R$ {formattedAverage.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
           </div>
         </div>
       </div>
     );
   };
+  
   
   
 

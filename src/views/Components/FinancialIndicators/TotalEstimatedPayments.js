@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 const TotalEstimatedPayments = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
@@ -12,29 +13,33 @@ const TotalEstimatedPayments = ({ meses }) => {
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
 
          // Busca os dados da API para a estrutura
-         const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura`);
+         const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`);
          const dataEstrutura = await responseEstrutura.json();
          const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
          setEstruturaInvestimento(somaInvestimentoEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos`);
+         const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`);
          const dataInsumos = await responseInsumos.json();
          const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
          setInsumosInvestimento(somaInvestimentoInsumos);
          
          // Busca os dados da API para Capital de giro
-         const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`);
+         const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`);
          const dataCapitalGiro = await responseCapitalGiro.json();
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
          setCapitalGiroInvestimento(somaCapitalGiro);
 
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -50,19 +55,19 @@ const TotalEstimatedPayments = ({ meses }) => {
         setAmount(`R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
       
          // Busca os dados da API para a estrutura
-         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
+         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
          const dataDespesaEstrutura = await responseEstruturaDespesas.json();
          const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEstruturaDespesas(somaDespesasEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
+         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
          const dataDespesaInsumos = await responseInsumosDespesas.json();
          const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
          setInsumosDespesas(somaDespesasInsumos);
          
          // Busca os dados da API para Equipe
-         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
+         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
          const dataDespesaEquipe = await responseEquipeDespesas.json();
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);
@@ -73,9 +78,10 @@ const TotalEstimatedPayments = ({ meses }) => {
         setAmount('Erro ao carregar dados');
       }
     };
-
-    fetchAndProcessData();
-  }, [setAmount]); // Passando setAmount como dependência para o useEffect
+    if (!loading && userId) {
+      fetchAndProcessData();
+    }
+  }, [setAmount,loading, userId]); // Passando setAmount como dependência para o useEffect
   
 
   const createDynamicValues = (totalMensalProjetado, numMonths, percentages, fixedValues) => {
@@ -169,15 +175,21 @@ const TotalEstimatedPayments = ({ meses }) => {
     ));
   };
 
-  const renderTable = (total) => (
-    <div className=''>
+  const renderTable = (total) => {
+    // Verifica se total é um número e se é finito, caso contrário define como 0
+    const safeTotal = isNaN(total) || !isFinite(total) ? 0 : total;
+  
+    return (
       <div className=''>
         <div className=''>
-          R$ {total.toLocaleString("pt-BR")}
+          <div className=''>
+            R$ {safeTotal.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
+  
 
   const caixa = [
     "CAIXA",

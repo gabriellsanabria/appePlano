@@ -2,23 +2,25 @@ import React, { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels'; // Importe o plugin
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const PieChartComponent = () => {
   const [chart, setChart] = useState(null);
   const [insumosCost, setInsumosCost] = useState(0);
   const [estruturaCost, setEstruturaCost] = useState(0);
   const [equipeCost, setEquipeCost] = useState(0);
+  
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const fetchData = async () => {
     try {
       const [insumosResponse, estruturaResponse, equipeResponse] = await Promise.all([        
-        fetch(`${API_BASE_URL}/api/despesas/insumos`),
-        fetch(`${API_BASE_URL}/api/despesas/estrutura`),
-        fetch(`${API_BASE_URL}/api/despesas/equipe`)
+        fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`),
+        fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`)
       ]);
 
       const [insumosData, estruturaData, equipeData] = await Promise.all([
@@ -44,6 +46,11 @@ const PieChartComponent = () => {
     }
   };
 
+  useEffect(() => {
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
   const renderChart = (insumosTotalCost, estruturaTotalCost, equipeTotalCost) => {
     const ctx = document.getElementById('pieChart');
 

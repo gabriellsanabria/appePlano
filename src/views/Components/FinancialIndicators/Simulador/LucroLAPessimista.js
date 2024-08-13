@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from  '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const LucroLAPessimista = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
@@ -14,28 +15,32 @@ const LucroLAPessimista = ({ meses }) => {
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user} = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
          // Busca os dados da API para a estrutura
-         const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura`);
+         const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`);
          const dataEstrutura = await responseEstrutura.json();
          const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
          setEstruturaInvestimento(somaInvestimentoEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos`);
+         const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`);
          const dataInsumos = await responseInsumos.json();
          const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
          setInsumosInvestimento(somaInvestimentoInsumos);
          
          // Busca os dados da API para Capital de giro
-         const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`);
+         const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`);
          const dataCapitalGiro = await responseCapitalGiro.json();
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
          setCapitalGiroInvestimento(somaCapitalGiro);
 
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -51,19 +56,19 @@ const LucroLAPessimista = ({ meses }) => {
         setAmount(`R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
       
          // Busca os dados da API para a estrutura
-         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
+         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
          const dataDespesaEstrutura = await responseEstruturaDespesas.json();
          const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEstruturaDespesas(somaDespesasEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
+         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
          const dataDespesaInsumos = await responseInsumosDespesas.json();
          const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
          setInsumosDespesas(somaDespesasInsumos);
          
          // Busca os dados da API para Equipe
-         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
+         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
          const dataDespesaEquipe = await responseEquipeDespesas.json();
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);
@@ -75,8 +80,10 @@ const LucroLAPessimista = ({ meses }) => {
       }
     };
 
-    fetchAndProcessData();
-  }, []); // useEffect sem dependências, executa apenas uma vez ao montar o componente
+    if (!loading && userId) {
+      fetchAndProcessData();
+    }
+  }, [loading, userId]);
 
   const createDynamicValues = (totalMensalProjetado, numMonths, percentages, fixedValues) => {
     const values = [];
@@ -230,31 +237,35 @@ const LucroLAPessimista = ({ meses }) => {
 
   const renderCells = (item, highlight) => {
     let cumulativeSum = 0;
-    const values = item in valueMap ? valueMap[item] : (item === "LUCRO LÍQUIDO ACUMULADO" ? investmentSums : Array(meses.length).fill(0));
-  
-    const renderedCells = values.map((value, index) => {
-      if (index === 1 && item === "LUCRO LÍQUIDO ACUMULADO") {
-        cumulativeSum = lucroLiquidoMensal; // Iniciar com lucroLiquidoMensal se for o primeiro item
-      } else {
-        cumulativeSum += value; // Somar o valor atual ao acumulado
-      }
-  
-      const accumulatedValue = cumulativeSum.toLocaleString("pt-BR");
-  
+    const values = item in valueMap 
+        ? valueMap[item] 
+        : (item === "LUCRO LÍQUIDO ACUMULADO" 
+            ? investmentSums 
+            : Array(meses.length).fill(0)
+        );
+
+    // Processa os valores e calcula o acumulado
+    values.forEach((value, index) => {
+        if (index === 1 && item === "LUCRO LÍQUIDO ACUMULADO") {
+            cumulativeSum = lucroLiquidoMensal; // Iniciar com lucroLiquidoMensal se for o primeiro item
+        } else {
+            cumulativeSum += value; // Somar o valor atual ao acumulado
+        }
     });
-  
-    // Exibir o último resultado acumulado fora do mapeamento
-    const lastAccumulatedValue = cumulativeSum;
-  
+
+    // Verifica se o resultado final acumulado é NaN e define como 0
+    const lastAccumulatedValue = isNaN(cumulativeSum) ? 0 : cumulativeSum;
+
+    // Formata o valor acumulado final para o padrão monetário brasileiro
+    const formattedValue = parseFloat(lastAccumulatedValue).toLocaleString("pt-BR", { minimumFractionDigits: 2 });
+
     return (
-      <>
-        {renderedCells}
-        <div className='last-result'>
-         R$ {parseFloat(lastAccumulatedValue).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+        <div className={highlight ? 'highlight' : ''}>
+            R$ {formattedValue}
         </div>
-      </>
     );
-  };
+};
+
 
   const renderTable = (items, highlightItems) => (
     <div className=''>

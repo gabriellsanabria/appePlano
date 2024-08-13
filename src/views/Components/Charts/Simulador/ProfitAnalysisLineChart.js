@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import { API_BASE_URL } from '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
-const ProfitAnalysisLineChart = () => {
+const ProfitAnalysisLineChart = () => {     
+    // Obtendo o usuário e o estado de carregamento do hook useAuth
+    const { user } = useAuth();
+    const userId = user ? user.uid : null;
+
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
     const [lucroLiquidoData, setLucroLiquidoData] = useState({
@@ -109,13 +114,13 @@ const ProfitAnalysisLineChart = () => {
                 setError(null);
     
                 const [estruturaRes, insumosRes, capitalGiroRes, receitasRes, estruturaDespesasRes, insumosDespesasRes, equipeDespesasRes] = await Promise.all([
-                    fetch(`${API_BASE_URL}/api/investimentos/estrutura`),
-                    fetch(`${API_BASE_URL}/api/investimentos/insumos`),
-                    fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`),
-                    fetch(`${API_BASE_URL}/receitas_mensais_negocio`),
-                    fetch(`${API_BASE_URL}/api/despesas/estrutura`),
-                    fetch(`${API_BASE_URL}/api/despesas/insumos`),
-                    fetch(`${API_BASE_URL}/api/despesas/equipe`)
+                    fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`),
+                    fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`)
                 ]);
     
                 const [estruturaData, insumosData, capitalGiroData, receitasData, estruturaDespesasData, insumosDespesasData, equipeDespesasData] = await Promise.all([
@@ -197,13 +202,15 @@ const ProfitAnalysisLineChart = () => {
                 setLoading(false);
             } catch (error) {
                 console.error('Falha ao carregar dados:', error);
-                setError('Erro ao carregar dados');
+                setError('Sem dados até o momento');
                 setLoading(false);
             }
         };
     
-        fetchData();
-    }, []);
+        if (userId) {
+            fetchData();
+        }
+    }, [userId]);
     
     return (
         <div className='groupLine'>

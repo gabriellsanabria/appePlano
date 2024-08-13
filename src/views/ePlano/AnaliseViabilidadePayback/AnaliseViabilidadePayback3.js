@@ -6,12 +6,13 @@ import 'chartjs-plugin-datalabels'; // Importe o plugin
 import Layout from '../../../components/Layout/layout';
 import './AnaliseViabilidadePayback3.scss';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth';
 
 import GrossMonthlyRevenue from '../../Components/FinancialIndicators/Simulador/GrossMonthlyRevenue';
 import NetMonthlyProfit from '../../Components/FinancialIndicators/Simulador/NetMonthlyProfit';
 import EstimatedMonthlyTaxes from '../../Components/FinancialIndicators/Simulador/EstimatedMonthlyTaxes';
 import TotalEstimatedPayments from '../../Components/FinancialIndicators/TotalEstimatedPayments';
-import MonthlyExpenses from '../../Components/FinancialIndicators/MonthlyExpenses';
+import MonthlyExpenses from '../../Components/FinancialIndicators/Simulador/MonthlyExpenses';
 import InitialInvestment from '../../Components/FinancialIndicators/InitialInvestment';
 import ExpectedPayback from '../../Components/FinancialIndicators/ExpectedPayback';
 import ReturnOnInvestment from '../../Components/FinancialIndicators/ReturnOnInvestment';
@@ -28,79 +29,85 @@ const AnaliseViabilidadePayback = () => {
   const [insumosCost, setInsumosCost] = useState(0);
   const [estruturaCost, setEstruturaCost] = useState(0);
   const [capitalGiro, setCapitalGiro] = useState(0); // Alterei o nome da variável para capitalGiro
-  const [contasPagar, setcaixaContasPagarTotal] = useState(0);
+  const [contasPagar, setCaixaContasPagarTotal] = useState(0);
   
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [caixaLiquidoResponse, caixaEstoque, caixaRecebiveis, caixaContasPagar] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/caixa/liquido`),
-          fetch(`${API_BASE_URL}/api/caixa/estoque`),
-          fetch(`${API_BASE_URL}/api/caixa/recebiveis`),
-          fetch(`${API_BASE_URL}/api/caixa/contas_pagar`)
-        ]);
-  
-        const [caixaLiquidoData, caixaEstoqueData, caixaRecebiveisData, caixaContasPagarData] = await Promise.all([
-          caixaLiquidoResponse.json(),
-          caixaEstoque.json(),
-          caixaRecebiveis.json(),
-          caixaContasPagar.json() 
-        ]);
-  
-        // Calcula a soma total dos custos para cada categoria
-        const caixaLiquidoTotalCost = caixaLiquidoData.reduce((total, item) => total + parseFloat(item.valor), 0);
-        const caixaEstoqueTotalCost = caixaEstoqueData.reduce((total, item) => total + parseFloat(item.valor), 0);
-        const caixaRecebiveisTotal = caixaRecebiveisData.reduce((total, item) => total + parseFloat(item.valor), 0); // Alterei o nome da variável para capitalGiroTotal
-        const caixaContasPagarTotal = caixaContasPagarData.reduce((total, item) => total + parseFloat(item.valor), 0); // Alterei o nome da variável para capitalGiroTotal
-        
-        // Define os custos totais nos estados correspondentes
-        setInsumosCost(caixaLiquidoTotalCost);
-        setEstruturaCost(caixaEstoqueTotalCost);
-        setCapitalGiro(caixaRecebiveisTotal);
-        setcaixaContasPagarTotal(caixaContasPagarTotal);
-  
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
 
   const [despesasInsumosCost, setDespesasInsumosCost] = useState(0);
   const [despesasEstruturaCost, setDespesasEstruturaCost] = useState(0);
-  const [despesasCapitalGiro, setDespesasCapitalGiro] = useState(0); 
+  const [despesasCapitalGiro, setDespesasCapitalGiro] = useState(0);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [insumosDespesasResponse, estruturaDespesasResponse, capitalGiroDespesasResponse] = await Promise.all([
-          fetch(`${API_BASE_URL}/api/despesas/insumos`),
-          fetch(`${API_BASE_URL}/api/despesas/estrutura`),
-          fetch(`${API_BASE_URL}/api/despesas/equipe`)
-        ]);
-  
-        const [insumosDespesasData, estruturaDespesasData, capitalGiroDespesasData] = await Promise.all([
-          insumosDespesasResponse.json(),
-          estruturaDespesasResponse.json(),
-          capitalGiroDespesasResponse.json()
-        ]);
-  
-        // Calcula a soma total dos custos para cada categoria
-        const insumosDespesasTotalCost = insumosDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
-        const estruturaDespesasTotalCost = estruturaDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
-        const capitalGiroDespesasTotal = capitalGiroDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
-  
-        // Define os custos totais nos estados correspondentes
-        setDespesasInsumosCost(insumosDespesasTotalCost);
-        setDespesasEstruturaCost(estruturaDespesasTotalCost);
-        setDespesasCapitalGiro(capitalGiroDespesasTotal);
-  
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      const fetchData = async () => {
+        try {
+          // Fetch dados de caixa
+          const [caixaLiquidoResponse, caixaEstoqueResponse, caixaRecebiveisResponse, caixaContasPagarResponse] = await Promise.all([
+            fetch(`${API_BASE_URL}/api/caixa/liquido/user/${userId}`),
+            fetch(`${API_BASE_URL}/api/caixa/estoque/user/${userId}`),
+            fetch(`${API_BASE_URL}/api/caixa/recebiveis/user/${userId}`),
+            fetch(`${API_BASE_URL}/api/caixa/contas_pagar/user/${userId}`)
+          ]);
+
+          if (!caixaLiquidoResponse.ok || !caixaEstoqueResponse.ok || !caixaRecebiveisResponse.ok || !caixaContasPagarResponse.ok) {
+            throw new Error('Erro ao buscar dados de caixa');
+          }
+
+          const [caixaLiquidoData, caixaEstoqueData, caixaRecebiveisData, caixaContasPagarData] = await Promise.all([
+            caixaLiquidoResponse.json(),
+            caixaEstoqueResponse.json(),
+            caixaRecebiveisResponse.json(),
+            caixaContasPagarResponse.json()
+          ]);
+
+          // Calcula a soma total dos custos para cada categoria
+          const caixaLiquidoTotalCost = caixaLiquidoData.reduce((total, item) => total + parseFloat(item.valor), 0);
+          const caixaEstoqueTotalCost = caixaEstoqueData.reduce((total, item) => total + parseFloat(item.valor), 0);
+          const caixaRecebiveisTotal = caixaRecebiveisData.reduce((total, item) => total + parseFloat(item.valor), 0);
+          const caixaContasPagarTotal = caixaContasPagarData.reduce((total, item) => total + parseFloat(item.valor), 0);
+
+          // Define os custos totais nos estados correspondentes
+          setInsumosCost(caixaLiquidoTotalCost);
+          setEstruturaCost(caixaEstoqueTotalCost);
+          setCapitalGiro(caixaRecebiveisTotal);
+          setCaixaContasPagarTotal(caixaContasPagarTotal);
+
+          // Fetch dados de despesas
+          const [insumosDespesasResponse, estruturaDespesasResponse, capitalGiroDespesasResponse] = await Promise.all([
+            fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`),
+            fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`),
+            fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`)
+          ]);
+
+          if (!insumosDespesasResponse.ok || !estruturaDespesasResponse.ok || !capitalGiroDespesasResponse.ok) {
+            throw new Error('Erro ao buscar dados de despesas');
+          }
+
+          const [insumosDespesasData, estruturaDespesasData, capitalGiroDespesasData] = await Promise.all([
+            insumosDespesasResponse.json(),
+            estruturaDespesasResponse.json(),
+            capitalGiroDespesasResponse.json()
+          ]);
+
+          // Calcula a soma total dos custos para cada categoria de despesas
+          const insumosDespesasTotalCost = insumosDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+          const estruturaDespesasTotalCost = estruturaDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+          const capitalGiroDespesasTotal = capitalGiroDespesasData.reduce((total, item) => total + parseFloat(item.custo), 0);
+
+          // Define os custos totais nos estados correspondentes
+          setDespesasInsumosCost(insumosDespesasTotalCost);
+          setDespesasEstruturaCost(estruturaDespesasTotalCost);
+          setDespesasCapitalGiro(capitalGiroDespesasTotal);
+
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [loading, userId, API_BASE_URL]);
   
 
   // Função para gerar a lista de meses
@@ -115,10 +122,10 @@ const AnaliseViabilidadePayback = () => {
             {insumosCost === 0 && estruturaCost === 0 && capitalGiro === 0 ? (
               <>
                 <h2>
-                  Investimentos Estimados
+                  Caixa Estimado
                 </h2>              
                 <p>Você ainda não estimou os investimentos. </p>
-                <Link to='/planejador-financeiro/estimar-investimento'>Clique aqui para estimar investimentos</Link>
+                <Link to='/simulador-financeiro/estimar-caixa'>Clique aqui para estimar investimentos</Link>
               </>
               ) : (
                 <>
@@ -170,7 +177,7 @@ const AnaliseViabilidadePayback = () => {
                             Contas a Pagar
                           </div>
                           <div className='valores'>
-                            R$ {capitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            R$ {contasPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </div>
                         </div>
                       </div>
@@ -188,7 +195,7 @@ const AnaliseViabilidadePayback = () => {
                   Despesas Mensais Estimadas
                 </h2>              
                 <p>Você ainda não estimou as despesas. </p>
-                <Link to='/planejador-financeiro/estimar-despesas'>Clique aqui para estimar despesas</Link>
+                <Link to='/simulador-financeiro/estimar-despesas'>Clique aqui para estimar despesas</Link>
               </>
               ) : (
               <>
@@ -226,7 +233,7 @@ const AnaliseViabilidadePayback = () => {
                         <div className='barraCor lj3'></div>
                         <div className='infos'>
                           <div className='ttl'>
-                            Capital de Giro
+                            Equipe
                           </div>
                           <div className='valores'>
                             R$ {despesasCapitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
