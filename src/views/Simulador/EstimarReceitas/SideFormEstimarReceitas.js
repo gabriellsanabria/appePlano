@@ -60,7 +60,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
         uidUser: userId
       };
 
-      const response = await fetch(`${API_BASE_URL}api/simulador/adicionar_receita_mensal_negocio`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/adicionar_receita_mensal_negocio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

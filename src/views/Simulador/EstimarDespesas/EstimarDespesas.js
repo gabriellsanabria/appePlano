@@ -14,7 +14,7 @@ import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 const EstimarDespesas = () => {
   const headerTitle = 'Estimar Despesas';
   const headerSubtitle = 'Vamos estimar as Despesas Mensais do seu Negócio';
-  const sideType = 'SideFormEstimarDespesas';
+  const sideType = 'SideFormEstimarDespesasSimulador';
   const headerIcon = PiChartLineDownBold;
 
   const [totalCustoEstrutura, setTotalCustoEstrutura] = useState(0);

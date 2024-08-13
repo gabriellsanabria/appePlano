@@ -2,12 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Import different types of SideForm as needed
+// Planejador
 import SideFormProdutos from '../../views/Planejador/ProdutosServicos/SideFormProdutos';
 import SideFormEstimarReceitas from '../../views/Planejador/EstimarReceitas/SideFormEstimarReceitas';
 import SideFormEstimarDespesas from '../../views/Planejador/EstimarDespesas/SideFormEstimarDespesas';
 import SideFormEstimarInvestimentos from '../../views/Planejador/EstimarInvestimentos/SideFormEstimarInvestimentos';
 import SideFormImposto from '../../views/Planejador/Impostos/SideFormImpostos';
+
+// Simulador
 import SideFormEstimarCaixa from '../../views/Simulador/EstimarCaixa/SideFormEstimarCaixa';
+import SideFormProdutosSimulador from '../../views/Simulador/ProdutosServicos/SideFormProdutos';
+import SideFormEstimarReceitasSimulador from '../../views/Simulador/EstimarReceitas/SideFormEstimarReceitas';
+import SideFormEstimarDespesasSimulador from '../../views/Simulador/EstimarDespesas/SideFormEstimarDespesas';
 
 const SideForm = ({ type, closeSideForm, onAdd }) => {
   switch (type) {
@@ -22,7 +28,13 @@ const SideForm = ({ type, closeSideForm, onAdd }) => {
     case 'SideFormImposto':
       return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormEstimarCaixa':
-      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;      
+      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;     
+    case 'SideFormProdutosSimulador':
+      return <SideFormProdutosSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;    
+    case 'SideFormEstimarReceitasSimulador':
+      return <SideFormEstimarReceitasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
+    case 'SideFormEstimarDespesasSimulador':
+      return <SideFormEstimarDespesasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
     default:
       return (
         <div>

@@ -18,7 +18,7 @@ import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 const EstimarReceitas = () => {
   const headerTitle = 'Estimar Receitas';
   const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
-  const sideType = 'SideFormEstimarReceitas';
+  const sideType = 'SideFormEstimarReceitasSimulador';
   const headerIcon = PiChartLineUpBold;
 
   const breadcrumbItems = [

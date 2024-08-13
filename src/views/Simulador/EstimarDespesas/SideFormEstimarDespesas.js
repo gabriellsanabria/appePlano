@@ -65,7 +65,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
         user_id: userId,
       };
   
-      const response = await fetch(`${API_BASE_URL}/api/despesas/${selectedOption.value}`, {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/despesas/${selectedOption.value}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

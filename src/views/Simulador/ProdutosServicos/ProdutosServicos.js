@@ -17,7 +17,7 @@ import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 const ProdutosServicos = () => {
   const headerTitle = 'Produtos e Serviços';
   const headerSubtitle = 'Liste e Descreva os Produtos/Serviços que o seu Negócio irá comercializar';
-  const sideType = 'SideFormProdutos';
+  const sideType = 'SideFormProdutosSimulador';
   const headerIcon = SiHackthebox;
 
   const breadcrumbItems = [
