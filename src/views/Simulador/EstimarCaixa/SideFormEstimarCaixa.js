@@ -3,6 +3,7 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
+import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 
 const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -10,6 +11,10 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
   const [valorCaixa, setValorCaixa] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   // Opções estáticas para categorias de despesa
   const categoriaDespesaOptions = [
     { value: 'liquido', label: 'Caixa Líquido' },
@@ -61,6 +66,8 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
         categoria_despesa: selectedOption.label,
         [descricao]: descricaoCaixa,
         [valor]: valorCaixa,
+        uidUser: userId
+
       };
   
       const response = await fetch(`${API_BASE_URL}/api/caixa/${selectedOption.value}`, {

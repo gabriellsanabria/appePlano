@@ -9,7 +9,7 @@ import { useTable, usePagination } from 'react-table';
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
-
+import useAuth from '../../../../hooks/useAuth'; // Importe o hook useAuth
 
 const TableEstimarCaixaLiquido = ({ onTotalCaixaLiquidoChange }) => {
   // Estado para os dados da API
@@ -19,10 +19,14 @@ const TableEstimarCaixaLiquido = ({ onTotalCaixaLiquidoChange }) => {
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
   const [totalInvestimentos, setTotalInvestimentos] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   // Função para buscar os dados da API
 const fetchData = async () => {
     try {
-      const response = await fetch('https://api.eplano.com.br/api/caixa/liquido');
+      const response = await fetch(`${API_BASE_URL}/api/caixa/liquido/user/${userId}`);
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética
@@ -65,13 +69,13 @@ const fetchData = async () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  };  
   
-  
-
   useEffect(() => {
-    fetchData();
-  }, []); // Executa apenas uma vez ao montar o componente
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]); // Executa quando o loading mudar ou userId estiver disponível
 
   // Estado para os checkboxes
   const [selectedRows, setSelectedRows] = useState([]);
