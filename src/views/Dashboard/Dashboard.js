@@ -6,12 +6,12 @@ import { FaChartSimple } from "react-icons/fa6";
 import AnaliseViabilidadePayback from '../ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback2';
 
 const Dashboard = () => {
-  const headerTitle = 'Dashboard';
+  const headerTitle = 'Resumo';
   const headerSubtitle = 'Painel de Controle: ePlano Financeiro do seu Negócio';
   const headerIcon = FaChartSimple ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Resumo', path: '/' },
     { label: headerTitle, path: '/dashboard' },
   ];
 

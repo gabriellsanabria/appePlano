@@ -11,7 +11,7 @@ const SimuladorFluxoCaixa = () => {
   const headerIcon = FaChartGantt ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Resumo', path: '/' },
     { label: headerTitle, path: '/dashboard' },
   ];
 

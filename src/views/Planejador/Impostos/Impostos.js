@@ -22,7 +22,7 @@ const Impostos = () => {
   const headerIcon = PiPercentBold;
 
   const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Resumo', path: '/' },
     { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];

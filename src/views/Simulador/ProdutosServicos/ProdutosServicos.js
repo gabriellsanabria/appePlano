@@ -21,7 +21,7 @@ const ProdutosServicos = () => {
   const headerIcon = SiHackthebox;
 
   const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Resumo', path: '/' },
     { label: 'Simulador Financeiro', path: '/simulador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];

@@ -36,7 +36,7 @@ const EstimarCaixa = () => {
   };
 
   const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Resumo', path: '/' },
     { label: 'Simulador Financeiro', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
