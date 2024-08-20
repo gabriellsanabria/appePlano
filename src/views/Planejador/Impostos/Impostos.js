@@ -18,7 +18,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 const Impostos = () => {
   const headerTitle = 'Estimar Imposto';
   const headerSubtitle = 'Vamos estimar o Imposto mensal que incide sobre o seu Negócio';
-  const sideType = null;
+  const sideType = 'SideFormImposto';
   const headerIcon = PiPercentBold;
 
   const breadcrumbItems = [
