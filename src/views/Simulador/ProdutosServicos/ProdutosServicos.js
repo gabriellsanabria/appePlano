@@ -22,7 +22,7 @@ const ProdutosServicos = () => {
 
   const breadcrumbItems = [
     { label: 'Resumo', path: '/' },
-    { label: 'Simulador Financeiro', path: '/simulador-financeiro' },
+    { label: 'ePlano Financeiro', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
 

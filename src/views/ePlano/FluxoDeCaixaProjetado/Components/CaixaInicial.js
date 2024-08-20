@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
-
+import useAuth from '../../../../hooks/useAuth';
 
 const CaixaInicial = ({ meses }) => {
 
   const [insumosInvestimento, setInsumosInvestimento] = useState(0);
   const [insumosCapitalGiro, setCapitalGiroInvestimento] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Busca os dados da API para os insumos
-        const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos`);
+        const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`);
         const dataInsumos = await responseInsumos.json();
         const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
         setInsumosInvestimento(somaInvestimentoInsumos);
         
         // Busca os dados da API para Capital de giro
-        const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro`);
+        const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`);
         const dataCapitalGiro = await responseCapitalGiro.json();
         const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
         setCapitalGiroInvestimento(somaCapitalGiro);
@@ -26,9 +30,10 @@ const CaixaInicial = ({ meses }) => {
         console.error('Erro ao buscar os dados da API:', error);
       }
     };
-
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   const createDynamicValues = (value, numMonths) => {
     return Array(numMonths).fill(0).map((val, index) => index === 1 ? value : val);

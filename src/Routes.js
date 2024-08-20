@@ -34,7 +34,8 @@ import EstimarDespesasPlanejador from './views/Planejador/EstimarDespesas/Estima
 import EstimarDespesasSimulador from './views/Simulador/EstimarDespesas/EstimarDespesas';
 
 import EstimarInvestimentos from './views/Planejador/EstimarInvestimentos/EstimarInvestimentos';
-import Impostos from './views/Planejador/Impostos/Impostos';
+import ImpostosPlanejador from './views/Planejador/Impostos/Impostos';
+import ImpostosSimulador from './views/Simulador/Impostos/Impostos';
 
 
 
@@ -174,7 +175,7 @@ const AppRoutes = () => {
 
         <Route
           path="/planejador-financeiro/impostos"
-          element={user ? <Impostos /> : <Navigate to="/login" />}
+          element={user ? <ImpostosPlanejador /> : <Navigate to="/login" />}
         />
         <Route
           path="/planejador-financeiro/fluxo-caixa"
@@ -209,7 +210,7 @@ const AppRoutes = () => {
 
         <Route
           path="/simulador-financeiro/impostos"
-          element={user ? <Impostos /> : <Navigate to="/login" />}
+          element={user ? <ImpostosSimulador /> : <Navigate to="/login" />}
         />
         <Route
           path="/simulador-financeiro/fluxo-caixa"

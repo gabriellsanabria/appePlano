@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const ReceitaBrutaEstimada = ({ meses }) => {
   const [amount, setAmount] = useState('Carregando...');
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -26,10 +31,11 @@ const ReceitaBrutaEstimada = ({ meses }) => {
         setAmount('Erro ao carregar dados');
       }
     };
+    if (!loading && userId) {
+      fetchAndProcessData();
+    }
+  }, [setAmount,loading, userId]); // Passando setAmount como dependência para o useEffect
 
-    fetchAndProcessData();
-  }, [setAmount]); // Passando setAmount como dependência para o useEffect
-  
 
 
   const createDynamicValues = (totalMensalProjetado, numMonths, percentages) => {

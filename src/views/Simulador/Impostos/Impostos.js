@@ -5,21 +5,21 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
 
-import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
+import { SiHackthebox } from 'react-icons/si';
 import { HiDotsVertical } from "react-icons/hi";
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useTable, usePagination } from 'react-table';
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
+import { PiPercentBold } from "react-icons/pi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
-import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 
 
-const EstimarReceitas = () => {
-  const headerTitle = 'Estimar Receitas';
-  const headerSubtitle = 'Vamos estimar as Receitas Mensais do seu Negócio';
-  const sideType = 'SideFormEstimarReceitasSimulador';
-  const headerIcon = PiChartLineUpBold;
+const Impostos = () => {
+  const headerTitle = 'Estimar Imposto';
+  const headerSubtitle = 'Vamos estimar o Imposto mensal que incide sobre o seu Negócio';
+  const sideType = 'SideFormImposto';
+  const headerIcon = PiPercentBold;
 
   const breadcrumbItems = [
     { label: 'Resumo', path: '/' },
@@ -33,38 +33,22 @@ const EstimarReceitas = () => {
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
 
-  // Obtendo o usuário e o estado de carregamento do hook useAuth
-  const { user, loading } = useAuth();
-  const userId = user ? user.uid : null;
-  
   // Função para buscar os dados da API
   const fetchData = async () => {
-    if (!userId) {
-      console.error('User ID não disponível');
-      return;
-    }
-
-    console.log('Buscando dados para o User ID:', userId);
-
     try {
-      const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Erro ao buscar dados da API: ${errorText}`);
+      const response = await fetch(`${API_BASE_URL}/api/simulador/impostos`);
+      if (response.ok) {
+        let data = await response.json();
+        // Ordenando os dados por produto_servico em ordem alfabética
+        data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
+        setApiData(data);
+      } else {
+        throw new Error('Erro ao buscar dados da API');
       }
-      
-      let data = await response.json();
-      console.log('Dados recebidos:', data);
-      
-      // Ordenando os dados por produto_servico em ordem alfabética
-      data.sort((a, b) => a.produto_servico.localeCompare(b.produto_servico));
-      setApiData(data);
     } catch (error) {
       console.error('Erro:', error);
     }
   };
-
 
   const handleExcluirProdutoServico = async (id) => {
     try {
@@ -77,7 +61,7 @@ const EstimarReceitas = () => {
       }
   
       // Se confirmado, prossegue com a exclusão
-      const response = await fetch(`${API_BASE_URL}/api/simulador/excluir_receita_mensal_negocio/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/excluir_produto_servico/${id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -91,12 +75,11 @@ const EstimarReceitas = () => {
     }
   };
   
+  
 
   useEffect(() => {
-    if (!loading && userId) {
-      fetchData();
-    }
-  }, [loading, userId]); // Executa quando o loading mudar ou userId estiver disponível
+    fetchData();
+  }, []); // Executa apenas uma vez ao montar o componente
 
   // Estado para os checkboxes
   const [selectedRows, setSelectedRows] = useState([]);
@@ -121,12 +104,12 @@ const EstimarReceitas = () => {
   const renderRowActions = (id, row) => {
     return (
       <div className="row-actions">
-        <Link to={`/ficha-tecnica`}>
+        <Link to={`/editar/imposto`}>
           <FaEdit /> Editar
         </Link>
-        <Link onClick={() => handleExcluirProdutoServico(id)}>
+        {/* <Link onClick={() => handleExcluirProdutoServico(id)}>
           <FaTrashAlt /> Deletar
-        </Link>
+        </Link> */}
       </div>
     );
   };
@@ -136,78 +119,20 @@ const EstimarReceitas = () => {
     () =>
       apiData.map((item) => ({
         id: item.id,
-        produto_servico: item.produto_servico,
-        valor_unitario: item.valor_unitario,
-        quantidade_vendida_por_mes: item.quantidade_vendida_por_mes,
-        total_mensal: item.quantidade_vendida_por_mes*item.valor_unitario,
+        valor_imposto_mensal: `${item.valor_imposto_mensal}%`, // Adiciona o símbolo de percentual
       })),
     [apiData]
   );
   
-// Calcular o total geral dos valores mensais
-const totalGeral = apiData.reduce(
-  (acc, item) => acc + item.quantidade_vendida_por_mes * item.valor_unitario,
-  0
-);
-
+  
 
   const columns = useMemo(
     () => [
-      {
-        Header: (
-          <input
-            type="checkbox"
-            checked={selectedRows.length === data.length}
-            onChange={handleSelectAllChange}
-          />
-        ),
-        accessor: 'selection',
-        Cell: ({ row }) => (
-          <input
-            type="checkbox"
-            checked={selectedRows.includes(row.original.id)}
-            onChange={() => handleCheckboxChange(row.original.id)}
-          />
-        ),
-        disableSortBy: true,
-      },
       { 
-        Header: <strong>Produto</strong>, 
-        accessor: 'produto_servico',
+        Header: <strong>Imposto mensal estimado</strong>, 
+        accessor: 'valor_imposto_mensal',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
-      {
-        Header: <strong>Valor unitário de Venda (R$)</strong>,
-        accessor: 'valor_unitario',
-        Cell: ({ value }) => (
-          <strong>
-            R$ {parseFloat(value).toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </strong>
-        ),
-      },
-      
-      { 
-        Header: <strong> Quantidade Vendida por Mês	</strong>, 
-        accessor: 'quantidade_vendida_por_mes',
-        Cell: ({ value }) => (
-          value ? value : '-'
-        ),
-      },
-      { 
-        Header: <strong>Total Mensal</strong>, 
-        accessor: 'total_mensal',
-        Cell: ({ value }) => (
-          <strong>
-            R$ {parseFloat(value).toLocaleString('pt-BR', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}
-          </strong>
-        ), 
-      },  
       {
         Header: 'Ações',
         accessor: 'acoes',
@@ -249,18 +174,6 @@ const totalGeral = apiData.reduce(
     // Lógica adicional se necessário
   };
 
-  const hasTotal = true;
-  // const valorTotal = totalCusto;
-  
-  const valorTotalReceitas = [totalGeral];
-  const labelTotalArray = 'Receitas';
-
-  // Usando o método split para criar um array
-  const labelTotal = labelTotalArray.split(', ');
-  // const valorTotalReceitas = valorTotalArray.split(', ');
-
-  
-
   return (
     <Layout>
       <div className="container">
@@ -268,9 +181,6 @@ const totalGeral = apiData.reduce(
         <PageHeader
           title={headerTitle}
           subtitle={headerSubtitle}
-          hasTotal={hasTotal}
-          labelTotal={labelTotal}
-          valorTotalOn={valorTotalReceitas}
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto} // Passando a função onAdd para PageHeader
@@ -371,4 +281,4 @@ const totalGeral = apiData.reduce(
   );
 };
 
-export default EstimarReceitas;
+export default Impostos;

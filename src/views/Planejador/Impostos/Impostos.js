@@ -23,7 +23,7 @@ const Impostos = () => {
 
   const breadcrumbItems = [
     { label: 'Resumo', path: '/' },
-    { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
+    { label: 'Simulador de Negócios', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
 
@@ -36,7 +36,7 @@ const Impostos = () => {
   // Função para buscar os dados da API
   const fetchData = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/listar_impostos_mensais`);
+      const response = await fetch(`${API_BASE_URL}/api/simulador/impostos`);
       if (response.ok) {
         let data = await response.json();
         // Ordenando os dados por produto_servico em ordem alfabética

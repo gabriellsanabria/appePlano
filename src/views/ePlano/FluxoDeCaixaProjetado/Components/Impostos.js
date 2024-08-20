@@ -1,10 +1,16 @@
 import React, { useRef } from 'react';
+import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const Impostos = ({meses}) => {
   const generateMonths = (numMonths) => Array.from({ length: numMonths }, (_, i) => `Mês ${i + 1}`);
 
   const createDynamicValues = (value, numMonths) => Array(numMonths).fill(value);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   const valueMap = {
     "IMPOSTOS": createDynamicValues(15, meses.length),
   };

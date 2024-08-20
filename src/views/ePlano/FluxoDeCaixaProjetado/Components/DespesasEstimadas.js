@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from  '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const DespesasEstimadas = ({ meses }) => {
 
@@ -7,23 +8,27 @@ const DespesasEstimadas = ({ meses }) => {
   const [insumosDespesas, setInsumosDespesas] = useState(0);
   const [equipeDespesas, setEquipeDespesas] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Busca os dados da API para a estrutura
-        const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura`);
+        const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
         const dataEstrutura = await responseEstruturaDespesas.json();
         const somaDespesasEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEstruturaDespesas(somaDespesasEstrutura);
 
         // Busca os dados da API para os insumos
-        const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos`);
+        const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
         const dataInsumos = await responseInsumosDespesas.json();
         const somaDespesasInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
         setInsumosDespesas(somaDespesasInsumos);
         
         // Busca os dados da API para Equipe
-        const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe`);
+        const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
         const dataEquipe = await responseEquipeDespesas.json();
         const somaDespesasEquipe = dataEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
         setEquipeDespesas(somaDespesasEquipe);
@@ -33,8 +38,10 @@ const DespesasEstimadas = ({ meses }) => {
       }
     };
 
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   // Inicializa os valores apenas no primeiro mês; os outros meses são preenchidos com zero
   const createDynamicValues = (value, numMonths) => {

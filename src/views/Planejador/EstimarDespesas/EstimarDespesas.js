@@ -34,7 +34,7 @@ const EstimarDespesas = () => {
 
   const breadcrumbItems = [
     { label: 'Resumo', path: '/' },
-    { label: 'Planejamento Financeiro', path: '/planejador-financeiro' },
+    { label: 'Simulador de Negócios', path: '/planejador-financeiro' },
     { label: headerTitle, path: '/dashboard' },
   ];
 
