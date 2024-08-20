@@ -230,7 +230,7 @@ const fetchData = async () => {
                 value={pageSize}
                 onChange={(e) => setPageSize(Number(e.target.value))}
               >
-                {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+                {[3, 5, 10, 20, 30, 40, 50].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>
                     mostrar {pageSize}
                   </option>
