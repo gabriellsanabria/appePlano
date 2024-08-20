@@ -2,8 +2,8 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import HeaderTable from './Components/HeaderTable';
 import InvestimentosEstimados from './Components/InvestimentosEstimados';
-import ReceitaBrutaEstimada from './Components/ReceitaBrutaEstimada';
-import DespesasEstimadas from './Components/DespesasEstimadas';
+import ReceitaBrutaEstimada2 from './Components/ReceitaBrutaEstimada2';
+import DespesasEstimadas2 from './Components/DespesasEstimadas2';
 import CaixaInicial from './Components/CaixaInicial';
 import CaixaReal from './Components/CaixaReal';
 import FluxoCaixa from './Components/FluxoCaixa';
@@ -27,8 +27,8 @@ const FluxoDeCaixaProjetado3 = () => {
           <div className='table-container'>
             <HeaderTable meses={meses} />
             {/* <InvestimentosEstimados meses={meses} /> */}
-            <ReceitaBrutaEstimada meses={meses} />
-            <DespesasEstimadas meses={meses} />
+            <ReceitaBrutaEstimada2 meses={meses} />
+            <DespesasEstimadas2 meses={meses} />
             {/* <CaixaInicial meses={meses}/> */}
             <CaixaReal meses={meses}/>
             <ReceitaOperacional meses={meses} />

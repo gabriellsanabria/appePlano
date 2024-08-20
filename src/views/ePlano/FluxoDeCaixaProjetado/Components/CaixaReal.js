@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../../../../apiConfig';
+import useAuth from '../../../../hooks/useAuth';
 
 const CaixaReal = ({ meses }) => {
   const [caixaLiquido, setCaixaLiquido] = useState(0);
@@ -7,25 +8,29 @@ const CaixaReal = ({ meses }) => {
   const [caixaRecebiveis, setCaixaRecebiveis] = useState(0);
   const [caixaContasPagar, setCaixaContasPagar] = useState(0);
 
+  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  const { user, loading } = useAuth();
+  const userId = user ? user.uid : null;
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseCaixaLiquido = await fetch(`${API_BASE_URL}/api/caixa/liquido`);
+        const responseCaixaLiquido = await fetch(`${API_BASE_URL}/api/caixa/liquido/user/${userId}`);
         const dataCaixaLiquido = await responseCaixaLiquido.json();
         const somaCaixaLiquido = dataCaixaLiquido.reduce((total, item) => total + parseFloat(item.valor), 0);
         setCaixaLiquido(somaCaixaLiquido);
         
-        const responseCaixaEstoque = await fetch(`${API_BASE_URL}/api/caixa/estoque`);
+        const responseCaixaEstoque = await fetch(`${API_BASE_URL}/api/caixa/estoque/user/${userId}`);
         const dataCaixaEstoque = await responseCaixaEstoque.json();
         const somaCaixaEstoque = dataCaixaEstoque.reduce((total, item) => total + parseFloat(item.valor), 0);
         setCaixaEstoqueInvestimento(somaCaixaEstoque);
 
-        const responseCaixaRecebiveis = await fetch(`${API_BASE_URL}/api/caixa/recebiveis`);
+        const responseCaixaRecebiveis = await fetch(`${API_BASE_URL}/api/caixa/recebiveis/user/${userId}`);
         const dataCaixaRecebiveis = await responseCaixaRecebiveis.json();
         const somaCaixaRecebiveis = dataCaixaRecebiveis.reduce((total, item) => total + parseFloat(item.valor), 0);
         setCaixaRecebiveis(somaCaixaRecebiveis);
 
-        const responseCaixaContasPagar = await fetch(`${API_BASE_URL}/api/caixa/contas_pagar`);
+        const responseCaixaContasPagar = await fetch(`${API_BASE_URL}/api/caixa/contas_pagar/user/${userId}`);
         const dataCaixaContasPagar = await responseCaixaContasPagar.json();
         const somaCaixaContasPagar = dataCaixaContasPagar.reduce((total, item) => total + parseFloat(item.valor), 0);
         setCaixaContasPagar(somaCaixaContasPagar);
@@ -34,8 +39,10 @@ const CaixaReal = ({ meses }) => {
       }
     };
 
-    fetchData();
-  }, []);
+    if (!loading && userId) {
+      fetchData();
+    }
+  }, [loading, userId]);
 
   const createDynamicValues = (value, numMonths) => {
     return Array(numMonths).fill(0).map((val, index) => index === 1 ? value : val);
