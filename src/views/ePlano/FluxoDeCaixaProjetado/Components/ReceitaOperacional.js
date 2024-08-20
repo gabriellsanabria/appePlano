@@ -41,7 +41,7 @@ const ReceitaOperacional = ({ meses }) => {
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
          setCapitalGiroInvestimento(somaCapitalGiro);
 
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio`);
+        const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -57,19 +57,19 @@ const ReceitaOperacional = ({ meses }) => {
         setAmount(`R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
       
          // Busca os dados da API para a estrutura
-         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
+         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`);
          const dataDespesaEstrutura = await responseEstruturaDespesas.json();
          const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEstruturaDespesas(somaDespesasEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
+         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`);
          const dataDespesaInsumos = await responseInsumosDespesas.json();
          const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
          setInsumosDespesas(somaDespesasInsumos);
          
          // Busca os dados da API para Equipe
-         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
+         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`);
          const dataDespesaEquipe = await responseEquipeDespesas.json();
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);
@@ -203,8 +203,9 @@ const ReceitaOperacional = ({ meses }) => {
   const [caixaContasPagar, setCaixaContasPagar] = useState(0);
     
   // alert(totalMensalProjetado);
-  const despesasEstimadasTotal = insumosDespesas + despesasTotais;  
+  const despesasEstimadasTotal = insumosDespesas + estruturaDespesas + equipeDespesas;
   const receitaOp = totalMensalProjetado - despesasEstimadasTotal + totalCaixa;
+  
   
   console.log('aqui5',totalCaixa);
 
