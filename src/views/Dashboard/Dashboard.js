@@ -7,7 +7,7 @@ import AnaliseViabilidadePayback from '../ePlano/AnaliseViabilidadePayback/Anali
 
 const Dashboard = () => {
   const headerTitle = 'Dashboard';
-  const headerSubtitle = 'Painel de Resumo de Indicadores do seu ePlano Financeiro';
+  const headerSubtitle = 'Painel de Controle: ePlano Financeiro do seu Negócio';
   const headerIcon = FaChartSimple ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [

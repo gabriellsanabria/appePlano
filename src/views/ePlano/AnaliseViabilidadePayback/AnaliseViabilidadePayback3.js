@@ -130,7 +130,7 @@ const AnaliseViabilidadePayback = () => {
               ) : (
                 <>
                 <h2>
-                  <Link to='/planejador-financeiro/estimar-investimento'>Caixa Real Hoje</Link>
+                  <Link to='/simulador-financeiro/estimar-caixa'>Caixa Real Hoje</Link>
                 </h2>
                 <div className='chartBox'>
                   <div className='ochart'>
@@ -200,7 +200,7 @@ const AnaliseViabilidadePayback = () => {
               ) : (
               <>
                 <h2>
-                  <Link to='/planejador-financeiro/estimar-despesas'>Despesas Mensais Estimadas</Link>
+                  <Link to='/simulador-financeiro/estimar-despesas'>Despesas Mensais Estimadas</Link>
                 </h2>
                 <div className='chartBox'>
                   <div className='ochart'>
@@ -313,7 +313,7 @@ const AnaliseViabilidadePayback = () => {
           </div>
 
           <div className=''>
-            <h1>Tempo de Retorno do seu Investimento (Payback)</h1>
+            <h1>Resultado Operacional Acumulado (Estimativa de Cenários)</h1>
           </div>
           <div className=''>
             <div className=''>

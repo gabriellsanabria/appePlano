@@ -51,7 +51,7 @@ const SideNav = () => {
                 <Link to="/planejador-financeiro/fluxo-caixa" className={isActive('/planejador-financeiro/fluxo-caixa') ? 'active' : ''}>
                   <FaChartGantt />
                 </Link> 
-                {hoveredMenu === "FluxoCaixaPlan" && <div className="menu-tooltip">Fluxo de Caixa Planjeado do seu Negócio</div>}
+                {hoveredMenu === "FluxoCaixaPlan" && <div className="menu-tooltip">Fluxo de Caixa Projetado</div>}
               </li>
             </ul>
           </div>
@@ -112,7 +112,7 @@ const SideNav = () => {
                 <Link to="/simulador-financeiro/fluxo-caixa" className={isActive('/simulador-financeiro/fluxo-caixa') ? 'active' : ''}>
                   <FaChartGantt />
                 </Link> 
-                {hoveredMenu === "FluxoCaixaPlan" && <div className="menu-tooltip">Fluxo de Caixa Planjeado do seu Negócio</div>}
+                {hoveredMenu === "FluxoCaixaPlan" && <div className="menu-tooltip">Fluxo de Caixa Projetado</div>}
               </li>
             </ul>
           </div>

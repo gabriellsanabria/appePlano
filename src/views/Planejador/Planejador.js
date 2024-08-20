@@ -6,8 +6,8 @@ import { FaChartSimple } from "react-icons/fa6";
 import AnaliseViabilidadePayback from '../ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback2';
 
 const Planejador = () => {
-  const headerTitle = 'Planejador Financeiro';
-  const headerSubtitle = 'Painel de Indicadores do seu Planejamento ePlano Financeiro';
+  const headerTitle = 'ePlano Financeiro';
+  const headerSubtitle = 'ePlano Financeiro: Indicadores de Viabilidade do seu Negócio';
   const headerIcon = FaChartSimple ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [
@@ -25,7 +25,7 @@ const Planejador = () => {
 
         <div className='dashStage'>
           <div class='dashStage-header'>
-            <h2>Indicadores - Planejamento</h2>
+            <h2>Indicadores de Viabilidade do seu Negócio</h2>
           </div>
           <div className='dashStage-body'>
             <AnaliseViabilidadePayback />

@@ -6,8 +6,8 @@ import { FaChartSimple, FaChartGantt  } from "react-icons/fa6";
 import AnaliseViabilidadePayback from '../../ePlano/FluxoDeCaixaProjetado/FluxoDeCaixaProjetado2';
 
 const PlanejadorFluxoCaixa = () => {
-  const headerTitle = 'Fluxo de Caixa Planejado';
-  const headerSubtitle = 'Painel de Indicadores do seu Planejamento ePlano Financeiro';
+  const headerTitle = 'Fluxo de Caixa Projetado';
+  const headerSubtitle = 'Fluxo de Caixa Estimado do seu Negócio';
   const headerIcon = FaChartGantt ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [

@@ -156,12 +156,12 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
               />
           </div>
           <div className='form-content'>
-              <label>Quantidade projetada de vendas por mês</label>
+              <label>Quantidade estimada de vendas por mês</label>
               <input
                 type="text"
                 value={projecaoVendasPorDia}
                 onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
-                placeholder="Digite a projeção de vendas por mês"
+                placeholder="Digite a estimativa de vendas por mês"
               />
           </div>
       </div>

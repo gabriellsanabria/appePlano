@@ -157,16 +157,16 @@ const Header = () => {
         <div className='menuTab'>
           <ul>
             <li>
-              <Link className={isActive('/dashboard')} to='/dashboard'>Dashboard</Link>
+              <Link className={isActive('/dashboard')} to='/dashboard'>Resumo</Link>
             </li>
             <li>
-              <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Planejador Financeiro</Link>
+              <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>ePlano Financeiro</Link>
             </li>
             <li>
-              <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>Simulador Financeiro</Link>
+              <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>Simulador de Negócios</Link>
             </li>
             <li>
-              <Link className={isActive('/academy')} to='#'>ePlano Academy</Link>
+              <Link className={isActive('/academy')} to='#'>Academia ePlano</Link>
             </li>
           </ul>
         </div>

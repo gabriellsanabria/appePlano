@@ -19,7 +19,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
   const handleSave = async () => {
     try {
       // Verifica se os campos estão vazios
-      if (!produtoServico || !descricao) {
+      if (!produtoServico) {
         throw new Error('Por favor, preencha todos os campos.');
       }
   

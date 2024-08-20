@@ -13,8 +13,8 @@ import { PiPiggyBankBold } from "react-icons/pi";
 
 
 const EstimarCaixa = () => {
-  const headerTitle = 'Estimar Investimentos';
-  const headerSubtitle = 'Vamos estimar os Investimentos do seu Negócio';
+  const headerTitle = 'Estimar o Caixa';
+  const headerSubtitle = 'Vamos cadastrar o Caixa Atual do seu Negócio';
   const sideType = 'SideFormEstimarCaixa';
   const headerIcon = PiPiggyBankBold;
 
@@ -59,7 +59,7 @@ const EstimarCaixa = () => {
   // const valorTotal = totalCusto;
 
   const valorTotal = [totalCaixaLiquido, totalCaixaEstoque, totalCaixaRecebiveis, totalContasPagar];
-  const labelTotalArray = 'Líquido, Estoque, Recebíveis, Contas a Pagar';
+  const labelTotalArray = 'Líquido, Estoque, Recebíveis, Caixa Dívidas';
 
   // Usando o método split para criar um array
   const labelTotal = labelTotalArray.split(', ');
@@ -93,7 +93,7 @@ const EstimarCaixa = () => {
         </h1>
         <TableEstimarCaixaRecebiveis onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange} />
         <h1>
-          Caixa Contas a Pagar
+          Caixa Dívidas
         </h1>
         <TableEstimarCaixaContasAPagar onTotalContasPagarChange={handleTotalContasPagarChange} />
         
