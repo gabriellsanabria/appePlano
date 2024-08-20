@@ -7,7 +7,7 @@ import AnaliseViabilidadePayback from '../ePlano/AnaliseViabilidadePayback/Anali
 
 const Simulador = () => {
   const headerTitle = 'ePlano Financeiro';
-  const headerSubtitle = 'ePlano Financeiro: Indicadores de Viabilidade do seu Negócio';
+  const headerSubtitle = 'Indicadores de Viabilidade do seu Negócio';
   const headerIcon = FaChartSimple ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [
@@ -25,7 +25,7 @@ const Simulador = () => {
 
         <div className='dashStage'>
           <div class='dashStage-header'>
-            <h2>Indicadores - Simulador</h2>
+            <h2>Indicadores de Viabilidade do seu Negócio</h2>
           </div>
           <div className='dashStage-body'>
             <AnaliseViabilidadePayback />
