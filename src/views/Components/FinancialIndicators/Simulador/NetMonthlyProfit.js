@@ -25,21 +25,21 @@ const LucroLiquidoMensal = ({ meses }) => {
          const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`);
          const dataEstrutura = await responseEstrutura.json();
          const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
-         setEstruturaInvestimento(somaInvestimentoEstrutura);
+         setEstruturaInvestimento(0);
  
          // Busca os dados da API para os insumos
          const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`);
          const dataInsumos = await responseInsumos.json();
          const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
-         setInsumosInvestimento(somaInvestimentoInsumos);
+         setInsumosInvestimento(0);
          
          // Busca os dados da API para Capital de giro
          const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`);
          const dataCapitalGiro = await responseCapitalGiro.json();
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
-         setCapitalGiroInvestimento(somaCapitalGiro);
+         setCapitalGiroInvestimento(0);
 
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }
@@ -55,19 +55,19 @@ const LucroLiquidoMensal = ({ meses }) => {
         setAmount(`R$ ${totalRevenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
       
          // Busca os dados da API para a estrutura
-         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/despesas/estrutura/user/${userId}`);
+         const responseEstruturaDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/estrutura/user/${userId}`);
          const dataDespesaEstrutura = await responseEstruturaDespesas.json();
          const somaDespesasEstrutura = dataDespesaEstrutura.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEstruturaDespesas(somaDespesasEstrutura);
  
          // Busca os dados da API para os insumos
-         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/despesas/insumos/user/${userId}`);
+         const responseInsumosDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/insumos/user/${userId}`);
          const dataDespesaInsumos = await responseInsumosDespesas.json();
          const somaDespesasInsumos = dataDespesaInsumos.reduce((total, item) => total + parseFloat(item.custo), 0);
          setInsumosDespesas(somaDespesasInsumos);
          
          // Busca os dados da API para Equipe
-         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/despesas/equipe/user/${userId}`);
+         const responseEquipeDespesas = await fetch(`${API_BASE_URL}/api/simulador/despesas/equipe/user/${userId}`);
          const dataDespesaEquipe = await responseEquipeDespesas.json();
          const somaDespesasEquipe = dataDespesaEquipe.reduce((total, item) => total + parseFloat(item.custo), 0);
          setEquipeDespesas(somaDespesasEquipe);

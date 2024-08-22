@@ -14,7 +14,7 @@ const ReceitaBrutaEstimada = () => {
   useEffect(() => {
     const fetchAndProcessData = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
           throw new Error('Falha na rede');
         }

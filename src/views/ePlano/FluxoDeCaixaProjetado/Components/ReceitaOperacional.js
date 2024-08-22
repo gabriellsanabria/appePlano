@@ -27,19 +27,22 @@ const ReceitaOperacional = ({ meses }) => {
          const responseEstrutura = await fetch(`${API_BASE_URL}/api/investimentos/estrutura/user/${userId}`);
          const dataEstrutura = await responseEstrutura.json();
          const somaInvestimentoEstrutura = dataEstrutura.reduce((total, item) => total + parseFloat(item.investimento), 0);
-         setEstruturaInvestimento(somaInvestimentoEstrutura);
+        //  setEstruturaInvestimento(somaInvestimentoEstrutura);
+         setEstruturaInvestimento(0);
  
          // Busca os dados da API para os insumos
          const responseInsumos = await fetch(`${API_BASE_URL}/api/investimentos/insumos/user/${userId}`);
          const dataInsumos = await responseInsumos.json();
          const somaInvestimentoInsumos = dataInsumos.reduce((total, item) => total + parseFloat(item.investimento), 0);
-         setInsumosInvestimento(somaInvestimentoInsumos);
+        //  setInsumosInvestimento(somaInvestimentoInsumos);
+         setInsumosInvestimento(0);
          
          // Busca os dados da API para Capital de giro
          const responseCapitalGiro = await fetch(`${API_BASE_URL}/api/investimentos/capital-de-giro/user/${userId}`);
          const dataCapitalGiro = await responseCapitalGiro.json();
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
-         setCapitalGiroInvestimento(somaCapitalGiro);
+        //  setCapitalGiroInvestimento(somaCapitalGiro);
+         setCapitalGiroInvestimento(0);
 
         const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
@@ -81,9 +84,11 @@ const ReceitaOperacional = ({ meses }) => {
       }
     };
 
-    fetchAndProcessData();
-  }, [setAmount]); // Passando setAmount como dependência para o useEffect
-  
+    if (!loading && userId) {
+      fetchAndProcessData();
+    }
+  }, [setAmount,loading, userId]); // Passando setAmount como dependência para o useEffect
+
 
   const createDynamicValues = (totalMensalProjetado, numMonths, percentages, fixedValues) => {
     const values = [];
