@@ -83,19 +83,19 @@ const EstimarCaixa = () => {
         <h1>
           Caixa Líquido
         </h1>
-        <TableEstimarCaixaLiquido onTotalCaixaLiquidoChange={handleTotalCaixaLiquidoChange} />
+        <TableEstimarCaixaLiquido onTotalCaixaLiquidoChange={handleTotalCaixaLiquidoChange} addProduto={handleAddProduto} />
         <h1>
           Caixa Insumos (Estoque)
         </h1>
-        <TableEstimarCaixaInsumos onTotalInvestimentosInsumosChange={handleTotalCaixaEstoque} />
+        <TableEstimarCaixaInsumos onTotalInvestimentosInsumosChange={handleTotalCaixaEstoque} addProduto={handleAddProduto} />
         <h1>
           Caixa Recebíveis
         </h1>
-        <TableEstimarCaixaRecebiveis onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange} />
+        <TableEstimarCaixaRecebiveis onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange}  addProduto={handleAddProduto} />
         <h1>
           Dívidas
         </h1>
-        <TableEstimarCaixaContasAPagar onTotalContasPagarChange={handleTotalContasPagarChange} />
+        <TableEstimarCaixaContasAPagar onTotalContasPagarChange={handleTotalContasPagarChange} addProduto={handleAddProduto} />
         
       </div>
       {saveMessage && 

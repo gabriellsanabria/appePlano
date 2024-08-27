@@ -81,15 +81,15 @@ const EstimarDespesas = () => {
         <h1>
           Estrutura Física/Virtual
         </h1>
-        <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} />
+        <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} addProduto={handleAddProduto} />
         <h1>
           Equipe de Trabalho
         </h1>
-        <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange}/>
+        <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange} addProduto={handleAddProduto} />
         <h1>
           Insumos Operacionais
         </h1>
-        <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange}/>
+        <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange} addProduto={handleAddProduto} />
         
       </div>
       {saveMessage && 

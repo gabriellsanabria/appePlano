@@ -11,7 +11,7 @@ import { FiChevronsLeft, FiChevronsRight } from "react-icons/fi";
 import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 import useAuth from '../../../../hooks/useAuth'; // Importe o hook useAuth
 
-const TableEstimarCaixaRecebiveis = ({ onTotalCaixaRecebiveisChange }) => {
+const TableEstimarCaixaRecebiveis = ({ onTotalCaixaRecebiveisChange, addProduto }) => {
   // Estado para os dados da onTotalCaixaRecebiveisChange
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
@@ -203,6 +203,11 @@ const fetchData = async () => {
     // alert('Produto adicionado com sucesso!');
     // Lógica adicional se necessário
   };
+  
+  useEffect(() => {
+    fetchData();
+  }, [addProduto]); 
+  
 
   return (
       <>
