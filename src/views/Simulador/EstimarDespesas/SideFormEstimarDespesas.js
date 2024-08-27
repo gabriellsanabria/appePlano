@@ -93,16 +93,16 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
   return (
     <>
       <div className='sideForm-header'>
-        <h1>Adicione uma despesa estimada</h1>
+        <h1>Adicione as Despesas</h1>
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
-          <label>Selecione a categoria de despesa</label>
+          <label>Selecione a Categoria da Despesa</label>
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
             options={categoriaDespesaOptions}
-            placeholder="Selecione a categoria de despesa..."
+            placeholder="Selecione a Categoria da Despesa..."
             styles={{
               control: (provided) => ({
                 ...provided,
@@ -147,11 +147,12 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
             type="text"
             value={nomeDespesa}
             onChange={(e) => setNomeDespesa(e.target.value)}
-            placeholder="Digite o nome da despesa"
+            placeholder="Digite o Nome da Despesa"
           />
         </div>
         <div className='form-content'>
-          <label>Valor estimado da despesa por mês (R$)</label>
+          <label>Valor Estimado da Despesa
+por Mês (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -162,7 +163,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
             allowNegative={false}
             isNumericString={false}
             value={valorEstimadoDespesa}
-            placeholder="Digite o valor estimado da despesa por mês (R$)"
+            placeholder="Digite o Valor Estimado da Despesa por Mês (R$)"
             onValueChange={(values) => setValorEstimadoDespesa(values.floatValue)}
           />
         </div>

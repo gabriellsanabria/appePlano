@@ -146,11 +146,12 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
             type="text"
             value={nomeDespesa}
             onChange={(e) => setNomeDespesa(e.target.value)}
-            placeholder="Digite o nome da despesa"
+            placeholder="Digite o Nome da Despesa"
           />
         </div>
         <div className='form-content'>
-          <label>Valor estimado da despesa por mês (R$)</label>
+          <label>Valor Estimado da Despesa
+por Mês (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -161,7 +162,8 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
             allowNegative={false}
             isNumericString={false}
             value={valorEstimadoDespesa}
-            placeholder="Digite o valor estimado da despesa por mês (R$)"
+            placeholder="Digite o Valor Estimado da Despesa
+por Mês (R$)"
             onValueChange={(values) => setValorEstimadoDespesa(values.floatValue)}
           />
         </div>

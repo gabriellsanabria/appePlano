@@ -59,7 +59,7 @@ const EstimarCaixa = () => {
   // const valorTotal = totalCusto;
 
   const valorTotal = [totalCaixaLiquido, totalCaixaEstoque, totalCaixaRecebiveis, totalContasPagar];
-  const labelTotalArray = 'Líquido, Estoque, Recebíveis, Caixa Dívidas';
+  const labelTotalArray = 'Líquido, Estoque, Recebíveis, Dívidas';
 
   // Usando o método split para criar um array
   const labelTotal = labelTotalArray.split(', ');
@@ -93,7 +93,7 @@ const EstimarCaixa = () => {
         </h1>
         <TableEstimarCaixaRecebiveis onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange} />
         <h1>
-          Caixa Dívidas
+          Dívidas
         </h1>
         <TableEstimarCaixaContasAPagar onTotalContasPagarChange={handleTotalContasPagarChange} />
         

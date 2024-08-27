@@ -35,7 +35,7 @@ const FluxoDeCaixaProjetado3 = () => {
             <Impostos meses={meses} />
             <LucroLiquidoMensal meses={meses} />
             <LucroLiquidoAcumulado meses={meses} />
-            <Caixa meses={meses} />
+            {/* <Caixa meses={meses} /> */}
           </div>
         </div>
       </div>

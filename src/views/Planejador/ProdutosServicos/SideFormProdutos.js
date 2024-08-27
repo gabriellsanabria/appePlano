@@ -43,7 +43,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
       });
   
       if (!response.ok) {
-        throw new Error('Falha ao adicionar produto/serviço');
+        throw new Error('Falha ao adicionar Produto/Serviço');
       }
   
       // Chama a função onAdd passada de PageHeader para atualizar o estado em Planejador
@@ -65,7 +65,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
   return (
     <>
       <div className='sideForm-header'>
-          <h1>Cadastre um produto/serviço</h1>
+          <h1>Cadastre um Produto/Serviço</h1>
       </div>
       <div className='sideForm-body'>
           <div className='form-content'>
@@ -74,7 +74,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
                 type="text"
                 value={produtoServico}
                 onChange={(e) => setProdutoServico(e.target.value)}
-                placeholder="Digite o nome do produto/serviço..."
+                placeholder="Digite o nome do Produto/Serviço..."
               />
           </div>            
           <div className='form-content'>
@@ -83,7 +83,7 @@ const SideFormProdutos = ({ closeSideForm, onAdd }) => {
                 rows="8"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Digite a descrição do produto/serviço..."
+                placeholder="Digite a descrição do Produto/Serviço..."
               />
           </div>            
       </div>

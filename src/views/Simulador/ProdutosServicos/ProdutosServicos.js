@@ -67,7 +67,7 @@ const ProdutosServicos = () => {
   const handleExcluirProdutoServico = async (id) => {
     try {
       // Exibe um alerta de confirmação
-      const confirmacao = window.confirm('Tem certeza que deseja excluir este produto/serviço?');
+      const confirmacao = window.confirm('Tem certeza que deseja excluir este Produto/Serviço?');
       
       // Se o usuário cancelar, retorna sem fazer nada
       if (!confirmacao) {
@@ -81,14 +81,14 @@ const ProdutosServicos = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Falha ao excluir produto/serviço: ${errorText}`);
+        throw new Error(`Falha ao excluir Produto/Serviço: ${errorText}`);
       }
 
       fetchData(); // Atualiza os dados após a exclusão
       setAlertMessage('Produto/Serviço Deletado com sucesso!');
       setAlertType('success');
     } catch (error) {
-      console.error('Erro ao excluir produto/serviço:', error);
+      console.error('Erro ao excluir Produto/Serviço:', error);
     }
   };
 

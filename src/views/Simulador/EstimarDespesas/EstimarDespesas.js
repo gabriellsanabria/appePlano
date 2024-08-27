@@ -48,6 +48,8 @@ const EstimarDespesas = () => {
   // Função onAdd para ser passada para SideFormProdutos
   const handleAddProduto = (newItem) => {
     setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
+    setAlertMessage('Adicionado com sucesso!');
+    setAlertType('success');
     // alert('Produto adicionado com sucesso!');
     // Lógica adicional se necessário
   };
@@ -81,11 +83,11 @@ const EstimarDespesas = () => {
         </h1>
         <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} />
         <h1>
-          Equipe
+          Equipe de Trabalho
         </h1>
         <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange}/>
         <h1>
-          Insumos
+          Insumos Operacionais
         </h1>
         <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange}/>
         

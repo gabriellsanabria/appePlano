@@ -8,7 +8,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../apiConfig';
 const ProdutosServicos = () => {
   const [produtosServicosData, setProdutosServicosData] = useState([]);
   const [isResumoExecutivoModalOpen, setIsResumoExecutivoModalOpen] = useState(false);
-  const [lastProductId, setLastProductId] = useState(null); // Estado para rastrear o último ID de produto/serviço
+  const [lastProductId, setLastProductId] = useState(null); // Estado para rastrear o último ID de Produto/Serviço
 
   const fetchData = async () => {
     try {
@@ -37,7 +37,7 @@ const ProdutosServicos = () => {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+        throw new Error('Falha ao excluir Produto/Serviço');
       }
       fetchData(); // Atualiza os dados após a exclusão
     } catch (error) {
@@ -45,7 +45,7 @@ const ProdutosServicos = () => {
     }
   };
 
-// // Verifica se um novo produto/serviço foi adicionado e atualiza os dados se necessário
+// // Verifica se um novo Produto/Serviço foi adicionado e atualiza os dados se necessário
 // useEffect(() => {
 //   const initialCount = produtosServicosData.length;
 //   fetchData(); // Busca os dados novamente

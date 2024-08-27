@@ -20,7 +20,7 @@ const ProdutosServicosModal = ({ isOpen, onClose }) => {
         body: JSON.stringify({ produto_servico: produtoServico, descricao: descricao }),
       });
       if (!response.ok) {
-        throw new Error('Falha ao adicionar produto/serviço');
+        throw new Error('Falha ao adicionar Produto/Serviço');
       }
       // Feche o modal após o sucesso da solicitação
       onClose();
@@ -55,14 +55,14 @@ const ProdutosServicosModal = ({ isOpen, onClose }) => {
               type="text"
               value={produtoServico}
               onChange={(e) => setProdutoServico(e.target.value)}
-              placeholder="Digite o nome do produto/serviço..."
+              placeholder="Digite o nome do Produto/Serviço..."
             />
             <div className="textarea-container">
               <textarea
                 rows="6"
                 value={descricao}
                 onChange={(e) => setDescricao(e.target.value)}
-                placeholder="Digite a descrição do produto/serviço..."
+                placeholder="Digite a descrição do Produto/Serviço..."
               />
             </div>
           </div>

@@ -22,7 +22,7 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
       // Extrair as opções necessárias para o Select
       const options = data.map((produtoServico) => ({
         value: produtoServico.id,
-        label: produtoServico.produto_servico // ou o campo correto que contém o nome do produto/serviço
+        label: produtoServico.produto_servico // ou o campo correto que contém o nome do Produto/Serviço
       }));
       setProdutosServicos(options);
     } catch (error) {
@@ -54,13 +54,13 @@ const EstimarReceitasModal = ({ isOpen, onClose, onSave }) => {
               value={selectedOption}
               onChange={setSelectedOption}
               options={produtosServicos} // Usar as opções dos produtos e serviços
-              placeholder="Selecione o produto/serviço..."
+              placeholder="Selecione o Produto/Serviço..."
             />
             <input
               type="text"
               value={valorUnitarioVenda}
               onChange={(e) => setValorUnitarioVenda(e.target.value)}
-              placeholder="Digite o valor (R$) unitário de venda"
+              placeholder="Digite o Preço Unitário de Venda (R$)"
             />
             <input
               type="text"

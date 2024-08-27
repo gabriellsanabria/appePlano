@@ -69,7 +69,7 @@ const EstimarReceitas = () => {
   const handleExcluirProdutoServico = async (id) => {
     try {
       // Exibe um alerta de confirmação
-      const confirmacao = window.confirm('Tem certeza que deseja excluir este produto/serviço?');
+      const confirmacao = window.confirm('Tem certeza que deseja excluir este Produto/Serviço?');
       
       // Se o usuário cancelar, retorna sem fazer nada
       if (!confirmacao) {
@@ -81,7 +81,7 @@ const EstimarReceitas = () => {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+        throw new Error('Falha ao excluir Produto/Serviço');
       }
       fetchData(); // Atualiza os dados após a exclusão
       setAlertMessage('Produto/Serviço Deletado com sucesso!');
@@ -177,7 +177,7 @@ const totalGeral = apiData.reduce(
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
       {
-        Header: <strong>Valor unitário de Venda (R$)</strong>,
+        Header: <strong>Preço Unitário de Venda (R$)</strong>,
         accessor: 'valor_unitario',
         Cell: ({ value }) => (
           <strong>
@@ -245,6 +245,8 @@ const totalGeral = apiData.reduce(
   // Função onAdd para ser passada para SideFormProdutos
   const handleAddProduto = (newItem) => {
     setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
+    setAlertMessage('Produto/Serviço Adicionado com sucesso!');
+    setAlertType('success');
     // alert('Produto adicionado com sucesso!');
     // Lógica adicional se necessário
   };

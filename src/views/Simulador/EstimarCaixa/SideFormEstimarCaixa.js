@@ -20,7 +20,7 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
     { value: 'liquido', label: 'Caixa Líquido' },
     { value: 'estoque', label: 'Caixa Insumos (Estoque)' },
     { value: 'recebiveis', label: 'Caixa Recebíveis' },
-    { value: 'contas_pagar', label: 'Caixa Contas a Pagar' },
+    { value: 'contas_pagar', label: 'Caixa Dívidas' },
   ];
 
   const handleClose = () => {
@@ -152,11 +152,11 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
             type="text"
             value={descricaoCaixa}
             onChange={(e) => setDescricaoCaixa(e.target.value)}
-            placeholder="Digite o item do Caixa"
+            placeholder="Digite o Item do Caixa"
           />
         </div>
         <div className='form-content'>
-          <label>Valor estimado do Caixa (R$)</label>
+          <label>Valor Estimado do Caixa (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -167,7 +167,7 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
             allowNegative={false}
             isNumericString={false}
             value={valorCaixa}
-            placeholder="Digite o Valor estimado do Caixa (R$)"
+            placeholder="Digite o Valor Estimado do Caixa (R$)"
             onValueChange={(values) => setValorCaixa(values.floatValue)}
           />
         </div>

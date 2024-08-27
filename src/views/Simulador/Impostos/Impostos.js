@@ -53,7 +53,7 @@ const Impostos = () => {
   const handleExcluirProdutoServico = async (id) => {
     try {
       // Exibe um alerta de confirmação
-      const confirmacao = window.confirm('Tem certeza que deseja excluir este produto/serviço?');
+      const confirmacao = window.confirm('Tem certeza que deseja excluir este Produto/Serviço?');
       
       // Se o usuário cancelar, retorna sem fazer nada
       if (!confirmacao) {
@@ -65,7 +65,7 @@ const Impostos = () => {
         method: 'DELETE',
       });
       if (!response.ok) {
-        throw new Error('Falha ao excluir produto/serviço');
+        throw new Error('Falha ao excluir Produto/Serviço');
       }
       fetchData(); // Atualiza os dados após a exclusão
       setAlertMessage('Produto/Serviço Deletado com sucesso!');

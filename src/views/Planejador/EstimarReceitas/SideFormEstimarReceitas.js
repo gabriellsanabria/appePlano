@@ -95,12 +95,12 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
       </div>
       <div className='sideForm-body'>
           <div className='form-content'>
-              <label>Selecione o produto/serviço</label>
+              <label>Selecione o Produto/Serviço</label>
               <Select
                 value={selectedOption}
                 onChange={setSelectedOption}
                 options={produtosServicos}
-                placeholder="Selecione o produto/serviço..."
+                placeholder="Selecione o Produto/Serviço..."
                 styles={{
                   control: (provided) => ({
                     ...provided,
@@ -140,7 +140,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
               />
           </div>
           <div className='form-content'>
-              <label>Preço de venda (R$)</label>
+              <label>Preço de Venda (R$)</label>
               <NumericFormat
                 displayType={'input'}
                 thousandSeparator='.'
@@ -151,17 +151,17 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
                 allowNegative={false}
                 isNumericString={false}
                 value={valorUnitarioVenda}
-                placeholder="Digite o valor (R$) unitário de venda"
+                placeholder="Digite o Preço Unitário de Venda (R$)"
                 onValueChange={handleValorUnitarioChange}
               />
           </div>
           <div className='form-content'>
-              <label>Quantidade estimada de vendas por mês</label>
+              <label>Estimativa de Vendas</label>
               <input
                 type="text"
                 value={projecaoVendasPorDia}
                 onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
-                placeholder="Digite a estimativa de vendas por mês"
+                placeholder="Digite a Quantidade Estimada de Vendas por Mês"
               />
           </div>
       </div>

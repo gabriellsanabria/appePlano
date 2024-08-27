@@ -192,7 +192,7 @@ Se faltar alguma Informação, volte no Botão “Adicionar Receitas” e realiz
               <thead>
                 <tr>
                   <th>Produto/Serviço (Mix)</th>
-                  <th>Valor unitário de Venda (R$)</th>
+                  <th>Preço Unitário de Venda (R$)</th>
                   <th>Quantidade Vendida por Mês</th>
                   <th>Total Mensal</th>
                   <th>Ações</th>

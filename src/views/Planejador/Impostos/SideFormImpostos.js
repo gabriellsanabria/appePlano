@@ -35,7 +35,7 @@ const SideFormImpostos = ({ closeSideForm, onAdd }) => {
       });
   
       if (!response.ok) {
-        throw new Error('Falha ao adicionar produto/serviço');
+        throw new Error('Falha ao adicionar Produto/Serviço');
       }
   
       // Chama a função onAdd passada de PageHeader para atualizar o estado em Planejador

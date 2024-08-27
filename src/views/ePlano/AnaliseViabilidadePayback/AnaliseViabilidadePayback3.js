@@ -174,7 +174,7 @@ const AnaliseViabilidadePayback = () => {
                         <div className='barraCor lj4'></div>
                         <div className='infos'>
                           <div className='ttl'>
-                            Contas a Pagar
+                            Dívidas
                           </div>
                           <div className='valores'>
                             R$ {contasPagar.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -208,17 +208,6 @@ const AnaliseViabilidadePayback = () => {
                   </div>
                   <div className='label-box'>
                       <div className='label-chart'>
-                        <div className='barraCor lj1'></div>
-                        <div className='infos'>
-                          <div className='ttl'>
-                            Insumos
-                          </div>
-                          <div className='valores'>
-                            R$ {despesasInsumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </div>
-                        </div>
-                      </div>
-                      <div className='label-chart'>
                         <div className='barraCor lj2'></div>
                         <div className='infos'>
                           <div className='ttl'>
@@ -237,6 +226,17 @@ const AnaliseViabilidadePayback = () => {
                           </div>
                           <div className='valores'>
                             R$ {despesasCapitalGiro.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                        </div>
+                      </div>
+                      <div className='label-chart'>
+                        <div className='barraCor lj1'></div>
+                        <div className='infos'>
+                          <div className='ttl'>
+                            Insumos
+                          </div>
+                          <div className='valores'>
+                            R$ {despesasInsumosCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </div>
                         </div>
                       </div>

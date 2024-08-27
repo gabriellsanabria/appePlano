@@ -41,12 +41,13 @@ const Impostos = ({meses}) => {
           fontWeight: highlightItems.includes(item) ? 'bold' : 'normal'
         }}>
           <div className='cellCol items-color'>{item}</div>
-          <div className='cell'>
+          {/* <div className='cell'>
             {item === "IMPOSTOS" ? "-" : // Modificação aqui
             `R$ ${(item in valueMap ? valueMap[item].reduce((a, b) => a + b, 0) :
               item === "IMPOSTOS" ? investmentSums.reduce((a, b) => a + b, 0) : 0)
               .toLocaleString("pt-BR")}`}
-          </div>
+          </div> */}
+          <div></div>
           {renderCells(item, highlightItems.includes(item))}
         </div>
       ))}

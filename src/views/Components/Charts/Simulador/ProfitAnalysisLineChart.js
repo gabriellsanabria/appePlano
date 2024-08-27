@@ -140,7 +140,7 @@ const ProfitAnalysisLineChart = () => {
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Análise de Lucro',
+                            // text: 'Análise de Lucro',
                             fontSize: 18 
                         },
                         legend: {
