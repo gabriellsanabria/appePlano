@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// Import different types of SideForm as needed
+// Importar diferentes tipos de SideForm conforme necessário
 // Planejador
 import SideFormProdutos from '../../views/Planejador/ProdutosServicos/SideFormProdutos';
 import SideFormEstimarReceitas from '../../views/Planejador/EstimarReceitas/SideFormEstimarReceitas';
@@ -15,7 +15,7 @@ import SideFormProdutosSimulador from '../../views/Simulador/ProdutosServicos/Si
 import SideFormEstimarReceitasSimulador from '../../views/Simulador/EstimarReceitas/SideFormEstimarReceitas';
 import SideFormEstimarDespesasSimulador from '../../views/Simulador/EstimarDespesas/SideFormEstimarDespesas';
 
-const SideForm = ({ type, closeSideForm, onAdd }) => {
+const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
   switch (type) {
     case 'SideFormProdutos':
       return <SideFormProdutos closeSideForm={closeSideForm} onAdd={onAdd} />;
@@ -28,9 +28,16 @@ const SideForm = ({ type, closeSideForm, onAdd }) => {
     case 'SideFormImposto':
       return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormEstimarCaixa':
-      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;     
+      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormProdutosSimulador':
-      return <SideFormProdutosSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;    
+      return (
+        <SideFormProdutosSimulador 
+          closeSideForm={closeSideForm} 
+          onAdd={onAdd} 
+          actionType={actionType}    
+          idForEdit={idForEdit}
+        />
+      );    
     case 'SideFormEstimarReceitasSimulador':
       return <SideFormEstimarReceitasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormEstimarDespesasSimulador':
@@ -47,7 +54,9 @@ const SideForm = ({ type, closeSideForm, onAdd }) => {
 SideForm.propTypes = {
   type: PropTypes.string.isRequired,
   closeSideForm: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired, // Ensure onAdd is required and of type function
+  onAdd: PropTypes.func.isRequired,
+  actionType: PropTypes.string,
+  idForEdit: PropTypes.string,
 };
 
 export default SideForm;

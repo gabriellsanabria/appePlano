@@ -4,6 +4,7 @@ import Layout from '../../../components/Layout/layout';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
+import SideForm from '../../../components/SideForm/SideForm';
 
 import { SiHackthebox } from 'react-icons/si';
 import { HiDotsVertical } from "react-icons/hi";
@@ -17,8 +18,28 @@ import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 const ProdutosServicos = () => {
   const headerTitle = 'Produtos e Serviços';
   const headerSubtitle = 'Liste e Descreva os Produtos/Serviços que o seu Negócio irá comercializar';
-  const sideType = 'SideFormProdutosSimulador';
+  const sideType = `SideFormProdutosSimulador`;
+
   const headerIcon = SiHackthebox;
+
+  // States to control the visibility of SideForm and overlay
+  const [isSideFormOpen, setIsSideFormOpen] = useState(false);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [editId, setEditId] = useState(null); // Novo estado para armazenar o id do item em edição
+
+  // Function to open the SideForm and overlay
+  const openSideForm = (id) => {
+    setEditId(id);
+    setIsSideFormOpen(true);
+    setIsOverlayOpen(true);
+  };
+
+  // Function to close the SideForm and overlay
+  const closeSideForm = () => {
+    setIsSideFormOpen(false);
+    setIsOverlayOpen(false);
+    setEditId(null);
+  };
 
   const breadcrumbItems = [
     { label: 'Resumo', path: '/' },
@@ -118,10 +139,10 @@ const ProdutosServicos = () => {
   };
 
   // Função para renderizar ações de linha
-  const renderRowActions = (id, row) => {
+  const renderRowActions = (id) => {
     return (
       <div className="row-actions">
-        <Link to={`/ficha-tecnica`}>
+        <Link onClick={() => openSideForm(id)}>
           <FaEdit /> Editar
         </Link>
         <Link onClick={() => handleExcluirProdutoServico(id)}>
@@ -208,12 +229,21 @@ const ProdutosServicos = () => {
   } = useTable({ columns, data }, usePagination);
 
   // Função onAdd para ser passada para SideFormProdutos
-  const handleAddProduto = (newItem) => {
-    setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
-    // alert('Produto adicionado com sucesso!');
-    // Lógica adicional se necessário
+  const handleAddProduto = (item) => {
+    // Verifica se o item contém um id, o que indicaria uma atualização
+    if (item.id) {
+      // Atualiza o item existente na lista
+      setApiData((prevApiData) =>
+        prevApiData.map((existingItem) =>
+          existingItem.id === item.id ? item : existingItem
+        )
+      );
+    } else {
+      // Adiciona o novo item à lista
+      setApiData((prevApiData) => [...prevApiData, item]);
+    }
   };
-
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -322,6 +352,24 @@ const ProdutosServicos = () => {
       {alertMessage && 
         <Alertas message={alertMessage} type={alertType} onClose={() => setAlertMessage(null)} />
       }
+
+      {isOverlayOpen && (
+        <div className="overlay" onClick={closeSideForm}></div>
+      )}
+
+      {/* SideForm that appears from right to left */}
+      <div className={`SideForm ${isSideFormOpen ? 'open' : ''}`}>
+        <div className="SideForm-content">
+          <SideForm 
+            type={sideType} // Alterado para usar sideType
+            closeSideForm={closeSideForm}
+            actionType={'edit'}
+            idForEdit={editId}
+            onAdd={handleAddProduto}
+          />
+        </div>
+      </div>
+      
     </Layout>
   );
 };
