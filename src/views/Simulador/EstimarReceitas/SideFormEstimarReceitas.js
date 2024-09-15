@@ -3,25 +3,28 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
-import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
+import useAuth from '../../../hooks/useAuth';
 
-const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
+const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [valorUnitarioVenda, setValorUnitarioVenda] = useState('');
   const [projecaoVendasPorDia, setProjecaoVendasPorDia] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [produtosServicos, setProdutosServicos] = useState([]);
-
-  // Obtendo o usuário e o estado de carregamento do hook useAuth
+  
+  const [isEditMode, setIsEditMode] = useState(false);
+  
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
-  
-  
+
   useEffect(() => {
     if (!loading && userId) {
       obterProdutosServicos();
+      if (idForEdit) {
+        obterReceitaParaEdicao(idForEdit);
+      }
     }
-  }, [loading, userId]); // Executa quando o loading mudar ou userId estiver disponível
+  }, [loading, userId, idForEdit]);
 
   const obterProdutosServicos = async () => {
     try {
@@ -41,6 +44,21 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
     }
   };
 
+  const obterReceitaParaEdicao = async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${id}`);
+      const data = await response.json();
+
+      if (data) {
+        setSelectedOption({ value: data.id, label: data.produto_servico });
+        setValorUnitarioVenda(data.valor_unitario);
+        setProjecaoVendasPorDia(data.quantidade_vendida_por_mes);
+      }
+    } catch (error) {
+      console.error('Erro ao obter receita para edição:', error);
+    }
+  };
+
   const handleClose = () => {
     closeSideForm();
   };
@@ -54,14 +72,21 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
       setIsLoading(true);
 
       const bodyData = {
+        id: selectedOption.value,
         produto_servico: selectedOption.label,
         valor_unitario: valorUnitarioVenda,
         quantidade_vendida_por_mes: projecaoVendasPorDia,
         uidUser: userId
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/simulador/adicionar_receita_mensal_negocio`, {
-        method: 'POST',
+      const url = idForEdit
+        ? `${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${idForEdit}`
+        : `${API_BASE_URL}/api/simulador/adicionar_receita_mensal_negocio`;
+
+      const method = idForEdit ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -69,10 +94,14 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Falha ao adicionar receita');
+        throw new Error(isEditMode ? 'Falha ao atualizar Produto/Serviço' : 'Falha ao adicionar Produto/Serviço');
       }
 
-      onAdd(bodyData);
+      if (actionType === 'edit') {
+        onAdd({ ...bodyData, id: idForEdit });
+      } else {
+        onAdd(bodyData);
+      }
 
       closeSideForm();
     } catch (error) {
@@ -91,83 +120,84 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
   return (
     <>
       <div className='sideForm-header'>
-          <h1>Adicione as receitas</h1>
+        <h1>{idForEdit ? 'Editar Receita' : 'Adicionar Receita'}</h1>
       </div>
       <div className='sideForm-body'>
-          <div className='form-content'>
-              <label>Selecione o Produto/Serviço</label>
-              <Select
-                value={selectedOption}
-                onChange={setSelectedOption}
-                options={produtosServicos}
-                placeholder="Selecione o Produto/Serviço..."
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    backgroundColor: '#fff',
-                    marginLeft: '0px',
-                    marginRight: '0px',
-                    marginTop: '10px',
-                    padding: '12px 10px',
-                    flex: 1,
-                    borderRadius: '5px',
-                    fontSize: '14px',
-                    cursor: 'pointer'
-                  }),
-                  container: (provided) => ({
-                    ...provided,
-                    flex: 1,
-                  }),
-                  menu: (provided) => ({
-                    ...provided,
-                    backgroundColor: '#f3f3f3',
-                    borderRadius: '5px'
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isSelected ? '#fff' : '#EFF0F6',
-                    color: 'black',
-                    borderRadius: '0px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                    paddingLeft: '20px',
-                    textAlign: 'left',
-                    '&:hover': {
-                      backgroundColor: '#ccc',
-                    },
-                  }),
-                }}
-              />
-          </div>
-          <div className='form-content'>
-              <label>Preço de Venda (R$)</label>
-              <NumericFormat
-                displayType={'input'}
-                thousandSeparator='.'
-                prefix={'R$'}
-                decimalSeparator=','
-                decimalScale={2}
-                fixedDecimalScale={true}
-                allowNegative={false}
-                isNumericString={false}
-                value={valorUnitarioVenda}
-                placeholder="Digite o Preço Unitário de Venda (R$)"
-                onValueChange={handleValorUnitarioChange}
-              />
-          </div>
-          <div className='form-content'>
-              <label>Estimativa de Vendas</label>
-              <input
-                type="text"
-                value={projecaoVendasPorDia}
-                onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
-                placeholder="Digite a Quantidade Estimada de Vendas por Mês"
-              />
-          </div>
+        <div className='form-content'>
+          <label>Selecione o Produto/Serviço</label>
+          <div>actionType: {actionType} - idForEdit: {idForEdit}</div>
+          <Select
+            value={selectedOption}
+            onChange={setSelectedOption}
+            options={produtosServicos}
+            placeholder="Selecione o Produto/Serviço..."
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                backgroundColor: '#fff',
+                marginLeft: '0px',
+                marginRight: '0px',
+                marginTop: '10px',
+                padding: '12px 10px',
+                flex: 1,
+                borderRadius: '5px',
+                fontSize: '14px',
+                cursor: 'pointer'
+              }),
+              container: (provided) => ({
+                ...provided,
+                flex: 1,
+              }),
+              menu: (provided) => ({
+                ...provided,
+                backgroundColor: '#f3f3f3',
+                borderRadius: '5px'
+              }),
+              option: (provided, state) => ({
+                ...provided,
+                backgroundColor: state.isSelected ? '#fff' : '#EFF0F6',
+                color: 'black',
+                borderRadius: '0px',
+                fontSize: '14px',
+                cursor: 'pointer',
+                paddingLeft: '20px',
+                textAlign: 'left',
+                '&:hover': {
+                  backgroundColor: '#ccc',
+                },
+              }),
+            }}
+          />
+        </div>
+        <div className='form-content'>
+          <label>Preço de Venda (R$)</label>
+          <NumericFormat
+            displayType={'input'}
+            thousandSeparator='.'
+            prefix={'R$'}
+            decimalSeparator=','
+            decimalScale={2}
+            fixedDecimalScale={true}
+            allowNegative={false}
+            isNumericString={false}
+            value={valorUnitarioVenda}
+            placeholder="Digite o Preço Unitário de Venda (R$)"
+            onValueChange={handleValorUnitarioChange}
+          />
+        </div>
+        <div className='form-content'>
+          <label>Estimativa de Vendas</label>
+          <input
+            type="text"
+            value={projecaoVendasPorDia}
+            onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
+            placeholder="Digite a Quantidade Estimada de Vendas por Mês"
+          />
+        </div>
       </div>
       <div className='sideForm-footer'>
-          <button className='cancelButton' onClick={handleClose}>Cancelar</button>
-          <button className='saveButton' onClick={handleSave}>Salvar</button>
+        <button className='cancelButton' onClick={handleClose}>Cancelar</button>
+        <button className='saveButton' onClick={handleSave}>{idForEdit ? 'Salvar Alterações' : 'Salvar'}</button>
       </div>
     </>
   );
@@ -176,6 +206,8 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
 SideFormEstimarReceitas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  actionType: PropTypes.string.isRequired,
+  idForEdit: PropTypes.string,
 };
 
 export default SideFormEstimarReceitas;

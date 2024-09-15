@@ -22,6 +22,13 @@ const ProdutosServicos = () => {
 
   const headerIcon = SiHackthebox;
 
+  const breadcrumbItems = [
+    { label: 'Resumo', path: '/' },
+    { label: 'ePlano Financeiro', path: '/planejador-financeiro' },
+    { label: headerTitle, path: '/dashboard' },
+  ];
+
+  
   // States to control the visibility of SideForm and overlay
   const [isSideFormOpen, setIsSideFormOpen] = useState(false);
   const [isOverlayOpen, setIsOverlayOpen] = useState(false);
@@ -41,11 +48,6 @@ const ProdutosServicos = () => {
     setEditId(null);
   };
 
-  const breadcrumbItems = [
-    { label: 'Resumo', path: '/' },
-    { label: 'ePlano Financeiro', path: '/planejador-financeiro' },
-    { label: headerTitle, path: '/dashboard' },
-  ];
 
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);

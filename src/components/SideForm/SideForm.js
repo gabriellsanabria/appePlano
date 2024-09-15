@@ -29,6 +29,7 @@ const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
       return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormEstimarCaixa':
       return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;
+    
     case 'SideFormProdutosSimulador':
       return (
         <SideFormProdutosSimulador 
@@ -37,9 +38,18 @@ const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
           actionType={actionType}    
           idForEdit={idForEdit}
         />
-      );    
+    );    
+    
     case 'SideFormEstimarReceitasSimulador':
-      return <SideFormEstimarReceitasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
+      return (
+        <SideFormEstimarReceitasSimulador 
+          closeSideForm={closeSideForm} 
+          onAdd={onAdd} 
+          actionType={actionType}    
+          idForEdit={idForEdit}
+        />
+    );    
+
     case 'SideFormEstimarDespesasSimulador':
       return <SideFormEstimarDespesasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
     default:
