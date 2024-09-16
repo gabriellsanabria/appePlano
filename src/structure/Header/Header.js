@@ -160,7 +160,8 @@ const Header = () => {
               <Link className={isActive('/dashboard')} to='/dashboard'>Resumo</Link>
             </li>
             <li>
-              <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Simulador de Negócios</Link>
+              {/* <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Simulador de Negócios</Link> */}
+              <Link className='linkDisabled'>Simulador de Negócios</Link>
             </li>
             <li>
               <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>ePlano Financeiro</Link>
