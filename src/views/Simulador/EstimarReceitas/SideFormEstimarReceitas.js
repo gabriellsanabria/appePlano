@@ -9,53 +9,64 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
   const [selectedOption, setSelectedOption] = useState(null);
   const [valorUnitarioVenda, setValorUnitarioVenda] = useState('');
   const [projecaoVendasPorDia, setProjecaoVendasPorDia] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [produtosServicos, setProdutosServicos] = useState([]);
-  
+  const [isLoading, setIsLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  
+
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
 
   useEffect(() => {
     if (!loading && userId) {
       obterProdutosServicos();
-      if (idForEdit) {
+      if (actionType === 'edit' && idForEdit) {
         obterReceitaParaEdicao(idForEdit);
+        setIsEditMode(true); // Define o modo de edição
+      } else {
+        setIsEditMode(false); // Desativa o modo de edição se não estiver editando
       }
     }
-  }, [loading, userId, idForEdit]);
+  }, [loading, userId, actionType, idForEdit]);
 
   const obterProdutosServicos = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/simulador/produtos_servicos/${userId}`);
+      if (!response.ok) {
+        throw new Error('Erro ao obter produtos/serviços');
+      }
       const data = await response.json();
-      
       const options = data.map((produtoServico) => ({
         value: produtoServico.id,
         label: produtoServico.produto_servico
       }));
-
       options.sort((a, b) => a.label.localeCompare(b.label));
-
       setProdutosServicos(options);
+
+      // Se estiver editando, defina a opção selecionada
+      if (isEditMode && selectedOption) {
+        const option = options.find(opt => opt.value === selectedOption.value);
+        setSelectedOption(option || null);
+      }
     } catch (error) {
-      console.error('Erro ao obter produtos/serviços:', error);
+      console.error('Erro ao obter produtos/serviços:', error.message);
+      alert(error.message);
     }
   };
 
   const obterReceitaParaEdicao = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${id}`);
-      const data = await response.json();
-
-      if (data) {
-        setSelectedOption({ value: data.id, label: data.produto_servico });
-        setValorUnitarioVenda(data.valor_unitario);
-        setProjecaoVendasPorDia(data.quantidade_vendida_por_mes);
+      if (!response.ok) {
+        throw new Error('Erro ao obter receita para edição');
       }
+      const data = await response.json();
+      console.log('Dados recebidos para edição:', data); // Adiciona este log para depuração
+      setSelectedOption({ value: data.produto_servico_id, label: data.produto_servico });
+      setValorUnitarioVenda(data.valor_unitario || '');
+      setProjecaoVendasPorDia(data.quantidade_vendida_por_mes || '');
     } catch (error) {
-      console.error('Erro ao obter receita para edição:', error);
+      console.error('Erro ao obter receita para edição:', error.message);
+      alert(error.message);
     }
   };
 
@@ -72,18 +83,17 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
       setIsLoading(true);
 
       const bodyData = {
-        id: selectedOption.value,
         produto_servico: selectedOption.label,
         valor_unitario: valorUnitarioVenda,
         quantidade_vendida_por_mes: projecaoVendasPorDia,
         uidUser: userId
       };
 
-      const url = idForEdit
+      const url = isEditMode
         ? `${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${idForEdit}`
         : `${API_BASE_URL}/api/simulador/adicionar_receita_mensal_negocio`;
 
-      const method = idForEdit ? 'PUT' : 'POST';
+      const method = isEditMode ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
         method,
@@ -94,7 +104,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
       });
 
       if (!response.ok) {
-        throw new Error(isEditMode ? 'Falha ao atualizar Produto/Serviço' : 'Falha ao adicionar Produto/Serviço');
+        throw new Error(isEditMode ? 'Falha ao atualizar Receita' : 'Falha ao adicionar Receita');
       }
 
       if (actionType === 'edit') {
@@ -114,18 +124,17 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
 
   const handleValorUnitarioChange = (values) => {
     const { floatValue } = values;
-    setValorUnitarioVenda(floatValue);
+    setValorUnitarioVenda(floatValue || '');
   };
 
   return (
     <>
       <div className='sideForm-header'>
-        <h1>{idForEdit ? 'Editar Receita' : 'Adicionar Receita'}</h1>
+        <h1>{isEditMode ? 'Editar Receita' : 'Adicionar Receita'}</h1>
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
           <label>Selecione o Produto/Serviço</label>
-          {/* <div>actionType: {actionType} - idForEdit: {idForEdit}</div> */}
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
@@ -197,7 +206,9 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
       </div>
       <div className='sideForm-footer'>
         <button className='cancelButton' onClick={handleClose}>Cancelar</button>
-        <button className='saveButton' onClick={handleSave}>{idForEdit ? 'Salvar Alterações' : 'Salvar'}</button>
+        <button className='saveButton' onClick={handleSave} disabled={isLoading}>
+          {isEditMode ? 'Atualizar' : 'Salvar'}
+        </button>
       </div>
     </>
   );
@@ -207,7 +218,7 @@ SideFormEstimarReceitas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   actionType: PropTypes.string.isRequired,
-  idForEdit: PropTypes.string,
+  idForEdit: PropTypes.string, // Pode ser nulo para adição
 };
 
 export default SideFormEstimarReceitas;
