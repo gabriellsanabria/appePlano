@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Alertas from '../../../../components/Alertas/Alertas';
+import SideForm from '../../../../components/SideForm/SideForm';
 
 import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
 import { HiDotsVertical } from "react-icons/hi";
@@ -12,7 +13,7 @@ import { API_BASE_URL, API_BASE_URL_AMPLIFY } from '../../../../apiConfig';
 import useAuth from '../../../../hooks/useAuth'; // Importe o hook useAuth
 
 
-const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto }) => {
+const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto, sideType}) => {
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
@@ -23,6 +24,27 @@ const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto
   // Obtendo o usuário e o estado de carregamento do hook useAuth
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
+
+  
+  
+  // States to control the visibility of SideForm and overlay
+  const [isSideFormOpen, setIsSideFormOpen] = useState(false);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [editId, setEditId] = useState(null); // Novo estado para armazenar o id do item em edição
+
+  // Function to open the SideForm and overlay
+  const openSideForm = (id) => {
+    setEditId(id);
+    setIsSideFormOpen(true);
+    setIsOverlayOpen(true);
+  };
+
+  // Function to close the SideForm and overlay
+  const closeSideForm = () => {
+    setIsSideFormOpen(false);
+    setIsOverlayOpen(false);
+    setEditId(null);
+  };
   
   // Função para buscar os dados da API
   const fetchData = async () => {
@@ -97,11 +119,12 @@ const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto
     }
   };
 
+
   // Função para renderizar ações de linha
-  const renderRowActions = (id, row) => {
+  const renderRowActions = (id) => {
     return (
       <div className="row-actions">
-        <Link to={`/ficha-tecnica`}>
+        <Link onClick={() => openSideForm(id)}>
           <FaEdit /> Editar
         </Link>
         <Link onClick={() => handleExcluirProdutoServico(id)}>
@@ -199,8 +222,19 @@ const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto
 
   // Função onAdd para ser passada para SideFormProdutos
   const handleAddProduto = (newItem) => {
-    setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
+    setApiData((prevApiData) => {
+      if (editId) {
+        // Se editId estiver definido, estamos editando um item existente
+        return prevApiData.map((item) =>
+          item.id === editId ? { ...item, ...newItem } : item
+        );
+      } else {
+        // Se editId não estiver definido, estamos adicionando um novo item
+        return [...prevApiData, newItem];
+      }
+    });
   };
+  
   
   useEffect(() => {
     fetchData();
@@ -302,6 +336,19 @@ const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange, addProduto
         {alertMessage && 
           <Alertas message={alertMessage} type={alertType} onClose={() => setAlertMessage(null)} />
         }
+        {/* SideForm that appears from right to left */}
+        <div className={`SideForm ${isSideFormOpen ? 'open' : ''}`}>
+          <div className="SideForm-content">
+            <SideForm 
+              type={sideType} // Alterado para usar sideType
+              closeSideForm={closeSideForm}
+              actionType={'edit'}
+              idForEdit={editId}
+              onAdd={handleAddProduto}
+              despesaTipo={'estrutura'}
+            />
+          </div>
+        </div>
       </>
   );
 };

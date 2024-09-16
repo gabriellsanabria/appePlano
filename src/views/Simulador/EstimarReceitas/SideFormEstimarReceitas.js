@@ -5,57 +5,41 @@ import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
 import useAuth from '../../../hooks/useAuth';
 
-const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }) => {
+const SideFormEstimarDespesas = ({ closeSideForm, onAdd, actionType, idForEdit }) => {
   const [selectedOption, setSelectedOption] = useState(null);
-  const [valorUnitarioVenda, setValorUnitarioVenda] = useState('');
-  const [projecaoVendasPorDia, setProjecaoVendasPorDia] = useState('');
+  const [nomeDespesa, setNomeDespesa] = useState('');
+  const [valorEstimadoDespesa, setValorEstimadoDespesa] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [produtosServicos, setProdutosServicos] = useState([]);
-  
-  const [isEditMode, setIsEditMode] = useState(false);
-  
+
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
 
+  const categoriaDespesaOptions = [
+    { value: 'estrutura', label: 'Estrutura' },
+    { value: 'equipe', label: 'Equipe' },
+    { value: 'insumos', label: 'Insumos' },
+  ];
+
   useEffect(() => {
     if (!loading && userId) {
-      obterProdutosServicos();
-      if (idForEdit) {
-        obterReceitaParaEdicao(idForEdit);
+      if (actionType === 'edit' && idForEdit) {
+        obterDespesaParaEdicao(idForEdit);
       }
     }
-  }, [loading, userId, idForEdit]);
+  }, [loading, userId, actionType, idForEdit]);
 
-  const obterProdutosServicos = async () => {
+  const obterDespesaParaEdicao = async (id) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/simulador/produtos_servicos/${userId}`);
-      const data = await response.json();
-      
-      const options = data.map((produtoServico) => ({
-        value: produtoServico.id,
-        label: produtoServico.produto_servico
-      }));
-
-      options.sort((a, b) => a.label.localeCompare(b.label));
-
-      setProdutosServicos(options);
-    } catch (error) {
-      console.error('Erro ao obter produtos/serviços:', error);
-    }
-  };
-
-  const obterReceitaParaEdicao = async (id) => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${id}`);
+      const response = await fetch(`${API_BASE_URL}/api/simulador/despesas/${id}`);
       const data = await response.json();
 
       if (data) {
-        setSelectedOption({ value: data.id, label: data.produto_servico });
-        setValorUnitarioVenda(data.valor_unitario);
-        setProjecaoVendasPorDia(data.quantidade_vendida_por_mes);
+        setSelectedOption({ value: data.categoria_despesa, label: data.categoria_despesa });
+        setNomeDespesa(data.nome || data.cargo || data.insumo);
+        setValorEstimadoDespesa(data.custo);
       }
     } catch (error) {
-      console.error('Erro ao obter receita para edição:', error);
+      console.error('Erro ao obter despesa para edição:', error);
     }
   };
 
@@ -65,25 +49,44 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
 
   const handleSave = async () => {
     try {
-      if (!selectedOption || !valorUnitarioVenda || !projecaoVendasPorDia) {
+      if (!selectedOption || !nomeDespesa || !valorEstimadoDespesa) {
         throw new Error('Por favor, preencha todos os campos.');
       }
 
       setIsLoading(true);
 
+      let campoNome = '';
+      let campoCusto = '';
+
+      switch (selectedOption.value) {
+        case 'estrutura':
+          campoNome = 'nome';
+          campoCusto = 'custo';
+          break;
+        case 'equipe':
+          campoNome = 'cargo';
+          campoCusto = 'custo';
+          break;
+        case 'insumos':
+          campoNome = 'insumo';
+          campoCusto = 'custo';
+          break;
+        default:
+          throw new Error('Categoria de despesa inválida.');
+      }
+
       const bodyData = {
-        id: selectedOption.value,
-        produto_servico: selectedOption.label,
-        valor_unitario: valorUnitarioVenda,
-        quantidade_vendida_por_mes: projecaoVendasPorDia,
-        uidUser: userId
+        categoria_despesa: selectedOption.label,
+        [campoNome]: nomeDespesa,
+        [campoCusto]: valorEstimadoDespesa,
+        user_id: userId,
       };
 
-      const url = idForEdit
-        ? `${API_BASE_URL}/api/simulador/receitas_mensais_negocio/${idForEdit}`
-        : `${API_BASE_URL}/api/simulador/adicionar_receita_mensal_negocio`;
+      const url = actionType === 'edit'
+        ? `${API_BASE_URL}/api/simulador/despesas/${idForEdit}`
+        : `${API_BASE_URL}/api/simulador/despesas/${selectedOption.value}`;
 
-      const method = idForEdit ? 'PUT' : 'POST';
+      const method = actionType === 'edit' ? 'PUT' : 'POST';
 
       const response = await fetch(url, {
         method,
@@ -94,14 +97,10 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
       });
 
       if (!response.ok) {
-        throw new Error(isEditMode ? 'Falha ao atualizar Produto/Serviço' : 'Falha ao adicionar Produto/Serviço');
+        throw new Error(actionType === 'edit' ? 'Falha ao atualizar despesa' : 'Falha ao adicionar despesa');
       }
 
-      if (actionType === 'edit') {
-        onAdd({ ...bodyData, id: idForEdit });
-      } else {
-        onAdd(bodyData);
-      }
+      onAdd(bodyData);
 
       closeSideForm();
     } catch (error) {
@@ -112,25 +111,19 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
     }
   };
 
-  const handleValorUnitarioChange = (values) => {
-    const { floatValue } = values;
-    setValorUnitarioVenda(floatValue);
-  };
-
   return (
     <>
       <div className='sideForm-header'>
-        <h1>{idForEdit ? 'Editar Receita' : 'Adicionar Receita'}</h1>
+        <h1>{actionType === 'edit' ? 'Editar Despesa' : 'Adicionar Despesa'}</h1>
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
-          <label>Selecione o Produto/Serviço</label>
-          <div>actionType: {actionType} - idForEdit: {idForEdit}</div>
+          <label>Selecione a Categoria da Despesa</label>
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
-            options={produtosServicos}
-            placeholder="Selecione o Produto/Serviço..."
+            options={categoriaDespesaOptions}
+            placeholder="Selecione a Categoria da Despesa..."
             styles={{
               control: (provided) => ({
                 ...provided,
@@ -170,7 +163,16 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
           />
         </div>
         <div className='form-content'>
-          <label>Preço de Venda (R$)</label>
+          <label>Nome da Despesa</label>
+          <input
+            type="text"
+            value={nomeDespesa}
+            onChange={(e) => setNomeDespesa(e.target.value)}
+            placeholder="Digite o Nome da Despesa"
+          />
+        </div>
+        <div className='form-content'>
+          <label>Valor Estimado da Despesa por Mês (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -180,34 +182,27 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd, actionType, idForEdit }
             fixedDecimalScale={true}
             allowNegative={false}
             isNumericString={false}
-            value={valorUnitarioVenda}
-            placeholder="Digite o Preço Unitário de Venda (R$)"
-            onValueChange={handleValorUnitarioChange}
-          />
-        </div>
-        <div className='form-content'>
-          <label>Estimativa de Vendas</label>
-          <input
-            type="text"
-            value={projecaoVendasPorDia}
-            onChange={(e) => setProjecaoVendasPorDia(e.target.value)}
-            placeholder="Digite a Quantidade Estimada de Vendas por Mês"
+            value={valorEstimadoDespesa}
+            placeholder="Digite o Valor Estimado da Despesa por Mês (R$)"
+            onValueChange={(values) => setValorEstimadoDespesa(values.floatValue)}
           />
         </div>
       </div>
       <div className='sideForm-footer'>
         <button className='cancelButton' onClick={handleClose}>Cancelar</button>
-        <button className='saveButton' onClick={handleSave}>{idForEdit ? 'Salvar Alterações' : 'Salvar'}</button>
+        <button className='saveButton' onClick={handleSave}>
+          {actionType === 'edit' ? 'Salvar Alterações' : 'Salvar'}
+        </button>
       </div>
     </>
   );
 };
 
-SideFormEstimarReceitas.propTypes = {
+SideFormEstimarDespesas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   actionType: PropTypes.string.isRequired,
-  idForEdit: PropTypes.string,
+  idForEdit: PropTypes.string, // Pode ser nulo para adição
 };
 
-export default SideFormEstimarReceitas;
+export default SideFormEstimarDespesas;

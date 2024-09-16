@@ -1,27 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
 import useAuth from '../../../hooks/useAuth';
 
-const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
+const SideFormEstimarDespesas = ({ closeSideForm, onAdd, actionType, idForEdit, despesaTipo }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [nomeDespesa, setNomeDespesa] = useState('');
   const [valorEstimadoDespesa, setValorEstimadoDespesa] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  
-  // Obtendo o usuário e o estado de carregamento do hook useAuth
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
 
-  // Opções estáticas para categorias de despesa
   const categoriaDespesaOptions = [
     { value: 'estrutura', label: 'Estrutura' },
     { value: 'equipe', label: 'Equipe' },
     { value: 'insumos', label: 'Insumos' },
   ];
+
+  useEffect(() => {
+    if (!loading && userId && actionType === 'edit' && idForEdit) {
+      obterDespesaParaEdicao(idForEdit);
+    }
+  }, [loading, userId, actionType, idForEdit]);
+
+  const obterDespesaParaEdicao = async (id) => {
+    try {
+      const response = await fetch(`https://api.eplano.com.br/api/simulador/despesas/${despesaTipo}/${id}`);
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        const despesa = data[0]; // A resposta da API é uma lista, então você deve acessar o primeiro item
+        setSelectedOption({ value: despesaTipo, label: despesaTipo });
+        setNomeDespesa(despesa.nome || despesa.cargo || despesa.insumo || '');
+        setValorEstimadoDespesa(despesa.custo || '');
+      }
+    } catch (error) {
+      console.error('Erro ao obter despesa para edição:', error);
+    }
+  };
 
   const handleClose = () => {
     closeSideForm();
@@ -32,13 +51,12 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
       if (!selectedOption || !nomeDespesa || !valorEstimadoDespesa) {
         throw new Error('Por favor, preencha todos os campos.');
       }
-  
+
       setIsLoading(true);
-  
+
       let campoNome = '';
       let campoCusto = '';
-  
-      // Define os nomes dos campos baseado na categoria selecionada
+
       switch (selectedOption.value) {
         case 'estrutura':
           campoNome = 'nome';
@@ -55,30 +73,34 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
         default:
           throw new Error('Categoria de despesa inválida.');
       }
-  
-      console.log('Selected Option Value:', selectedOption.value); // Adicionando o console.log
-      
+
       const bodyData = {
         categoria_despesa: selectedOption.label,
         [campoNome]: nomeDespesa,
         [campoCusto]: valorEstimadoDespesa,
         user_id: userId,
       };
-  
-      const response = await fetch(`${API_BASE_URL}/api/simulador/despesas/${selectedOption.value}`, {
-        method: 'POST',
+
+      const url = actionType === 'edit'
+        ? `${API_BASE_URL}/api/simulador/despesas/${selectedOption.value}/${idForEdit}`
+        : `${API_BASE_URL}/api/simulador/despesas/${selectedOption.value}`;
+
+      const method = actionType === 'edit' ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
       });
-  
+
       if (!response.ok) {
-        throw new Error('Falha ao adicionar despesa');
+        throw new Error(actionType === 'edit' ? 'Falha ao atualizar despesa' : 'Falha ao adicionar despesa');
       }
-      console.log(response);
+
       onAdd(bodyData);
-  
+
       closeSideForm();
     } catch (error) {
       console.error('Erro ao salvar:', error.message);
@@ -87,13 +109,12 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
       setIsLoading(false);
     }
   };
-  
-  
 
   return (
     <>
       <div className='sideForm-header'>
-        <h1>Adicione as Despesas</h1>
+        <h1>{actionType === 'edit' ? 'Editar Despesa' : 'Adicionar Despesa'}</h1>
+        {idForEdit}
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
@@ -151,8 +172,7 @@ const SideFormEstimarDespesas = ({ closeSideForm, onAdd }) => {
           />
         </div>
         <div className='form-content'>
-          <label>Valor Estimado da Despesa
-por Mês (R$)</label>
+          <label>Valor Estimado da Despesa por Mês (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -170,7 +190,9 @@ por Mês (R$)</label>
       </div>
       <div className='sideForm-footer'>
         <button className='cancelButton' onClick={handleClose}>Cancelar</button>
-        <button className='saveButton' onClick={handleSave}>Salvar</button>
+        <button className='saveButton' onClick={handleSave} disabled={isLoading}>
+          {actionType === 'edit' ? 'Salvar Alterações' : 'Salvar'}
+        </button>
       </div>
     </>
   );
@@ -179,6 +201,9 @@ por Mês (R$)</label>
 SideFormEstimarDespesas.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  actionType: PropTypes.string.isRequired,
+  idForEdit: PropTypes.string,
+  despesaTipo: PropTypes.string.isRequired,
 };
 
 export default SideFormEstimarDespesas;

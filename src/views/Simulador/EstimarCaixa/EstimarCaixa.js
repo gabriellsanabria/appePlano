@@ -3,6 +3,7 @@ import Layout from '../../../components/Layout/layout';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
+import SideForm from '../../../components/SideForm/SideForm';
 
 import TableEstimarCaixaInsumos from '../Tables/TableEstimarCaixa/TableEstimarCaixaInsumos';
 import TableEstimarCaixaLiquido from '../Tables/TableEstimarCaixa/TableEstimarCaixaLiquido';
@@ -41,6 +42,25 @@ const EstimarCaixa = () => {
     { label: headerTitle, path: '/dashboard' },
   ];
 
+    // States to control the visibility of SideForm and overlay
+    const [isSideFormOpen, setIsSideFormOpen] = useState(false);
+    const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+    const [editId, setEditId] = useState(null); // Novo estado para armazenar o id do item em edição
+  
+    // Function to open the SideForm and overlay
+    const openSideForm = (id) => {
+      setEditId(id);
+      setIsSideFormOpen(true);
+      setIsOverlayOpen(true);
+    };
+  
+    // Function to close the SideForm and overlay
+    const closeSideForm = () => {
+      setIsSideFormOpen(false);
+      setIsOverlayOpen(false);
+      setEditId(null);
+    };
+
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
@@ -49,10 +69,19 @@ const EstimarCaixa = () => {
 
 
   // Função onAdd para ser passada para SideFormProdutos
-  const handleAddProduto = (newItem) => {
-    setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
-    // alert('Produto adicionado com sucesso!');
-    // Lógica adicional se necessário
+  const handleAddProduto = async (newItem) => {
+    try {
+      // Assuming you may want to send `newItem` to an API
+      // const response = await fetch(/* API endpoint */, { method: 'POST', body: JSON.stringify(newItem) });
+      // if (!response.ok) throw new Error('Failed to add item');
+  
+      setApiData([...apiData, newItem]);
+      setAlertMessage('Adicionado com sucesso!');
+      setAlertType('success');
+    } catch (error) {
+      setAlertMessage('Falha ao adicionar o item. Tente novamente.');
+      setAlertType('error');
+    }
   };
 
   const hasTotal = true;
@@ -83,19 +112,35 @@ const EstimarCaixa = () => {
         <h1>
           Caixa Líquido
         </h1>
-        <TableEstimarCaixaLiquido onTotalCaixaLiquidoChange={handleTotalCaixaLiquidoChange} addProduto={handleAddProduto} />
+        <TableEstimarCaixaLiquido 
+          onTotalCaixaLiquidoChange={handleTotalCaixaLiquidoChange}
+          addProduto={handleAddProduto} 
+          sideType={sideType}
+        />
         <h1>
           Caixa Insumos (Estoque)
         </h1>
-        <TableEstimarCaixaInsumos onTotalInvestimentosInsumosChange={handleTotalCaixaEstoque} addProduto={handleAddProduto} />
+        <TableEstimarCaixaInsumos 
+          onTotalInvestimentosInsumosChange={handleTotalCaixaEstoque} 
+          addProduto={handleAddProduto} 
+          sideType={sideType}
+        />
         <h1>
           Caixa Recebíveis
         </h1>
-        <TableEstimarCaixaRecebiveis onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange}  addProduto={handleAddProduto} />
+        <TableEstimarCaixaRecebiveis 
+          onTotalCaixaRecebiveisChange={handleTotalCaixaRecebiveisChange}  
+          addProduto={handleAddProduto} 
+          sideType={sideType}
+        />
         <h1>
           Dívidas
         </h1>
-        <TableEstimarCaixaContasAPagar onTotalContasPagarChange={handleTotalContasPagarChange} addProduto={handleAddProduto} />
+        <TableEstimarCaixaContasAPagar 
+          onTotalContasPagarChange={handleTotalContasPagarChange} 
+          addProduto={handleAddProduto} 
+          sideType={sideType}
+        />
         
       </div>
       {saveMessage && 
@@ -104,6 +149,19 @@ const EstimarCaixa = () => {
       {alertMessage && 
         <Alertas message={alertMessage} type={alertType} onClose={() => setAlertMessage(null)} />
       }
+      
+      {/* SideForm that appears from right to left */}
+      <div className={`SideForm ${isSideFormOpen ? 'open' : ''}`}>
+        <div className="SideForm-content">
+          <SideForm 
+            type={sideType} // Alterado para usar sideType
+            closeSideForm={closeSideForm}
+            actionType={'edit'}
+            idForEdit={editId}
+            onAdd={handleAddProduto}
+          />
+        </div>
+      </div>
     </Layout>
   );
 };

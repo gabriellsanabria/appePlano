@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState } from 'react';
 import Layout from '../../../components/Layout/layout';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import PageHeader from '../../../components/PageHeader/PageHeader';
 import Alertas from '../../../components/Alertas/Alertas';
+import SideForm from '../../../components/SideForm/SideForm';
 
 import TableEstimarDespesasEstrutura from '../Tables/TableEstimarDespesas/TableEstimarDespesasEstrutura';
 import TableEstimarDespesasEquipe from '../Tables/TableEstimarDespesas/TableEstimarDespesasEquipe';
 import TableEstimarDespesasInsumos from '../Tables/TableEstimarDespesas/TableEstimarDespesasInsumos';
 
-import { PiChartLineDownBold, PiChartLineUpBold } from "react-icons/pi";
-
+import { PiChartLineDownBold } from "react-icons/pi";
 
 const EstimarDespesas = () => {
   const headerTitle = 'Estimar Despesas';
@@ -26,7 +26,7 @@ const EstimarDespesas = () => {
   const handleTotalCustoEquipeChange = (newTotalCustoEquipe) => {
     setTotalCustoEquipe(newTotalCustoEquipe);
   };
-  
+
   const [totalCustoInsumos, setTotalCustoInsumos] = useState(0);
   const handleTotalCustoInsumosChange = (newTotalCustoInsumos) => {
     setTotalCustoInsumos(newTotalCustoInsumos);
@@ -38,26 +38,52 @@ const EstimarDespesas = () => {
     { label: headerTitle, path: '/dashboard' },
   ];
 
+  // States to control the visibility of SideForm and overlay
+  const [isSideFormOpen, setIsSideFormOpen] = useState(false);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const [editId, setEditId] = useState(null); // Novo estado para armazenar o id do item em edição
+
+  // Function to open the SideForm and overlay
+  const openSideForm = (id) => {
+    setEditId(id);
+    setIsSideFormOpen(true);
+    setIsOverlayOpen(true);
+  };
+
+  // Function to close the SideForm and overlay
+  const closeSideForm = () => {
+    setIsSideFormOpen(false);
+    setIsOverlayOpen(false);
+    setEditId(null);
+  };
+
   // Estado para os dados da API
   const [apiData, setApiData] = useState([]);
   const [saveMessage, setSaveMessage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null); // Estado para mensagem de alerta
   const [alertType, setAlertType] = useState(null); // Estado para o tipo de alerta
 
-
   // Função onAdd para ser passada para SideFormProdutos
-  const handleAddProduto = (newItem) => {
-    setApiData([...apiData, newItem]); // Adiciona o novo item ao estado apiData
-    setAlertMessage('Adicionado com sucesso!');
-    setAlertType('success');
-    // alert('Produto adicionado com sucesso!');
-    // Lógica adicional se necessário
+  const handleAddProduto = async (newItem) => {
+    try {
+      // Assuming you may want to send `newItem` to an API
+      // const response = await fetch(/* API endpoint */, { method: 'POST', body: JSON.stringify(newItem) });
+      // if (!response.ok) throw new Error('Failed to add item');
+  
+      setApiData([...apiData, newItem]);
+      setAlertMessage('Adicionado com sucesso!');
+      setAlertType('success');
+    } catch (error) {
+      setAlertMessage('Falha ao adicionar o item. Tente novamente.');
+      setAlertType('error');
+    }
   };
+  
 
   const hasTotal = true;
   // const valorTotal = totalCusto;
 
-  const valorTotal = [totalCustoEstrutura,totalCustoEquipe, totalCustoInsumos];
+  const valorTotal = [totalCustoEstrutura, totalCustoEquipe, totalCustoInsumos];
   const labelTotalArray = 'Estrutura, Equipe, Insumos';
 
   // Usando o método split para criar um array
@@ -73,7 +99,6 @@ const EstimarDespesas = () => {
           icon={headerIcon}
           sideType={sideType}
           onAdd={handleAddProduto}
-
           hasTotal={hasTotal}
           labelTotal={labelTotal}
           valorTotalOn={valorTotal}
@@ -81,16 +106,27 @@ const EstimarDespesas = () => {
         <h1>
           Estrutura Física/Virtual
         </h1>
-        <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} addProduto={handleAddProduto} />
+        <TableEstimarDespesasEstrutura
+          onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange}
+          addProduto={handleAddProduto}
+          sideType={sideType}
+        />
         <h1>
           Equipe de Trabalho
         </h1>
-        <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange} addProduto={handleAddProduto} />
+        <TableEstimarDespesasEquipe
+          onTotalCustoEquipeChange={handleTotalCustoEquipeChange}
+          addProduto={handleAddProduto}
+          sideType={sideType}
+        />
         <h1>
           Insumos Operacionais
         </h1>
-        <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange} addProduto={handleAddProduto} />
-        
+        <TableEstimarDespesasInsumos
+          onTotalCustoInsumosChange={handleTotalCustoInsumosChange}
+          addProduto={handleAddProduto}
+          sideType={sideType}
+        />
       </div>
       {saveMessage && 
         <Alertas message={saveMessage} type={alertType} onClose={() => setSaveMessage(null)} />
@@ -98,6 +134,19 @@ const EstimarDespesas = () => {
       {alertMessage && 
         <Alertas message={alertMessage} type={alertType} onClose={() => setAlertMessage(null)} />
       }
+      
+      {/* SideForm that appears from right to left */}
+      <div className={`SideForm ${isSideFormOpen ? 'open' : ''}`}>
+        <div className="SideForm-content">
+          <SideForm 
+            type={sideType} // Alterado para usar sideType
+            closeSideForm={closeSideForm}
+            actionType={'edit'}
+            idForEdit={editId}
+            onAdd={handleAddProduto}
+          />
+        </div>
+      </div>
     </Layout>
   );
 };

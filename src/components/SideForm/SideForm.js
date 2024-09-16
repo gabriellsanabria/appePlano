@@ -15,7 +15,7 @@ import SideFormProdutosSimulador from '../../views/Simulador/ProdutosServicos/Si
 import SideFormEstimarReceitasSimulador from '../../views/Simulador/EstimarReceitas/SideFormEstimarReceitas';
 import SideFormEstimarDespesasSimulador from '../../views/Simulador/EstimarDespesas/SideFormEstimarDespesas';
 
-const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
+const SideForm = ({ type, closeSideForm, onAdd, actionType, despesaTipo, idForEdit, caixaTipo }) => {
   switch (type) {
     case 'SideFormProdutos':
       return <SideFormProdutos closeSideForm={closeSideForm} onAdd={onAdd} />;
@@ -27,9 +27,7 @@ const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
       return <SideFormEstimarInvestimentos closeSideForm={closeSideForm} onAdd={onAdd} />;
     case 'SideFormImposto':
       return <SideFormImposto closeSideForm={closeSideForm} onAdd={onAdd} />;
-    case 'SideFormEstimarCaixa':
-      return <SideFormEstimarCaixa closeSideForm={closeSideForm} onAdd={onAdd} />;
-    
+
     case 'SideFormProdutosSimulador':
       return (
         <SideFormProdutosSimulador 
@@ -49,9 +47,29 @@ const SideForm = ({ type, closeSideForm, onAdd, actionType, idForEdit }) => {
           idForEdit={idForEdit}
         />
     );    
-
+    
     case 'SideFormEstimarDespesasSimulador':
-      return <SideFormEstimarDespesasSimulador closeSideForm={closeSideForm} onAdd={onAdd} />;
+      return (
+        <SideFormEstimarDespesasSimulador 
+          closeSideForm={closeSideForm} 
+          onAdd={onAdd} 
+          actionType={actionType}    
+          idForEdit={idForEdit}
+          despesaTipo={despesaTipo}
+        />
+    );    
+    
+    case 'SideFormEstimarCaixa':
+      return (
+        <SideFormEstimarCaixa 
+          closeSideForm={closeSideForm} 
+          onAdd={onAdd} 
+          actionType={actionType}    
+          idForEdit={idForEdit}
+          caixaTipo={caixaTipo}
+        />
+    );    
+
     default:
       return (
         <div>
@@ -66,6 +84,8 @@ SideForm.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   actionType: PropTypes.string,
+  despesaTipo: PropTypes.string,
+  caixaTipo: PropTypes.string,
   idForEdit: PropTypes.string,
 };
 

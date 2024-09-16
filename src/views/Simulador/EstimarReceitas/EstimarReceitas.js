@@ -278,6 +278,7 @@ const totalGeral = apiData.reduce(
       // Adiciona o novo item à lista
       setApiData((prevApiData) => [...prevApiData, item]);
     }
+    setAlertType('success'); // Define o tipo de alerta
   };
   
   if (loading) {

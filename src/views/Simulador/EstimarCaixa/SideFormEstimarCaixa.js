@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 import { NumericFormat } from 'react-number-format';
 import { API_BASE_URL } from '../../../apiConfig';
 import useAuth from '../../../hooks/useAuth'; // Importe o hook useAuth
 
-const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
+const SideFormEstimarCaixa = ({ closeSideForm, onAdd, actionType, idForEdit, caixaTipo }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [descricaoCaixa, setDescricaoCaixa] = useState('');
   const [valorCaixa, setValorCaixa] = useState('');
@@ -14,14 +14,36 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
   // Obtendo o usuário e o estado de carregamento do hook useAuth
   const { user, loading } = useAuth();
   const userId = user ? user.uid : null;
-  
-  // Opções estáticas para categorias de despesa
-  const categoriaDespesaOptions = [
+
+  // Opções estáticas para categorias de caixa
+  const categoriaCaixaOptions = [
     { value: 'liquido', label: 'Caixa Líquido' },
     { value: 'estoque', label: 'Caixa Insumos (Estoque)' },
     { value: 'recebiveis', label: 'Caixa Recebíveis' },
     { value: 'contas_pagar', label: 'Caixa Dívidas' },
   ];
+
+  useEffect(() => {
+    if (!loading && userId && actionType === 'edit' && idForEdit) {
+      obterCaixaParaEdicao(idForEdit);
+    }
+  }, [loading, userId, actionType, idForEdit]);
+
+  const obterCaixaParaEdicao = async (id) => {
+    try {
+      const response = await fetch(`https://api.eplano.com.br/api/caixa/${caixaTipo}/${id}`);
+      const data = await response.json();
+  
+      if (data) {
+        setSelectedOption({ value: caixaTipo, label: caixaTipo });
+        setDescricaoCaixa(data.descricao || '');
+        setValorCaixa(data.valor || '');
+      }
+    } catch (error) {
+      console.error('Erro ao obter caixa para edição:', error);
+    }
+  };
+  
 
   const handleClose = () => {
     closeSideForm();
@@ -29,58 +51,46 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
 
   const handleSave = async () => {
     try {
+      // Verifica se todos os campos necessários estão preenchidos
       if (!selectedOption || !descricaoCaixa || !valorCaixa) {
         throw new Error('Por favor, preencha todos os campos.');
       }
   
       setIsLoading(true);
   
-      let descricao = '';
-      let valor = '';
-  
       // Define os nomes dos campos baseado na categoria selecionada
-      switch (selectedOption.value) {
-        case 'liquido':
-          descricao = 'descricao';
-          valor = 'valor';
-          break;
-        case 'estoque':
-          descricao = 'descricao';
-          valor = 'valor';
-          break;
-        case 'recebiveis':
-          descricao = 'descricao';
-          valor = 'valor';
-          break;
-        case 'contas_pagar':
-          descricao = 'descricao';
-          valor = 'valor';
-          break;
-        default:
-          throw new Error('Categoria de despesa inválida.');
-      }
-
-      console.log('Selected Option Value:', selectedOption.value); // Adicionando o console.log
-      
+      let descricao = 'descricao'; // O nome do campo é sempre 'descricao' na sua configuração atual
+      let valor = 'valor'; // O nome do campo é sempre 'valor' na sua configuração atual
+  
+      // Dados a serem enviados no corpo da requisição
       const bodyData = {
-        categoria_despesa: selectedOption.label,
+        categoria_caixa: selectedOption.label,
         [descricao]: descricaoCaixa,
         [valor]: valorCaixa,
         uidUser: userId
-
       };
   
-      const response = await fetch(`${API_BASE_URL}/api/caixa/${selectedOption.value}`, {
-        method: 'POST',
+      // Define a URL e o método HTTP baseado na ação (editar ou criar)
+      const url = actionType === 'edit'
+        ? `${API_BASE_URL}/api/caixa/${selectedOption.value}/${idForEdit}`
+        : `${API_BASE_URL}/api/caixa/${selectedOption.value}`;
+        
+      const method = actionType === 'edit' ? 'PUT' : 'POST';
+  
+      // Envia a requisição para a API
+      const response = await fetch(url, {
+        method,
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(bodyData),
       });
   
+      // Verifica se a resposta foi bem-sucedida
       if (!response.ok) {
-        throw new Error('Falha ao adicionar despesa');
+        throw new Error(actionType === 'edit' ? 'Falha ao atualizar caixa' : 'Falha ao adicionar caixa');
       }
+  
       console.log(response);
       onAdd(bodyData);
   
@@ -93,12 +103,12 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
     }
   };
   
-  
 
   return (
     <>
       <div className='sideForm-header'>
-        <h1>Adicione o Caixa do seu Negócio</h1>
+        <h1>{actionType === 'edit' ? 'Editar Caixa' : 'Adicionar Caixa'}</h1>
+        {/* {idForEdit} - {caixaTipo} */}
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
@@ -106,7 +116,7 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
-            options={categoriaDespesaOptions}
+            options={categoriaCaixaOptions}
             placeholder="Selecione o Tipo de Caixa"
             styles={{
               control: (provided) => ({
@@ -174,7 +184,9 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
       </div>
       <div className='sideForm-footer'>
         <button className='cancelButton' onClick={handleClose}>Cancelar</button>
-        <button className='saveButton' onClick={handleSave}>Salvar</button>
+        <button className='saveButton' onClick={handleSave} disabled={isLoading}>
+          {actionType === 'edit' ? 'Salvar Alterações' : 'Salvar'}
+        </button>
       </div>
     </>
   );
@@ -183,6 +195,9 @@ const SideFormEstimarCaixa = ({ closeSideForm, onAdd }) => {
 SideFormEstimarCaixa.propTypes = {
   closeSideForm: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  actionType: PropTypes.string.isRequired,
+  idForEdit: PropTypes.string,
+  caixaTipo: PropTypes.string.isRequired,
 };
 
 export default SideFormEstimarCaixa;
