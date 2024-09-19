@@ -13,8 +13,8 @@ import { FaDollarSign } from "react-icons/fa";
 
 
 const EstimarInvestimentos = () => {
-  const headerTitle = 'Estimar o Caixa';
-  const headerSubtitle = 'Vamos cadastrar o Caixa Atual do seu Negócio';
+  const headerTitle = 'Estimar Investimentos';
+  const headerSubtitle = 'Vamos cadastrar os Investimentos Necessários para Implantar a sua Ideia de Negócio';
   const sideType = 'SideFormEstimarInvestimentos';
   const headerIcon = FaDollarSign;
 
@@ -81,7 +81,7 @@ const EstimarInvestimentos = () => {
         </h1>
         <TableEstimarInvestimentosEstrutura onTotalInvestimentosEstruturaChange={handleTotalInvestimentosEstruturaChange} />
         <h1>
-          Insumos
+          Despesas de Implantação
         </h1>
         <TableEstimarInvestimentosInsumos onTotalInvestimentosInsumosChange={handleTotalInvestimentosInsumosChange} />
         <h1>

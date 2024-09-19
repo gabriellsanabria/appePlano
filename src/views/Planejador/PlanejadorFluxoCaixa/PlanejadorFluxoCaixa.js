@@ -7,7 +7,7 @@ import AnaliseViabilidadePayback from '../../ePlano/FluxoDeCaixaProjetado/FluxoD
 
 const PlanejadorFluxoCaixa = () => {
   const headerTitle = 'Fluxo de Caixa Projetado';
-  const headerSubtitle = 'Fluxo de Caixa Estimado do seu Negócio';
+  const headerSubtitle = 'Fluxo de Caixa Estimado da sua Ideia de Negócio.';
   const headerIcon = FaChartGantt ;  // Use o ícone IoClose diretamente
   
   const breadcrumbItems = [

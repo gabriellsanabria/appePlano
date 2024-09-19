@@ -313,7 +313,7 @@ const AnaliseViabilidadePayback = () => {
           </div>
 
           <div className=''>
-            <h1>Resultado Operacional Acumulado (Estimativa de Cenários)</h1>
+            <h1>Retorno de Investimento (Tempo e R$)</h1>
           </div>
           <div className=''>
             <div className=''>

@@ -145,12 +145,12 @@ const fetchData = async () => {
         disableSortBy: true,
       },
       { 
-        Header: <strong>Membro</strong>, 
+        Header: <strong>Membro da Equipe</strong>, 
         accessor: 'cargo',
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
       {
-        Header: <strong>Custo</strong>, 
+        Header: <strong>Despesas (R$)</strong>, 
         accessor: 'custo',
         Cell: ({ value }) => (
           <strong>

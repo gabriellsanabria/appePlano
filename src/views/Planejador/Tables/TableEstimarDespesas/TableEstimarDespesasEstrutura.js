@@ -149,7 +149,7 @@ const TableEstimarDespesasEstrutura = ({ onTotalCustoEstruturaChange }) => {
         Cell: ({ value }) => <strong>{value}</strong>, 
       },
       {
-        Header: <strong>Custo</strong>, 
+        Header: <strong>Despesas (R$)</strong>, 
         accessor: 'custo',
         Cell: ({ value }) => (
           <strong>

@@ -279,22 +279,22 @@ const AnaliseViabilidadePayback = () => {
             </div>
             <div className='indicador'>
               <div className='indicador-content'>
-                <h3>Payback Esperado</h3>
-                <p>(Fluxo projetado esperado)</p>
+                <h3>Tempo de Retorno Investimento</h3>
+                <p>(Meses)</p>
                 <p className='valor'><ExpectedPayback /></p>
               </div>
             </div>
             <div className='indicador'>
               <div className='indicador-content'>
-                <h3>ROI</h3>
-                <p>(24 meses)</p>
+                <h3>Retorno do Investimento</h3>
+                <p>(Retorno em 24 Meses)</p>
                 <p className='valor'><ReturnOnInvestment /></p>
               </div>
             </div>
           </div>
 
           <div className=''>
-            <h1>Resultado Operacional Acumulado (Estimativa de Cenários)</h1>
+            <h1>Retorno de Investimento (Tempo e R$)</h1>
           </div>
           <div className=''>
             <div className=''>

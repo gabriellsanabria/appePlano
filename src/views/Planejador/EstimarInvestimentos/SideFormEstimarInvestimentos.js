@@ -18,8 +18,8 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
   // Opções estáticas para categorias de despesa
   const categoriaDespesaOptions = [
     { value: 'estrutura', label: 'Estrutura' },
+    { value: 'insumos', label: 'Despesas de Implantação' },
     { value: 'capital-de-giro', label: 'Capital de Giro' },
-    { value: 'insumos', label: 'Insumos' },
   ];
 
   const handleClose = () => {
@@ -96,12 +96,12 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
       </div>
       <div className='sideForm-body'>
         <div className='form-content'>
-          <label>Selecione a categoria de investimento</label>
+          <label>Selecione a Categoria de Investimento</label>
           <Select
             value={selectedOption}
             onChange={setSelectedOption}
             options={categoriaDespesaOptions}
-            placeholder="Selecione a categoria de investimento..."
+            placeholder="Selecione a Categoria de Investimento..."
             styles={{
               control: (provided) => ({
                 ...provided,
@@ -141,17 +141,16 @@ const SideFormEstimarInvestimentos = ({ closeSideForm, onAdd }) => {
           />
         </div>
         <div className='form-content'>
-          <label>Nome da Despesa</label>
+          <label>Nome do Investimento</label>
           <input
             type="text"
             value={nomeDespesa}
             onChange={(e) => setNomeDespesa(e.target.value)}
-            placeholder="Digite o Nome da Despesa"
+            placeholder="Digite o Nome do Investimento"
           />
         </div>
         <div className='form-content'>
-          <label>Valor Estimado da Despesa
-por Mês (R$)</label>
+          <label>Valor Estimado do Investimento (R$)</label>
           <NumericFormat
             displayType={'input'}
             thousandSeparator='.'
@@ -162,8 +161,7 @@ por Mês (R$)</label>
             allowNegative={false}
             isNumericString={false}
             value={valorEstimadoDespesa}
-            placeholder="Digite o Valor Estimado da Despesa
-por Mês (R$)"
+            placeholder="Digite o Valor Estimado do Investimento (R$)"
             onValueChange={(values) => setValorEstimadoDespesa(values.floatValue)}
           />
         </div>

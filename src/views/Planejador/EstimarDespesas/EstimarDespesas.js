@@ -81,11 +81,11 @@ const EstimarDespesas = () => {
         </h1>
         <TableEstimarDespesasEstrutura onTotalCustoEstruturaChange={handleTotalCustoEstruturaChange} />
         <h1>
-          Equipe
+          Equipe de Trabalho
         </h1>
         <TableEstimarDespesasEquipe onTotalCustoEquipeChange={handleTotalCustoEquipeChange}/>
         <h1>
-          Insumos
+          Insumos Operacionais
         </h1>
         <TableEstimarDespesasInsumos onTotalCustoInsumosChange={handleTotalCustoInsumosChange}/>
         

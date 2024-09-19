@@ -91,7 +91,7 @@ const SideFormEstimarReceitas = ({ closeSideForm, onAdd }) => {
   return (
     <>
       <div className='sideForm-header'>
-          <h1>Adicione uma receita estimada</h1>
+          <h1>Adicione as Receitas</h1>
       </div>
       <div className='sideForm-body'>
           <div className='form-content'>

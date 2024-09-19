@@ -151,7 +151,7 @@ const fetchData = async () => {
       },
 
       {
-        Header: <strong>Custo</strong>, 
+        Header: <strong>Despesas (R$)</strong>, 
         accessor: 'custo',
         Cell: ({ value }) => (
           <strong>
