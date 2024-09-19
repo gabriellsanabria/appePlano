@@ -41,9 +41,9 @@ const LucroLiquidoMensal2 = ({ meses }) => {
          const somaCapitalGiro = dataCapitalGiro.reduce((total, item) => total + parseFloat(item.investimento_total), 0);
          setCapitalGiroInvestimento(0);
 
-        const response = await fetch(`${API_BASE_URL}/receitas_mensais_negocio/user/${userId}`);
+        const response = await fetch(`${API_BASE_URL}/api/simulador/receitas_mensais_negocio/user/${userId}`);
         if (!response.ok) {
-          throw new Error('Falha na rede');
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
         
