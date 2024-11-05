@@ -53,27 +53,31 @@ const ProfitAnalysisLineChart = () => {
                     labels: meses,
                     datasets: [
                         {
-                            label: 'Cenário Pessimista',
-                            data: lucroLiquidoData.pessimista,
-                            borderColor: 'red',
-                            borderWidth: 2,
-                            fill: false
+                          label: 'Cenário Pessimista',
+                          data: lucroLiquidoData.pessimista,
+                          borderColor: '#FF6F61',  // Nova cor para o cenário pessimista
+                          borderWidth: 6, // Engrossar a linha
+                          fill: false,
+                          tension: 0.6 // Suaviza a linha com um valor entre 0 e 1
                         },
                         {
-                            label: 'Cenário Esperado',
-                            data: lucroLiquidoData.esperado,
-                            borderColor: 'green',
-                            borderWidth: 2,
-                            fill: false
+                          label: 'Cenário Esperado',
+                          data: lucroLiquidoData.esperado,
+                          borderColor: '#6A7FDB',  // Nova cor para o cenário esperado
+                          borderWidth: 6, // Engrossar a linha
+                          fill: false,
+                          tension: 0.6 // Suaviza a linha com um valor entre 0 e 1
                         },
                         {
-                            label: 'Cenário Otimista',
-                            data: lucroLiquidoData.otimista,
-                            borderColor: 'blue',
-                            borderWidth: 2,
-                            fill: false
+                          label: 'Cenário Otimista',
+                          data: lucroLiquidoData.otimista,
+                          borderColor: '#4CAF50',  // Nova cor para o cenário otimista
+                          borderWidth: 6, // Engrossar a linha
+                          fill: false,
+                          tension: 0.6 // Suaviza a linha com um valor entre 0 e 1
                         }
-                    ]
+                      ]
+                      
                 },
                 options: {
                     responsive: true,
@@ -96,15 +100,42 @@ const ProfitAnalysisLineChart = () => {
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Análise de Lucro',
+                            // text: 'Análise de Lucro',
                             fontSize: 18 
                         },
                         legend: {
                             position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    return tooltipItems[0].label;
+                                },
+                                label: function(tooltipItem) {
+                                    // Formata o valor como moeda brasileira (R$)
+                                    const valorFormatado = tooltipItem.raw.toLocaleString('pt-BR', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    });
+                                    return tooltipItem.dataset.label + ': ' + valorFormatado;
+                                }
+                            },
+                            bodyFont: {
+                                size: 16 // Aumenta o tamanho da fonte do corpo do tooltip
+                            },
+                            titleFont: {
+                                size: 18 // Aumenta o tamanho da fonte do título do tooltip
+                            },
+                            padding: 10, // Adiciona padding ao tooltip
+                            backgroundColor: '#e6e6e6', // Cor de fundo azul
+                            titleColor: 'black', // Cor do texto do título
+                            bodyColor: 'black' // Cor do texto do corpo
                         }
                     }
                 }
             });
+            // Adicionar CSS para cursor pointer
+            chartRef.current.style.cursor = 'pointer';
         }
     }, [lucroLiquidoData, meses]);
 

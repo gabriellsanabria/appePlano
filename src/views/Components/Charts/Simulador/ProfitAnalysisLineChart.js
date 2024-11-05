@@ -104,7 +104,7 @@ const ProfitAnalysisLineChart = () => {
                             tension: 0.6 // Suaviza a linha com um valor entre 0 e 1
                         },
                         {
-                            label: 'Cenário Otimista',
+                            label: 'CenárioaaaaOtimista',
                             data: lucroLiquidoData.otimista,
                             borderColor: '#77C9A2',
                             borderWidth: 6, // Engrossar a linha

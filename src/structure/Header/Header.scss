@@ -17,51 +17,107 @@
     padding: 0px 3%;
 
     .menuTab {
-      width: 70%;
+      width: 100%;
       display: flex;
       align-items: center;
       font-size: 24px;
       margin: 0;
       padding: 0;
-      ul{
+    
+      ul {
         width: 100%;
         display: flex;
         list-style: none;
         margin: 0;
         padding: 0;
-        // justify-content: center;
-        // align-content: center;
-        li{
+        li {
           display: flex;
-          margin: 0 20px 0 0;
-          padding: 0 20px 0 0;
-          a{
+          margin: 0 10px;
+          padding: 0;
+          position: relative; // Permite que o submenu seja posicionado em relação a este item
+    
+          a {
             display: flex;
-            padding: 15% 0;
+            padding: 10% 10px;
             text-decoration: none;
             margin: 0;
             align-items: center;
             justify-content: center;
-            align-content: center;
             color: black;
             font-weight: 700;
             font-size: 1.1rem;
             border-bottom: solid 2px transparent;
             transition: border-width 0.3s linear;
-            &:hover{
+    
+            &:hover {
               border-bottom: solid 2px black;
+              color: $primary-color;
             }
-            &.active{
+    
+            &.active {
               border-bottom: solid 2px black;
+              color: $primary-color;
             }
-            &.linkDisabled{
-              opacity: 0.3;
-              cursor: not-allowed;
+          }
+    
+          &:hover .submenu {
+            display: block; // Mostra o submenu ao passar o mouse
+          }
+        }
+      }
+    
+      .submenu {
+        display: none; // Oculta o submenu por padrão
+        position: absolute; // Faz o submenu aparecer sobre os itens
+        background-color: white;
+        border-top: solid 2px black;
+        z-index: 1000; // Garante que o submenu fique sobre outros elementos
+        top: 100%; // Ajusta o submenu para ficar logo abaixo do item de menu
+        left: 0;
+        margin: -10px 0 0 0;
+        min-width: 200px;
+        box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); // Adiciona a sombra ao submenu
+    
+        li {
+          width: 100%;
+          padding: 10px;
+          display: flex;
+    
+          a {
+            width: 100%;
+            border-bottom: solid 0px transparent;
+            text-decoration: none; // Remove o sublinhado
+            font-weight: 500;
+            font-size: 1.1em;
+            padding: 5px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+    
+            &:hover {
+              border-bottom: solid 0px black;
+              text-decoration: underline;
             }
           }
         }
       }
+      
     }
+    
+    .icon-ct-plus {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      margin-right: 8px; // Para dar algum espaçamento entre o ícone e o texto
+
+      img {
+        margin-right: 8px;
+        width: 30px; // Ajuste o tamanho da imagem conforme necessário
+        height: auto; // Mantém a proporção da imagem
+      }
+    }
+    
 
     .icons {
       width: 30%;
