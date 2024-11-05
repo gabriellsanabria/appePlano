@@ -124,7 +124,7 @@ const AnaliseViabilidadePayback = () => {
                 <h2>
                   Caixa Estimado
                 </h2>              
-                <p>Você ainda não estimou os investimentos. </p>
+                <p>Você ainda não estimou o caixa. </p>
                 <Link to='/simulador-financeiro/estimar-caixa'>Clique aqui para estimar investimentos</Link>
               </>
               ) : (
