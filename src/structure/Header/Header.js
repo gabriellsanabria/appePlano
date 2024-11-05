@@ -159,31 +159,46 @@ const Header = () => {
             <li>
               <Link className={isActive('/dashboard')} to='/dashboard'>Resumo</Link>
             </li>
-            <li>
-              <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Simulador de novos Negócios</Link>
-              {/* <Link className='linkDisabled'>Simulador de novos Negócios</Link> */}
+            
+            <li className='icon-ct-plus'>
+              <Link className={isActive('/fichas-tecnicas')} to='/fichas-tecnicas'>
+                <img className='' src='https://eplano.s3.sa-east-1.amazonaws.com/logo_E_eplano.webp' />
+                Ferramentas ePlano
+              </Link>
+              <ul className="submenu">
+
+                <li>
+                  <Link className={isActive('/planejador-financeiro')} to='/planejador-financeiro'>Simulador de novos Negócios</Link>
+                  {/* <Link className='linkDisabled'>Simulador de novos Negócios</Link> */}
+                </li>
+                <li>
+                  <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>ePlano Financeiro</Link>
+                </li>
+                <li>
+                  <Link className={isActive('/#')} to='/#'>Academia ePlano</Link>
+                </li>
+
+              </ul>
             </li>
-            <li>
-              <Link className={isActive('/simulador-financeiro')} to='/simulador-financeiro'>ePlano Financeiro</Link>
+            
+            <li className='icon-ct-plus'>
+              <Link className={isActive('/fichas-tecnicas')} to='/fichas-tecnicas'>
+                <img className='' src='https://new.connectsa.com.br/wp-content/uploads/2024/03/cropped-icoconnect.jpg' />
+                Soluções Serasa
+              </Link>
+              <ul className="submenu">
+                <li>
+                  <Link className={isActive('/#')} to='/#'>Produto 1</Link>
+                </li>
+                <li>
+                  <Link className={isActive('/#')} to='/#'>Produto 2</Link>
+                </li>
+                <li>
+                  <Link className={isActive('/#')} to='/#'>Produto 3</Link>
+                </li>
+              </ul>
             </li>
 
-            
-              <li className='icon-ct-plus'>
-                <Link className={isActive('/fichas-tecnicas')} to='/fichas-tecnicas'>
-                  <img className='' src='https://new.connectsa.com.br/wp-content/uploads/2024/03/cropped-icoconnect.jpg' /> Connect Serasa
-                </Link>
-                <ul className="submenu">
-                  <li>
-                    <Link className={isActive('/#')} to='/#'>Produto 1</Link>
-                  </li>
-                  <li>
-                    <Link className={isActive('/#')} to='/#'>Produto 2</Link>
-                  </li>
-                  <li>
-                    <Link className={isActive('/#')} to='/#'>Produto 3</Link>
-                  </li>
-                </ul>
-              </li>
           </ul>
         </div>
         <div className="icons">
