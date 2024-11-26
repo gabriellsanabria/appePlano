@@ -58,17 +58,16 @@
         }
       }
     .w-text-content{
-        display: flex;
-        padding: 0 8%;
-        flex-direction: column;
-        p{
-            margin: 0 0 15px 0;
-            font-size: 16px!important;
-        }
         h2{
             text-align: center!important;
             margin: 60px 60px 90px 60px;
         }
+    }
+    .texto-teste{
+        display: flex;
+        margin: 0 auto;
+        width: 85%;
+        flex-direction: column;
     }
     .destaques{
         display: flex;
