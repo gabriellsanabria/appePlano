@@ -1,10 +1,14 @@
 
 @import '../../assets/styles/variables';
-.sobreStage{
-    background-color: orange;
+
+.sobreComp{
+    display: flex;      
+    flex-direction: column;
     width: 100%;
-    padding: 20px 0;
-    
+    margin: 0 auto;
+
+    // header-page está na Global.scss
+
     .bg-sobreComp {
         display: flex;
         background-color: #eef2f4;
@@ -21,25 +25,6 @@
           display: block;
         }
       }
-    .bloco-texto{
-        background-color: blue;
-        display: flex;
-        flex-direction: column;
-        width: 85%;
-        margin: 0 auto;
-        p{
-            font-size: 1em;
-        }
-    }
-}
-.sobreComp{
-    display: flex;      
-    flex-direction: column;
-    width: 100%;
-    margin: 0 auto;
-
-    // header-page está na Global.scss
-
       
       .header-page-text-content {
         flex: 1;
