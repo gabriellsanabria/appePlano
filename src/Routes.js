@@ -50,7 +50,6 @@ import FluxoDeCaixaProjetado from './views/ePlano/FluxoDeCaixaProjetado/FluxoDeC
 import AnaliseViabilidadePayback from './views/ePlano/AnaliseViabilidadePayback/AnaliseViabilidadePayback';
 
 const ForgotPassword = lazy(() => import('./components/ForgotPassword/ForgotPassword'));
-const MinhaConta = lazy(() => import('./views/MinhaConta/MinhaConta'));
 const VerEmpresa = lazy(() => import('./views/MinhasEmpresas/VerEmpresa'));
 const CadastrarEmpresa = lazy(() => import('./views/MinhasEmpresas/CadastrarEmpresa'));
 const CadastrarEmpresaNova = lazy(() => import('./views/MinhasEmpresas/CadastrarEmpresaNova'));
