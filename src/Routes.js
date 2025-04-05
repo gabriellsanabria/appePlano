@@ -37,6 +37,10 @@ import EstimarInvestimentos from './views/Planejador/EstimarInvestimentos/Estima
 import ImpostosPlanejador from './views/Planejador/Impostos/Impostos';
 import ImpostosSimulador from './views/Simulador/Impostos/Impostos';
 
+import MinhaConta from './views/MinhaConta/MinhaConta';
+
+import Company from './views/Company/Company';
+import CompanyUsers from './views/Company/CompanyUsers';
 
 
 // import EstimarReceitas from './views/ePlano/EstimarReceitas/EstimarReceitas';
@@ -53,8 +57,6 @@ const CadastrarEmpresaNova = lazy(() => import('./views/MinhasEmpresas/Cadastrar
 const Dashboard = lazy(() => import('./views/Dashboard/Dashboard'));
 const CriarPlano = lazy(() => import('./views/ePlano/CriarPlano'));
 const PainelFinanceiro = lazy(() => import('./views/Financeiro/PainelFinanceiro'));
-const Company = lazy(() => import('./views/Company/Company'));
-const CompanyUsers = lazy(() => import('./views/Company/CompanyUsers'));
 const UsersRegistration = lazy(() => import('./views/Company/UsersRegistration'));
 const Integracoes = lazy(() => import('./views/Integracoes/SolicitarIntegracao'));
 const CompleteCadastro = lazy(() => import('./views/CompleteCadastro/CompleteCadastro'));
