@@ -235,7 +235,7 @@ const Header = () => {
                   <Link to="/minha-conta">Minha Conta</Link>
                 </div>
                 <div className="popover-option">
-                  <Link to="/company">Minha Empresa</Link>
+                  <Link to="/minha-empresa">Minha Empresa</Link>
                 </div>
                 <div className="popover-option">
                   <Link to="/company/usuarios">Gerenciar Colaboradores</Link>

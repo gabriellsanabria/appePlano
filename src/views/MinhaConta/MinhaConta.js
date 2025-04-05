@@ -21,6 +21,11 @@ const EditarConta = () => {
   const [organizationData, setOrganizationData] = useState([]);
   const auth = user;
 
+  const [originalUserData, setOriginalUserData] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState('');
+
+
   useEffect(() => {
     const fetchCompany = async () => {
       try {
@@ -59,6 +64,8 @@ const EditarConta = () => {
           if (userDocSnapshot.exists()) {
             const userDataFromFirestore = userDocSnapshot.data();
             setUserData(userDataFromFirestore);
+            setOriginalUserData(userDataFromFirestore); // <= adicionado aqui
+          
   
             // Se a organização estiver armazenada no documento do usuário
             if (userDataFromFirestore.organizacao) {
@@ -80,31 +87,44 @@ const EditarConta = () => {
     fetchUserData();
   }, [user]);
 
+  const hasChanges = () => {
+    if (!originalUserData) return false;
+  
+    return (
+      userData.nomeUsuario !== originalUserData.nomeUsuario ||
+      userData.emailAdicional !== originalUserData.emailAdicional
+      // Adicione mais campos aqui se quiser monitorar outros
+    );
+  };
+  
   const handleEditAccount = async (e) => {
     e.preventDefault();
-
-    // Implemente a lógica para enviar os dados atualizados para o Firestore
+    setSaving(true);
+    setSaveMessage('');  // Limpa a mensagem ao tentar salvar
+  
     if (user) {
       const firestore = getFirestore();
       const userDocRef = doc(firestore, 'users', user.uid);
-
+  
       try {
-        // Certifique-se de que userData.emailAdicional seja definido antes de passá-lo
         const updatedData = {
           nomeUsuario: userData.nomeUsuario,
           emailUsuario: userData.emailUsuario,
-          emailAdicional: userData.emailAdicional || null, // Use null se não estiver definido
-          // Atualize outros campos conforme necessário
+          emailAdicional: userData.emailAdicional || null,
         };
-
+  
         await updateDoc(userDocRef, updatedData);
-
-        console.log('Dados do usuário editados com sucesso!');
+        setSaveMessage('Dados atualizados com sucesso!');  // Mensagem de sucesso
       } catch (error) {
         console.error('Erro ao editar dados do usuário:', error);
+        setSaveMessage('Erro ao salvar os dados. Tente novamente.');  // Mensagem de erro
+      } finally {
+        setSaving(false);
       }
     }
   };
+  
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -133,19 +153,21 @@ const EditarConta = () => {
                 <label>Nome completo</label>
             </div>
             <div className='form-column input'>
+
               <input
                 type="text"
                 id="nome"
-                name="nome"
+                name="nomeUsuario"
                 value={userData.nomeUsuario}
                 onChange={handleChange}
-              />           
+              />
+          
             </div>        
           </div>
           
           <div className="form-controle">
             <div className='form-column label'>
-                <label>E-mail Master</label>
+                <label>E-mail</label>
             </div>
             <div className='form-column input'>
               <input
@@ -155,22 +177,19 @@ const EditarConta = () => {
               />
             </div>            
           </div>
-          <div className="form-controle">
-            <div className='form-column label'>
-                <label>Minha Empresa</label>
-            </div>
-            <div className='form-column input'>
-            <Link to='/company'>
-              {organizationData.join(', ') || ''}
-            </Link>
-            </div>        
-          </div>
           <hr/>
           <div className="form-controle">
             <div className='form-column label'>
             </div>
             <div className='form-column input'>
-              <button type="submit">Salvar</button>
+
+              <button type="submit" disabled={!hasChanges() || saving}>
+                {saving ? 'Salvando...' : 'Salvar'}
+              </button>
+              {saveMessage && <p className="save-message">{saveMessage}</p>}
+
+
+
             </div>            
           </div>
           <div className='delAccount'>

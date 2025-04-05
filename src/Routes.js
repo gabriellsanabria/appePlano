@@ -260,7 +260,7 @@ const AppRoutes = () => {
         />
 
         <Route
-          path="/company"
+          path="/minha-empresa"
           element={user ? <Company /> : <Navigate to="/login" />}
         />
 
